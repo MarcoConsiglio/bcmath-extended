@@ -1,5 +1,7 @@
+.cache/
 .idea/
+.phpunit.cache
+.vscode
 /vendor
 composer.lock
-.cache/
-.vscode
+tests/coverage_report
