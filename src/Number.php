@@ -52,7 +52,7 @@ class Number implements Stringable
     /**
      * Return true if $object is this (child) class.
      */
-    protected function isParent(mixed $object): bool
+    public static function isChild(mixed $object): bool
     {
         return $object instanceof Number;
     }
@@ -64,7 +64,7 @@ class Number implements Stringable
      */
     public function add(Number|BcMathNumber|string|int $number, int|null $scale = null): Number
     {
-        if ($this->isParent($number)) $number = $number->getParent();
+        if ($this->isChild($number)) $number = $number->getParent();
         return new Number($this->number->add($number, $scale));
     }
 
@@ -83,7 +83,7 @@ class Number implements Stringable
      */
     public function subtract(Number|BcMathNumber|string|int $number, int|null $scale = null): Number
     {
-        if ($this->isParent($number)) $number = $number->getParent();
+        if ($this->isChild($number)) $number = $number->getParent();
         return new Number($this->number->sub($number, $scale));
     }
 
@@ -102,7 +102,7 @@ class Number implements Stringable
      */
     public function multiply(Number|BcMathNumber|string|int $number, int|null $scale = null): Number
     {
-        if ($this->isParent($number)) $number = $number->getParent();
+        if ($this->isChild($number)) $number = $number->getParent();
         return new Number($this->number->mul($number, $scale));
     }
 
@@ -121,7 +121,7 @@ class Number implements Stringable
      */
     public function divide(Number|BcMathNumber|string|int $number, int|null $scale = null): Number
     {
-        if ($this->isParent($number)) $number = $number->getParent();
+        if ($this->isChild($number)) $number = $number->getParent();
         return new Number($this->number->div($number, $scale));
     }
 
@@ -142,7 +142,7 @@ class Number implements Stringable
     {
         // $number - $modulus * floor($number / $modulus).
         if ($scale !== null) bcscale($scale);
-        if ($this->isParent($modulus)) $modulus = $modulus->getParent();
+        if ($this->isChild($modulus)) $modulus = $modulus->getParent();
         return new Number($this->number->sub($modulus->mul($this->number->div($modulus)->floor())));
     }
 
@@ -163,7 +163,7 @@ class Number implements Stringable
      */
     public function quotientAndRemainder(Number|BcMathNumber|string|int $divisor, int|null $scale = null): array
     {
-        if ($this->isParent($divisor)) $divisor = $divisor->getParent();
+        if ($this->isChild($divisor)) $divisor = $divisor->getParent();
         [$quotient, $remainder] = $this->number->divmod($divisor, $scale);
         return [new Number($quotient), new Number($remainder)];
     }
@@ -185,8 +185,16 @@ class Number implements Stringable
      */
     public function power(Number|BcMathNumber|string|int $exponent, int|null $scale = null): Number
     {
-        if ($this->isParent($exponent)) $exponent = $exponent->getParent();
+        if ($this->isChild($exponent)) $exponent = $exponent->getParent();
         return new Number($this->number->pow($exponent, $scale));
+    }
+
+    /**
+     * Alias of power() method.
+     */
+    public function pow(Number|BcMathNumber|string|int $exponent, int|null $scale = null): Number
+    {
+        return $this->power($exponent, $scale);
     }
 
     /**
@@ -262,91 +270,28 @@ class Number implements Stringable
         return new Number($this->number->ceil());
     }
 
-    public static function rand(int|string|BCMathNumber $min, int|string|BCMathNumber $max): BCMathNumber
+    /**
+     * Return the number of decimal places of $number.
+     */
+    public static function getDecimalsLength(int|string|BCMathNumber|Number $number): int
     {
-        $max = static::convertToNumber($max);
-        $min = static::convertToNumber($min);
-
-        $difference = $max->sub($min)->add(1);
-        $randPercent = static::div(mt_rand(), mt_getrandmax(), 8);
-
-        return $difference->mul($randPercent, 8)->add(1, 0);
-    }
-
-    public static function convertToNumber(int|string|BCMathNumber $number): BCMathNumber
-    {
-        if ($number instanceof BCMathNumber) {
-            return $number;
-        }
-
-        if (is_int($number)) {
-            return new BCMathNumber($number);
-        }
-
-        // check if number is in scientific notation, first use stripos as is faster than preg_match
-        if (stripos($number, 'E') !== false && preg_match('/(-?(\d+\.)?\d+)E([+-]?)(\d+)/i', $number, $regs)) {
-            // calculate final scale of number
-            $scale = (int)$regs[4] + static::getDecimalsLength($regs[1]);
-            $pow = static::pow(10, $regs[4], $scale);
-            if ($regs[3] === '-') {
-                $number = static::div($regs[1], $pow, $scale);
-            } else {
-                $number = static::mul($pow, $regs[1], $scale);
+        if (is_string($number)) {
+            if (static::isFloat($number)) {
+                return strlen(strrchr($number, ".")) - 1;
             }
-            $number = static::formatTrailingZeroes($number);
+            return 0;
         }
-
-        return static::parseToNumber($number);
+        if (is_int($number)) return 0;
+        if ($number instanceof BCMathNumber) return self::getDecimalsLength($number->value);
+        return self::getDecimalsLength($number->getParent()->value);
     }
 
-    public static function getDecimalsLength(int|string|BCMathNumber $number): int
+    /**
+     * Return true if $number is a float number.
+     */
+    protected static function isFloat(int|string|BCMathNumber|Number $number): bool
     {
-        if (static::isFloat($number)) {
-            return strcspn(strrev((string)$number), '.');
-        }
-
-        return 0;
-    }
-
-    protected static function isFloat(int|string|BCMathNumber $number): bool
-    {
-        return str_contains((string)$number, '.');
-    }
-
-    public static function pow(
-        int|string|BCMathNumber $base,
-        int|string|BCMathNumber $exponent,
-        ?int $scale = null
-    ): BCMathNumber {
-        $base = static::convertToNumber($base);
-        $exponent = static::convertToNumber($exponent);
-
-        if (static::isFloat($exponent)) {
-            $r = static::powFractional($base, $exponent, self::getScaleForMethod($scale));
-        } else {
-            $r = $base->pow($exponent, self::getScaleForMethod($scale));
-        }
-
-        return static::formatTrailingZeroes($r);
-    }
-
-    protected static function powFractional(
-        int|string|BCMathNumber $base,
-        int|string|BCMathNumber $exponent,
-        ?int $scale = null
-    ): BCMathNumber {
-        // we need to increased scale to get correct results and avoid rounding error
-        $currentScale = $scale ?? static::getScale();
-        $increasedScale = $currentScale * 2;
-
-        // add zero to trim scale
-        return static::parseToNumber(
-            static::add(
-                static::exp(static::mul($exponent, static::log($base), $increasedScale)),
-                0,
-                $currentScale
-            )
-        );
+        return str_contains((string) $number, '.');
     }
 
     public static function getScale(): int
@@ -401,21 +346,10 @@ class Number implements Stringable
         return new BCMathNumber($number);
     }
 
-    public static function exp(int|string|BCMathNumber $number): BCMathNumber
+    public static function log(int|string|BCMathNumber|Number $number): Number
     {
-        $number = static::convertToNumber($number);
-        $scale = static::DEFAULT_SCALE;
-        $result = new BCMathNumber(1);
-        for ($i = 299; $i > 0; --$i) {
-            $result = $result->div($i, $scale)->mul($number, $scale)->add(1);
-        }
-
-        return self::trimTrailingZeroes($result);
-    }
-
-    public static function log(int|string|BCMathNumber $number): string|BCMathNumber
-    {
-        $number = static::convertToNumber($number);
+        if (self::isChild($number)) $number = $number->getParent();
+        if (is_int($number) || is_numeric($number)) $number = new BCMathNumber($number);
         if ((string)$number === '0') {
             return '-INF';
         }
@@ -507,44 +441,21 @@ class Number implements Stringable
         return $min;
     }
 
-    public static function powMod(
-        int|string|BCMathNumber $base,
-        int|string|BCMathNumber $exponent,
-        int|string|BCMathNumber $modulus,
-        ?int $scale = null
-    ): BCMathNumber {
-        $base = static::convertToNumber($base);
-        $exponent = static::convertToNumber($exponent);
-
-        if (static::isNegative($exponent)) {
-            throw new InvalidArgumentException('Exponent can\'t be negative');
-        }
-
-        if ((string)static::trimTrailingZeroes($modulus) === '0') {
-            throw new InvalidArgumentException('Modulus can\'t be zero');
-        }
-
-        // bcpowmod don't support floats
-        if (static::isFloat($base) || static::isFloat($exponent) || static::isFloat($modulus)) {
-            $r = static::mod(
-                static::pow(
-                    $base,
-                    $exponent,
-                    self::getScaleForMethod($scale)
-                ),
-                $modulus,
-                self::getScaleForMethod($scale)
-            );
-        } else {
-            $r = $base->powmod($exponent, $modulus, self::getScaleForMethod($scale));
-        }
-
-        return static::formatTrailingZeroes($r);
+    /**
+     * Return true if $number is positive, false otherwise.
+     */
+    protected static function isNegative(int|string|BCMathNumber|Number $number): bool
+    {
+        if (self::isChild($number)) $number = $number->getParent();
+        return strncmp('-', (string)$number, 1) === 0;
     }
 
-    protected static function isNegative(int|string|BCMathNumber $number): bool
+    /**
+     * Return true if $number is negative, false otherwise.
+     */
+    protected static function isPositive(int|string|BCMathNumber|Number $number): bool
     {
-        return strncmp('-', (string)$number, 1) === 0;
+        return ! self::isNegative($number);
     }
 
     public static function fact(int|string|BCMathNumber $number): BCMathNumber
@@ -566,226 +477,16 @@ class Number implements Stringable
         return $return;
     }
 
-    public static function hexdec(string $hex): string
-    {
-        $remainingDigits = str_replace('0x', '', substr($hex, 0, -1));
-        $lastDigitToDecimal = (string)hexdec(substr($hex, -1));
-
-        if ($remainingDigits === '') {
-            return $lastDigitToDecimal;
-        }
-
-        return (string)static::add(
-            static::mul(
-                16,
-                static::hexdec($remainingDigits)
-            ),
-            $lastDigitToDecimal,
-            0
-        );
-    }
-
-    public static function dechex(int|string|BCMathNumber $decimal): string
-    {
-        $quotient = static::div($decimal, 16, 0);
-        $remainderToHex = dechex((int)(string)static::mod($decimal, 16));
-
-        if ($quotient->compare(0) === static::COMPARE_EQUAL) {
-            return $remainderToHex;
-        }
-
-        return static::dechex($quotient) . $remainderToHex;
-    }
-
-    public static function bitAnd(int|string|BCMathNumber $leftOperand, int|string|BCMathNumber $rightOperand): BCMathNumber
-    {
-        return static::bitOperatorHelper($leftOperand, $rightOperand, static::BIT_OPERATOR_AND);
-    }
-
-    protected static function bitOperatorHelper(
-        int|string|BCMathNumber $leftOperand,
-        int|string|BCMathNumber $rightOperand,
-        string $operator
-    ): BCMathNumber {
-        $leftOperand = static::convertToNumber($leftOperand);
-        $rightOperand = static::convertToNumber($rightOperand);
-
-        if (static::isFloat($leftOperand)) {
-            throw new InvalidArgumentException('Left operator has to be an integer');
-        }
-        if (static::isFloat($rightOperand)) {
-            throw new InvalidArgumentException('Right operator has to be an integer');
-        }
-
-        $leftOperandNegative = static::isNegative($leftOperand);
-        $rightOperandNegative = static::isNegative($rightOperand);
-
-        $leftOperand = static::dec2bin((string)static::abs($leftOperand));
-        $rightOperand = static::dec2bin((string)static::abs($rightOperand));
-
-        $maxLength = max(strlen($leftOperand), strlen($rightOperand));
-
-        $leftOperand = static::alignBinLength($leftOperand, $maxLength);
-        $rightOperand = static::alignBinLength($rightOperand, $maxLength);
-
-        if ($leftOperandNegative) {
-            $leftOperand = static::recalculateNegative($leftOperand);
-        }
-        if ($rightOperandNegative) {
-            $rightOperand = static::recalculateNegative($rightOperand);
-        }
-
-        $isNegative = false;
-        $result = '';
-        if (static::BIT_OPERATOR_AND === $operator) {
-            $result = $leftOperand & $rightOperand;
-            $isNegative = ($leftOperandNegative and $rightOperandNegative);
-        } elseif (static::BIT_OPERATOR_OR === $operator) {
-            $result = $leftOperand | $rightOperand;
-            $isNegative = ($leftOperandNegative or $rightOperandNegative);
-        } elseif (static::BIT_OPERATOR_XOR === $operator) {
-            $result = $leftOperand ^ $rightOperand;
-            $isNegative = ($leftOperandNegative xor $rightOperandNegative);
-        }
-
-        if ($isNegative) {
-            $result = static::recalculateNegative($result);
-        }
-
-        $result = static::bin2dec($result);
-
-        return new BCMathNumber($isNegative ? '-' . $result : $result);
-    }
-
-    public static function dec2bin(string $number, int $base = self::MAX_BASE): string
-    {
-        return static::decBaseHelper(
-            $base,
-            static function (int $base) use ($number): string {
-                $value = '';
-                if ($number === '0') {
-                    return chr((int)$number);
-                }
-
-                while (self::compare($number, 0) !== self::COMPARE_EQUAL) {
-                    $rest = self::mod($number, $base);
-                    $number = self::div($number, $base);
-                    $value = chr((int)(string)$rest) . $value;
-                }
-
-                return $value;
-            }
-        );
-    }
-
     /**
-     * @param Closure(int): string $closure
+     * Return the absolute value of $number
      */
-    protected static function decBaseHelper(int $base, Closure $closure): string
+    public static function abs(int|string|BCMathNumber|Number $number): Number
     {
-        if ($base < 2 || $base > static::MAX_BASE) {
-            throw new InvalidArgumentException('Invalid Base: ' . $base);
-        }
-        $orgScale = static::getScale();
-        static::setScale(0);
-
-        $value = $closure($base);
-
-        static::setScale($orgScale);
-
-        return $value;
-    }
-
-    public static function setScale(int $scale): void
-    {
-        bcscale($scale);
-        self::$currentScale = $scale;
-    }
-
-    protected static function getScaleForMethod(?int $scale): ?int
-    {
-        if ($scale !== null) {
-            return $scale;
-        }
-
-        return self::$currentScale;
-    }
-
-    public static function abs(int|string|BCMathNumber $number): BCMathNumber
-    {
-        $number = static::convertToNumber($number);
-
+        if (self::isChild($number)) $number = $number->getParent();
         if (static::isNegative($number)) {
-            $number = substr((string)$number, 1);
+            $number = substr((string) $number, 1);
         }
-
-        return static::parseToNumber($number);
-    }
-
-    protected static function alignBinLength(string $string, int $length): string
-    {
-        return str_pad($string, $length, static::dec2bin('0'), STR_PAD_LEFT);
-    }
-
-    protected static function recalculateNegative(string $number): string
-    {
-        $xor = str_repeat(static::dec2bin((string)(static::MAX_BASE - 1)), strlen($number));
-        $number ^= $xor;
-        for ($i = strlen($number) - 1; $i >= 0; --$i) {
-            $byte = ord($number[$i]);
-            if (++$byte !== static::MAX_BASE) {
-                $number[$i] = chr($byte);
-                break;
-            }
-        }
-
-        return $number;
-    }
-
-    public static function bin2dec(int|string|BCMathNumber $binary, int $base = self::MAX_BASE): string
-    {
-        $binary = (string)$binary;
-
-        return static::decBaseHelper(
-            $base,
-            static function (int $base) use ($binary): string {
-                $size = strlen($binary);
-                $return = '0';
-
-                for ($i = 0; $i < $size; ++$i) {
-                    $element = ord($binary[$i]);
-                    $power = self::pow($base, $size - $i - 1);
-                    $return = self::add($return, self::mul($element, $power));
-                }
-
-                return (string)$return;
-            }
-        );
-    }
-
-    public static function bitOr(int|string|BCMathNumber $leftOperand, int|string|BCMathNumber $rightOperand): BCMathNumber
-    {
-        return static::bitOperatorHelper($leftOperand, $rightOperand, static::BIT_OPERATOR_OR);
-    }
-
-    public static function bitXor(int|string|BCMathNumber $leftOperand, int|string|BCMathNumber $rightOperand): BCMathNumber
-    {
-        return static::bitOperatorHelper($leftOperand, $rightOperand, static::BIT_OPERATOR_XOR);
-    }
-
-    public static function roundHalfEven(int|string|BCMathNumber $number, int $precision = 0): BCMathNumber
-    {
-        return static::convertToNumber($number)->round($precision, RoundingMode::HalfEven);
-    }
-
-    public static function roundUp(int|string|BCMathNumber $number, int $precision = 0): BCMathNumber
-    {
-        return static::convertToNumber($number)->round($precision, RoundingMode::PositiveInfinity);
-    }
-
-    public static function roundDown(int|string|BCMathNumber $number, int $precision = 0): BCMathNumber
-    {
-        return static::convertToNumber($number)->round($precision, RoundingMode::NegativeInfinity);
+        return new Number($number);
     }
 
     public function __toString(): string
