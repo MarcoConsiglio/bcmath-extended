@@ -1,15 +1,16 @@
 <?php
-
 declare(strict_types=1);
 
-namespace BCMathExtended;
+namespace MarcoConsiglio\BCMathExtended;
 
-use BcMath\Number;
 use Closure;
 use InvalidArgumentException;
 use RoundingMode;
+use ValueError;
+use BcMath\Number as BCMathNumber;
+use Stringable;
 
-class BC
+class Number implements Stringable
 {
     public const int COMPARE_EQUAL = 0;
     public const int COMPARE_LEFT_GRATER = 1;
@@ -26,7 +27,242 @@ class BC
     protected static bool $trimTrailingZeroes = true;
     private static ?int $currentScale = null;
 
-    public static function rand(int|string|Number $min, int|string|Number $max): Number
+    protected BCMathNumber $number;
+
+    /**
+     * Construct a Number.
+     * 
+     * @throws ValueError if $number is string and not a well-formed BCMath numeric string.
+     * @see https://www.php.net/manual/en/bcmath-number.construct.php
+     */
+    public function __construct(string|int|BCMathNumber $number)
+    {
+        if ($number instanceof BCMathNumber) $this->number = $number;
+        else $this->number = new BCMathNumber($number);
+    }
+
+    /**
+     * Return the parent BCMath/Number instance.
+     */
+    public function getParent(): BCMathNumber
+    {
+        return $this->number;
+    }
+
+    /**
+     * Return true if $object is this (child) class.
+     */
+    protected function isParent(mixed $object): bool
+    {
+        return $object instanceof Number;
+    }
+
+    /**
+     * Add $number to this instance.
+     * 
+     * @see https://www.php.net/manual/en/bcmath-number.add.php
+     */
+    public function add(Number|BcMathNumber|string|int $number, int|null $scale = null): Number
+    {
+        if ($this->isParent($number)) $number = $number->getParent();
+        return new Number($this->number->add($number, $scale));
+    }
+
+    /**
+     * Alias of add() method.
+     */
+    public function plus(Number|BcMathNumber|string|int $number, int|null $scale = null): Number
+    {
+        return $this->add($number, $scale);
+    }
+
+    /**
+     * Subtract $number from this instance.
+     * 
+     * @see https://www.php.net/manual/en/bcmath-number.sub.php
+     */
+    public function subtract(Number|BcMathNumber|string|int $number, int|null $scale = null): Number
+    {
+        if ($this->isParent($number)) $number = $number->getParent();
+        return new Number($this->number->sub($number, $scale));
+    }
+
+    /**
+     * Alias of subtract() method.
+     */
+    public function sub(Number|BcMathNumber|string|int $number, int|null $scale = null): Number
+    {
+        return $this->subtract($number, $scale);
+    }
+
+    /**
+     * Multiply this instance times $number.
+     * 
+     * @see https://www.php.net/manual/en/bcmath-number.mul.php
+     */
+    public function multiply(Number|BcMathNumber|string|int $number, int|null $scale = null): Number
+    {
+        if ($this->isParent($number)) $number = $number->getParent();
+        return new Number($this->number->mul($number, $scale));
+    }
+
+    /**
+     * Alias of multiply() method.
+     */
+    public function mul(Number|BcMathNumber|string|int $number, int|null $scale = null): Number
+    {
+        return $this->multiply($number, $scale);
+    }
+
+    /**
+     * Divide this instance by $number.
+     * 
+     * @see https://www.php.net/manual/en/bcmath-number.div.php
+     */
+    public function divide(Number|BcMathNumber|string|int $number, int|null $scale = null): Number
+    {
+        if ($this->isParent($number)) $number = $number->getParent();
+        return new Number($this->number->div($number, $scale));
+    }
+
+    /**
+     * Alias of divide() method.
+     */
+    public function div(Number|BcMathNumber|string|int $number, int|null $scale = null): Number
+    {
+        return $this->divide($number, $scale);
+    }
+
+    /**
+     * Return the remainder of the division of this instance by $number.
+     * 
+     * @see https://www.php.net/manual/en/bcmath-number.mod.php
+     */
+    public function modulo(Number|BcMathNumber|string|int $modulus, int|null $scale = null): Number
+    {
+        // $number - $modulus * floor($number / $modulus).
+        if ($scale !== null) bcscale($scale);
+        if ($this->isParent($modulus)) $modulus = $modulus->getParent();
+        return new Number($this->number->sub($modulus->mul($this->number->div($modulus)->floor())));
+    }
+
+    /**
+     * Alias of modulo() method.
+     */
+    public function mod(Number|BcMathNumber|string|int $modulus, int|null $scale = null): Number
+    {
+        return $this->modulo($modulus, $scale);
+    }
+
+    /**
+     * Return the quotient and remainder of this instance divided by $divisor.
+     * 
+     * @see https://www.php.net/manual/en/bcmath-number.divmod.php
+     * @return Number[] The first is the quotient of the division, the second 
+     * is the remainder of the division.
+     */
+    public function quotientAndRemainder(Number|BcMathNumber|string|int $divisor, int|null $scale = null): array
+    {
+        if ($this->isParent($divisor)) $divisor = $divisor->getParent();
+        [$quotient, $remainder] = $this->number->divmod($divisor, $scale);
+        return [new Number($quotient), new Number($remainder)];
+    }
+
+    /**
+     * Alias of quotientAndRemainder() method.
+     * 
+     * @return Number[]
+     */
+    public function divmod(Number|BcMathNumber|string|int $divisor, int|null $scale = null): array
+    {
+        return $this->quotientAndRemainder($divisor, $scale);
+    }
+
+    /**
+     * Raise this instance to $exponent.
+     * 
+     * @see https://www.php.net/manual/en/bcmath-number.pow.php
+     */
+    public function power(Number|BcMathNumber|string|int $exponent, int|null $scale = null): Number
+    {
+        if ($this->isParent($exponent)) $exponent = $exponent->getParent();
+        return new Number($this->number->pow($exponent, $scale));
+    }
+
+    /**
+     * Raise this instance to $exponent and reduce the result to by $modulus.
+     * 
+     * In other words, this method perform ($this ** $exponent) % $modulus.
+     * 
+     * @see https://www.php.net/manual/en/bcmath-number.powmod.php
+     */
+    public function powerModulo(Number|BcMathNumber|string|int $exponent, Number|BcMathNumber|string|int $modulus, int|null $scale = null): Number
+    {
+        if ($exponent instanceof Number) $exponent = $exponent->getParent();
+        if ($modulus instanceof Number) $modulus = $modulus->getParent();
+        return new Number($this->number->powmod($exponent, $modulus, $scale));
+    }
+
+    /**
+     * Alias of powerModulo() method.
+     */
+    public function powmod(Number|BcMathNumber|string|int $exponent, Number|BcMathNumber|string|int $modulus, int|null $scale = null): Number
+    {
+        return $this->powerModulo($exponent, $modulus, $scale);
+    }
+
+    /**
+     * Return the square root of this instance.
+     * 
+     * @see https://www.php.net/manual/en/bcmath-number.sqrt.php
+     */
+    public function squareRoot(int|null $scale = null): Number
+    {
+        return new Number($this->number->sqrt($scale));
+    }
+
+    /**
+     * Alias of squareRoot() method.
+     */
+    public function sqrt(int|null $scale = null): Number
+    {
+        return $this->squareRoot($scale);
+    }
+
+    /**
+     * Round this instance to $precision digits.
+     * 
+     * @see https://www.php.net/manual/en/bcmath-number.round.php
+     * @param RoundingMode $mode Warning! The default rounding mode is set to 
+     * RoundingMode::HalfTowardsZero, instead of the one in BCMath which is 
+     * RoundingMode::HalfAwayFromZero.
+     */
+    public function round(int $precision = 0, RoundingMode $mode = RoundingMode::HalfTowardsZero): Number
+    {
+        return new Number($this->number->round($precision, $mode));
+    }
+
+    /**
+     * Return the next lower integer of this instance.
+     * 
+     * @see https://www.php.net/manual/en/bcmath-number.floor.php
+     */
+    public function floor(): Number
+    {
+        return new Number($this->number->floor());
+    }
+
+    /**
+     * Return the next higher integer of this instance.
+     * 
+     * @see https://www.php.net/manual/en/bcmath-number.ceil.php
+     */
+    public function ceil(): Number
+    {
+        return new Number($this->number->ceil());
+    }
+
+    public static function rand(int|string|BCMathNumber $min, int|string|BCMathNumber $max): BCMathNumber
     {
         $max = static::convertToNumber($max);
         $min = static::convertToNumber($min);
@@ -37,14 +273,14 @@ class BC
         return $difference->mul($randPercent, 8)->add(1, 0);
     }
 
-    public static function convertToNumber(int|string|Number $number): Number
+    public static function convertToNumber(int|string|BCMathNumber $number): BCMathNumber
     {
-        if ($number instanceof Number) {
+        if ($number instanceof BCMathNumber) {
             return $number;
         }
 
         if (is_int($number)) {
-            return new Number($number);
+            return new BCMathNumber($number);
         }
 
         // check if number is in scientific notation, first use stripos as is faster than preg_match
@@ -63,7 +299,7 @@ class BC
         return static::parseToNumber($number);
     }
 
-    public static function getDecimalsLength(int|string|Number $number): int
+    public static function getDecimalsLength(int|string|BCMathNumber $number): int
     {
         if (static::isFloat($number)) {
             return strcspn(strrev((string)$number), '.');
@@ -72,16 +308,16 @@ class BC
         return 0;
     }
 
-    protected static function isFloat(int|string|Number $number): bool
+    protected static function isFloat(int|string|BCMathNumber $number): bool
     {
         return str_contains((string)$number, '.');
     }
 
     public static function pow(
-        int|string|Number $base,
-        int|string|Number $exponent,
+        int|string|BCMathNumber $base,
+        int|string|BCMathNumber $exponent,
         ?int $scale = null
-    ): Number {
+    ): BCMathNumber {
         $base = static::convertToNumber($base);
         $exponent = static::convertToNumber($exponent);
 
@@ -95,10 +331,10 @@ class BC
     }
 
     protected static function powFractional(
-        int|string|Number $base,
-        int|string|Number $exponent,
+        int|string|BCMathNumber $base,
+        int|string|BCMathNumber $exponent,
         ?int $scale = null
-    ): Number {
+    ): BCMathNumber {
         // we need to increased scale to get correct results and avoid rounding error
         $currentScale = $scale ?? static::getScale();
         $increasedScale = $currentScale * 2;
@@ -118,14 +354,14 @@ class BC
         return bcscale();
     }
 
-    protected static function parseToNumber(int|string|Number $number): Number
+    protected static function parseToNumber(int|string|BCMathNumber $number): BCMathNumber
     {
-        if ($number instanceof Number) {
+        if ($number instanceof BCMathNumber) {
             return $number;
         }
 
         if (is_int($number)) {
-            return new Number($number);
+            return new BCMathNumber($number);
         }
 
         $number = str_replace(
@@ -140,23 +376,10 @@ class BC
         if ($number === '-0' || !is_numeric($number)) {
             $number = 0;
         }
-        return new Number($number);
+        return new BCMathNumber($number);
     }
 
-    public static function add(
-        int|string|Number $leftOperand,
-        int|string|Number $rightOperand,
-        ?int $scale = null
-    ): Number {
-        $leftOperand = static::convertToNumber($leftOperand);
-        $rightOperand = static::convertToNumber($rightOperand);
-
-        $r = $leftOperand->add($rightOperand, self::getScaleForMethod($scale));
-
-        return static::formatTrailingZeroes($r);
-    }
-
-    protected static function formatTrailingZeroes(Number $number): Number
+    protected static function formatTrailingZeroes(BCMathNumber $number): BCMathNumber
     {
         if (self::$trimTrailingZeroes) {
             return static::trimTrailingZeroes($number);
@@ -165,7 +388,7 @@ class BC
         return $number;
     }
 
-    protected static function trimTrailingZeroes(int|string|Number $number): Number
+    protected static function trimTrailingZeroes(int|string|BCMathNumber $number): BCMathNumber
     {
         $number = (string)$number;
 
@@ -175,14 +398,14 @@ class BC
 
         $number = rtrim($number, '.') ?: '0';
 
-        return new Number($number);
+        return new BCMathNumber($number);
     }
 
-    public static function exp(int|string|Number $number): Number
+    public static function exp(int|string|BCMathNumber $number): BCMathNumber
     {
         $number = static::convertToNumber($number);
         $scale = static::DEFAULT_SCALE;
-        $result = new Number(1);
+        $result = new BCMathNumber(1);
         for ($i = 299; $i > 0; --$i) {
             $result = $result->div($i, $scale)->mul($number, $scale)->add(1);
         }
@@ -190,36 +413,7 @@ class BC
         return self::trimTrailingZeroes($result);
     }
 
-    public static function mul(
-        int|string|Number $leftOperand,
-        int|string|Number $rightOperand,
-        ?int $scale = null
-    ): Number {
-        $leftOperand = static::convertToNumber($leftOperand);
-        $rightOperand = static::convertToNumber($rightOperand);
-
-        $r = $leftOperand->mul($rightOperand, self::getScaleForMethod($scale));
-
-        return static::formatTrailingZeroes($r);
-    }
-
-    public static function div(
-        int|string|Number $dividend,
-        int|string|Number $divisor,
-        ?int $scale = null
-    ): Number {
-        $divisor = static::convertToNumber($divisor);
-
-        if ((string)static::trimTrailingZeroes($divisor) === '0') {
-            throw new InvalidArgumentException('Division by zero');
-        }
-
-        $r = static::convertToNumber($dividend)->div($divisor, self::getScaleForMethod($scale));
-
-        return static::formatTrailingZeroes($r);
-    }
-
-    public static function log(int|string|Number $number): string|Number
+    public static function log(int|string|BCMathNumber $number): string|BCMathNumber
     {
         $number = static::convertToNumber($number);
         if ((string)$number === '0') {
@@ -233,8 +427,8 @@ class BC
         $m = (string)log((float)(string)$number);
         $x = $number->div(static::exp($m), $scale)->sub(1, $scale);
 
-        $res = new Number(0);
-        $pow = new Number(1);
+        $res = new BCMathNumber(0);
+        $pow = new BCMathNumber(1);
 
         $i = 1;
         do {
@@ -253,36 +447,14 @@ class BC
     }
 
     public static function compare(
-        int|string|Number $leftOperand,
-        int|string|Number $rightOperand,
+        int|string|BCMathNumber $leftOperand,
+        int|string|BCMathNumber $rightOperand,
         ?int $scale = null
     ): int {
         $leftOperand = static::convertToNumber($leftOperand);
         $rightOperand = static::convertToNumber($rightOperand);
 
         return $leftOperand->compare($rightOperand, self::getScaleForMethod($scale));
-    }
-
-    public static function sub(
-        int|string|Number $leftOperand,
-        int|string|Number $rightOperand,
-        ?int $scale = null
-    ): Number {
-        $leftOperand = static::convertToNumber($leftOperand);
-        $rightOperand = static::convertToNumber($rightOperand);
-
-        $r = $leftOperand->sub($rightOperand, self::getScaleForMethod($scale));
-
-        return static::formatTrailingZeroes($r);
-    }
-
-    public static function sqrt(int|string|Number $number, ?int $scale = null): Number
-    {
-        $number = static::convertToNumber($number);
-
-        $r = $number->sqrt(self::getScaleForMethod($scale));
-
-        return static::formatTrailingZeroes($r);
     }
 
     public static function setTrimTrailingZeroes(bool $flag): void
@@ -293,7 +465,7 @@ class BC
     /**
      * @param mixed $values
      */
-    public static function max(...$values): null|Number
+    public static function max(...$values): null|BCMathNumber
     {
         $max = null;
         foreach (static::parseValues($values) as $number) {
@@ -320,7 +492,7 @@ class BC
     /**
      * @param mixed $values
      */
-    public static function min(...$values): null|Number
+    public static function min(...$values): null|BCMathNumber
     {
         $min = null;
         foreach (static::parseValues($values) as $number) {
@@ -336,11 +508,11 @@ class BC
     }
 
     public static function powMod(
-        int|string|Number $base,
-        int|string|Number $exponent,
-        int|string|Number $modulus,
+        int|string|BCMathNumber $base,
+        int|string|BCMathNumber $exponent,
+        int|string|BCMathNumber $modulus,
         ?int $scale = null
-    ): Number {
+    ): BCMathNumber {
         $base = static::convertToNumber($base);
         $exponent = static::convertToNumber($exponent);
 
@@ -370,54 +542,23 @@ class BC
         return static::formatTrailingZeroes($r);
     }
 
-    protected static function isNegative(int|string|Number $number): bool
+    protected static function isNegative(int|string|BCMathNumber $number): bool
     {
         return strncmp('-', (string)$number, 1) === 0;
     }
 
-    public static function mod(
-        int|string|Number $dividend,
-        int|string|Number $divisor,
-        ?int $scale = null
-    ): Number {
-        // bcmod is not working properly - for example bcmod(9.9999E-10, -0.00056, 9) should return '-0.000559999' but returns 0.0000000
-        // let use this $x - floor($x/$y) * $y;
-        return static::formatTrailingZeroes(
-            static::sub(
-                $dividend,
-                static::mul(
-                    static::floor(
-                        static::div(
-                            $dividend,
-                            $divisor,
-                            self::getScaleForMethod($scale)
-                        )
-                    ),
-                    $divisor,
-                    self::getScaleForMethod($scale)
-                ),
-                $scale
-            )
-        );
-    }
-
-    public static function floor(int|string|Number $number): Number
-    {
-        return static::convertToNumber($number)->floor();
-    }
-
-    public static function fact(int|string|Number $number): Number
+    public static function fact(int|string|BCMathNumber $number): BCMathNumber
     {
         $number = static::convertToNumber($number);
 
         if (static::isFloat($number)) {
-            throw new InvalidArgumentException('Number has to be an integer');
+            throw new InvalidArgumentException('BCMathNumber has to be an integer');
         }
         if (static::isNegative($number)) {
-            throw new InvalidArgumentException('Number has to be greater than or equal to 0');
+            throw new InvalidArgumentException('BCMathNumber has to be greater than or equal to 0');
         }
 
-        $return = new Number(1);
+        $return = new BCMathNumber(1);
         for ($i = 2; $i <= (int)(string)$number; ++$i) {
             $return = $return->mul($i);
         }
@@ -444,7 +585,7 @@ class BC
         );
     }
 
-    public static function dechex(int|string|Number $decimal): string
+    public static function dechex(int|string|BCMathNumber $decimal): string
     {
         $quotient = static::div($decimal, 16, 0);
         $remainderToHex = dechex((int)(string)static::mod($decimal, 16));
@@ -456,16 +597,16 @@ class BC
         return static::dechex($quotient) . $remainderToHex;
     }
 
-    public static function bitAnd(int|string|Number $leftOperand, int|string|Number $rightOperand): Number
+    public static function bitAnd(int|string|BCMathNumber $leftOperand, int|string|BCMathNumber $rightOperand): BCMathNumber
     {
         return static::bitOperatorHelper($leftOperand, $rightOperand, static::BIT_OPERATOR_AND);
     }
 
     protected static function bitOperatorHelper(
-        int|string|Number $leftOperand,
-        int|string|Number $rightOperand,
+        int|string|BCMathNumber $leftOperand,
+        int|string|BCMathNumber $rightOperand,
         string $operator
-    ): Number {
+    ): BCMathNumber {
         $leftOperand = static::convertToNumber($leftOperand);
         $rightOperand = static::convertToNumber($rightOperand);
 
@@ -513,7 +654,7 @@ class BC
 
         $result = static::bin2dec($result);
 
-        return new Number($isNegative ? '-' . $result : $result);
+        return new BCMathNumber($isNegative ? '-' . $result : $result);
     }
 
     public static function dec2bin(string $number, int $base = self::MAX_BASE): string
@@ -570,7 +711,7 @@ class BC
         return self::$currentScale;
     }
 
-    public static function abs(int|string|Number $number): Number
+    public static function abs(int|string|BCMathNumber $number): BCMathNumber
     {
         $number = static::convertToNumber($number);
 
@@ -601,7 +742,7 @@ class BC
         return $number;
     }
 
-    public static function bin2dec(int|string|Number $binary, int $base = self::MAX_BASE): string
+    public static function bin2dec(int|string|BCMathNumber $binary, int $base = self::MAX_BASE): string
     {
         $binary = (string)$binary;
 
@@ -622,46 +763,33 @@ class BC
         );
     }
 
-    public static function bitOr(int|string|Number $leftOperand, int|string|Number $rightOperand): Number
+    public static function bitOr(int|string|BCMathNumber $leftOperand, int|string|BCMathNumber $rightOperand): BCMathNumber
     {
         return static::bitOperatorHelper($leftOperand, $rightOperand, static::BIT_OPERATOR_OR);
     }
 
-    public static function bitXor(int|string|Number $leftOperand, int|string|Number $rightOperand): Number
+    public static function bitXor(int|string|BCMathNumber $leftOperand, int|string|BCMathNumber $rightOperand): BCMathNumber
     {
         return static::bitOperatorHelper($leftOperand, $rightOperand, static::BIT_OPERATOR_XOR);
     }
 
-    public static function roundHalfEven(int|string|Number $number, int $precision = 0): Number
+    public static function roundHalfEven(int|string|BCMathNumber $number, int $precision = 0): BCMathNumber
     {
         return static::convertToNumber($number)->round($precision, RoundingMode::HalfEven);
     }
 
-    public static function round(
-        int|string|Number $number,
-        int $precision = 0,
-        RoundingMode $mode = RoundingMode::HalfAwayFromZero
-    ): Number {
-        $number = static::convertToNumber($number);
-        if (static::isFloat($number)) {
-            $number = static::formatTrailingZeroes($number->round($precision, $mode));
-        }
-
-        return static::parseToNumber($number);
-    }
-
-    public static function roundUp(int|string|Number $number, int $precision = 0): Number
+    public static function roundUp(int|string|BCMathNumber $number, int $precision = 0): BCMathNumber
     {
         return static::convertToNumber($number)->round($precision, RoundingMode::PositiveInfinity);
     }
 
-    public static function ceil(int|string|Number $number): Number
-    {
-        return static::convertToNumber($number)->ceil();
-    }
-
-    public static function roundDown(int|string|Number $number, int $precision = 0): Number
+    public static function roundDown(int|string|BCMathNumber $number, int $precision = 0): BCMathNumber
     {
         return static::convertToNumber($number)->round($precision, RoundingMode::NegativeInfinity);
+    }
+
+    public function __toString(): string
+    {
+        return $this->number->value;
     }
 }
