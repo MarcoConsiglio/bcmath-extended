@@ -3,30 +3,21 @@ declare(strict_types=1);
 
 namespace MarcoConsiglio\BCMathExtended;
 
-use Closure;
-use InvalidArgumentException;
 use RoundingMode;
+use Stringable;
 use ValueError;
 use BcMath\Number as BCMathNumber;
-use Stringable;
+use MarcoConsiglio\BCMathExtended\Exceptions\IndeterminateFormError;
+use MarcoConsiglio\BCMathExtended\Exceptions\InfiniteError;
+use MarcoConsiglio\BCMathExtended\Exceptions\NotANumberError;
 
 class Number implements Stringable
 {
-    public const int COMPARE_EQUAL = 0;
-    public const int COMPARE_LEFT_GRATER = 1;
-    public const int COMPARE_RIGHT_GRATER = -1;
-
-    protected const int DEFAULT_SCALE = 100;
-
-    protected const int MAX_BASE = 256;
-
-    protected const string BIT_OPERATOR_AND = 'and';
-    protected const string BIT_OPERATOR_OR = 'or';
-    protected const string BIT_OPERATOR_XOR = 'xor';
-
-    protected static bool $trimTrailingZeroes = true;
-    private static ?int $currentScale = null;
-
+    /**
+     * The parent composite instance.
+     *
+     * @var BCMathNumber
+     */
     protected BCMathNumber $number;
 
     /**
@@ -64,7 +55,7 @@ class Number implements Stringable
      */
     public function add(Number|BcMathNumber|string|int $number, int|null $scale = null): Number
     {
-        if ($this->isChild($number)) $number = $number->getParent();
+        $number = $this->normalizeToParent($number);
         return new Number($this->number->add($number, $scale));
     }
 
@@ -83,7 +74,7 @@ class Number implements Stringable
      */
     public function subtract(Number|BcMathNumber|string|int $number, int|null $scale = null): Number
     {
-        if ($this->isChild($number)) $number = $number->getParent();
+        $number = $this->normalizeToParent($number);
         return new Number($this->number->sub($number, $scale));
     }
 
@@ -102,7 +93,7 @@ class Number implements Stringable
      */
     public function multiply(Number|BcMathNumber|string|int $number, int|null $scale = null): Number
     {
-        if ($this->isChild($number)) $number = $number->getParent();
+        $number = $this->normalizeToParent($number);
         return new Number($this->number->mul($number, $scale));
     }
 
@@ -121,7 +112,7 @@ class Number implements Stringable
      */
     public function divide(Number|BcMathNumber|string|int $number, int|null $scale = null): Number
     {
-        if ($this->isChild($number)) $number = $number->getParent();
+        $number = $this->normalizeToParent($number);
         return new Number($this->number->div($number, $scale));
     }
 
@@ -142,7 +133,7 @@ class Number implements Stringable
     {
         // $number - $modulus * floor($number / $modulus).
         if ($scale !== null) bcscale($scale);
-        if ($this->isChild($modulus)) $modulus = $modulus->getParent();
+        $modulus = $this->normalizeToParent($modulus);
         return new Number($this->number->sub($modulus->mul($this->number->div($modulus)->floor())));
     }
 
@@ -163,7 +154,7 @@ class Number implements Stringable
      */
     public function quotientAndRemainder(Number|BcMathNumber|string|int $divisor, int|null $scale = null): array
     {
-        if ($this->isChild($divisor)) $divisor = $divisor->getParent();
+        $divisor = $this->normalizeToParent($divisor);
         [$quotient, $remainder] = $this->number->divmod($divisor, $scale);
         return [new Number($quotient), new Number($remainder)];
     }
@@ -185,7 +176,7 @@ class Number implements Stringable
      */
     public function power(Number|BcMathNumber|string|int $exponent, int|null $scale = null): Number
     {
-        if ($this->isChild($exponent)) $exponent = $exponent->getParent();
+        $exponent = $this->normalizeToParent($exponent);
         return new Number($this->number->pow($exponent, $scale));
     }
 
@@ -206,8 +197,8 @@ class Number implements Stringable
      */
     public function powerModulo(Number|BcMathNumber|string|int $exponent, Number|BcMathNumber|string|int $modulus, int|null $scale = null): Number
     {
-        if ($exponent instanceof Number) $exponent = $exponent->getParent();
-        if ($modulus instanceof Number) $modulus = $modulus->getParent();
+        $exponent = $this->normalizeToParent($exponent);
+        $modulus = $this->normalizeToParent($modulus);
         return new Number($this->number->powmod($exponent, $modulus, $scale));
     }
 
@@ -275,15 +266,8 @@ class Number implements Stringable
      */
     public static function getDecimalsLength(int|string|BCMathNumber|Number $number): int
     {
-        if (is_string($number)) {
-            if (static::isFloat($number)) {
-                return strlen(strrchr($number, ".")) - 1;
-            }
-            return 0;
-        }
-        if (is_int($number)) return 0;
-        if ($number instanceof BCMathNumber) return self::getDecimalsLength($number->value);
-        return self::getDecimalsLength($number->getParent()->value);
+        $number = self::normalizeToParent($number);
+        return self::getDecimalsLength($number->value);
     }
 
     /**
@@ -294,151 +278,44 @@ class Number implements Stringable
         return str_contains((string) $number, '.');
     }
 
-    public static function getScale(): int
+    /**
+     * Perform the logarithm of $number in base $base.
+     */
+    public function log(int|string|BCMathNumber|Number $number, int|string|BCMathNumber|Number $base, int|null $scale = null): Number
     {
-        return bcscale();
-    }
-
-    protected static function parseToNumber(int|string|BCMathNumber $number): BCMathNumber
-    {
-        if ($number instanceof BCMathNumber) {
-            return $number;
-        }
-
-        if (is_int($number)) {
-            return new BCMathNumber($number);
-        }
-
-        $number = str_replace(
-            '+',
-            '',
-            (string)filter_var(
-                $number,
-                FILTER_SANITIZE_NUMBER_FLOAT,
-                FILTER_FLAG_ALLOW_FRACTION
-            )
-        );
-        if ($number === '-0' || !is_numeric($number)) {
-            $number = 0;
-        }
-        return new BCMathNumber($number);
-    }
-
-    protected static function formatTrailingZeroes(BCMathNumber $number): BCMathNumber
-    {
-        if (self::$trimTrailingZeroes) {
-            return static::trimTrailingZeroes($number);
-        }
-
-        return $number;
-    }
-
-    protected static function trimTrailingZeroes(int|string|BCMathNumber $number): BCMathNumber
-    {
-        $number = (string)$number;
-
-        if (static::isFloat($number)) {
-            $number = rtrim($number, '0');
-        }
-
-        $number = rtrim($number, '.') ?: '0';
-
-        return new BCMathNumber($number);
-    }
-
-    public static function log(int|string|BCMathNumber|Number $number): Number
-    {
-        if (self::isChild($number)) $number = $number->getParent();
-        if (is_int($number) || is_numeric($number)) $number = new BCMathNumber($number);
-        if ((string)$number === '0') {
-            return '-INF';
-        }
-        if ($number->compare('0') === static::COMPARE_RIGHT_GRATER) {
-            return 'NAN';
-        }
-
-        $scale = static::DEFAULT_SCALE;
-        $m = (string)log((float)(string)$number);
-        $x = $number->div(static::exp($m), $scale)->sub(1, $scale);
-
-        $res = new BCMathNumber(0);
-        $pow = new BCMathNumber(1);
-
-        $i = 1;
-        do {
-            $pow = $pow->mul($x, $scale);
-            $sum = $pow->div($i, $scale);
-
-            if ($i % 2 === 1) {
-                $res = $res->add($sum, $scale);
-            } else {
-                $res = $res->sub($sum, $scale);
-            }
-            ++$i;
-        } while ($sum->compare(0, $scale));
-
-        return self::trimTrailingZeroes($res->add($m, $scale));
-    }
-
-    public static function compare(
-        int|string|BCMathNumber $leftOperand,
-        int|string|BCMathNumber $rightOperand,
-        ?int $scale = null
-    ): int {
-        $leftOperand = static::convertToNumber($leftOperand);
-        $rightOperand = static::convertToNumber($rightOperand);
-
-        return $leftOperand->compare($rightOperand, self::getScaleForMethod($scale));
-    }
-
-    public static function setTrimTrailingZeroes(bool $flag): void
-    {
-        self::$trimTrailingZeroes = $flag;
+        $number = $this->normalizeToParent($number);
+        $base = $this->normalizeToParent($base);
+        if ($number == 0 && $base != 0) throw new InfiniteError("log($number, $base)");
+        if ($number == 0 && $base == 0) throw new IndeterminateFormError("log($number, $base)");
+        if ($number == 1 && $base != 1) throw new NotANumberError("log($number, $base)");
+        if ($number == 1 && $base == 1) throw new IndeterminateFormError("log($number, $base)");
+        if ($base < 0) throw new IndeterminateFormError("log($number, $base)");
+        if ($number < 0) throw throw new NotANumberError("log($number, $base)");
+        $result = log((float) $number->value, (float) $base->value);
+        if ($scale === null) $scale = PHP_FLOAT_DIG;
+        return new Number(sprintf("%.{$scale}f", $result));
     }
 
     /**
-     * @param mixed $values
+     * Return the greatest number in $values.
      */
-    public static function max(...$values): null|BCMathNumber
+    public static function max(mixed ...$values): Number
     {
-        $max = null;
-        foreach (static::parseValues($values) as $number) {
-            $number = static::convertToNumber((string)$number);
-            if ($max === null) {
-                $max = $number;
-            } elseif ($max->compare($number) === static::COMPARE_RIGHT_GRATER) {
-                $max = $number;
-            }
+        foreach ($values as $index => $value) {
+            $values[$index] = self::normalizeToParent($value);
         }
-
-        return $max;
-    }
-
-    protected static function parseValues(array $values): array
-    {
-        if (is_array($values[0])) {
-            $values = $values[0];
-        }
-
-        return $values;
+        return new Number(max($values));
     }
 
     /**
-     * @param mixed $values
+     * Return the lesser number in $values.
      */
-    public static function min(...$values): null|BCMathNumber
+    public static function min(mixed ...$values): Number
     {
-        $min = null;
-        foreach (static::parseValues($values) as $number) {
-            $number = static::convertToNumber((string)$number);
-            if ($min === null) {
-                $min = $number;
-            } elseif ($min->compare($number) === static::COMPARE_LEFT_GRATER) {
-                $min = $number;
-            }
+        foreach ($values as $index => $value) {
+            $values[$index] = self::normalizeToParent($value);
         }
-
-        return $min;
+        return new Number(min($values));
     }
 
     /**
@@ -446,8 +323,8 @@ class Number implements Stringable
      */
     protected static function isNegative(int|string|BCMathNumber|Number $number): bool
     {
-        if (self::isChild($number)) $number = $number->getParent();
-        return strncmp('-', (string)$number, 1) === 0;
+        $number = self::normalizeToParent($number);
+        return $number < 0;
     }
 
     /**
@@ -455,40 +332,169 @@ class Number implements Stringable
      */
     protected static function isPositive(int|string|BCMathNumber|Number $number): bool
     {
-        return ! self::isNegative($number);
-    }
-
-    public static function fact(int|string|BCMathNumber $number): BCMathNumber
-    {
-        $number = static::convertToNumber($number);
-
-        if (static::isFloat($number)) {
-            throw new InvalidArgumentException('BCMathNumber has to be an integer');
-        }
-        if (static::isNegative($number)) {
-            throw new InvalidArgumentException('BCMathNumber has to be greater than or equal to 0');
-        }
-
-        $return = new BCMathNumber(1);
-        for ($i = 2; $i <= (int)(string)$number; ++$i) {
-            $return = $return->mul($i);
-        }
-
-        return $return;
+        $number = self::normalizeToParent($number);
+        return $number >= 0;
     }
 
     /**
-     * Return the absolute value of $number
+     * Return the factorial of $number.
+     */
+    public static function factorial(int|string|BCMathNumber|Number $number): Number
+    {
+        $number = self::normalizeToParent($number);
+        if (! is_int((int) $number)) throw new NotANumberError("$number!");
+        if ($number < 0) throw new NotANumberError("$number!");
+        return new Number(self::f((int) $number->value));
+    }
+
+    /**
+     * Alias of factorial() method.
+     */
+    public static function fact(int|string|BCMathNumber|Number $number): Number
+    {
+        return self::factorial($number);
+    }
+
+    /**
+     * Recursive alogorithm that calcs the factorial of $n.
+     */
+    private static function f(int $n): int 
+    {
+        if ($n == 0) return 1;
+        return $n * self::f($n - 1);
+    }
+
+    /**
+     * Return the absolute value of $number.
      */
     public static function abs(int|string|BCMathNumber|Number $number): Number
     {
-        if (self::isChild($number)) $number = $number->getParent();
+        $number = self::normalizeToParent($number);
         if (static::isNegative($number)) {
-            $number = substr((string) $number, 1);
+            $number = substr($number->value, 1);
+            return new Number($number);
         }
-        return new Number($number);
+        else return new Number($number);
     }
 
+    /**
+     * Return true if this instance equals $number, false otherwise.
+     */
+    public function isEqual(int|string|BCMathNumber|Number $number): bool
+    {
+        $number = $this->normalizeToParent($number);
+        return $this->number == $number;
+    }
+
+    /**
+     * Alias of isEqual() method.
+     */
+    public function eq(int|string|BCMathNumber|Number $number): bool
+    {
+        return $this->isEqual($number);
+    }
+
+    /**
+     * Return true if this instance is different than $number, false otherwise.
+     */
+    public function isDifferent(int|string|BCMathNumber|Number $number): bool
+    {
+        $number = $this->normalizeToParent($number);
+        return $this->number != $number;
+    }
+
+    /**
+     * Alias of isDifferent() method.
+     */
+    public function not(int|string|BCMathNumber|Number $number): bool
+    {
+        return $this->isDifferent($number);
+    }
+
+    /**
+     * Return true if this instance is greater than $number, false otherwise.
+     */
+    public function isGreaterThan(int|string|BCMathNumber|Number $number): bool
+    {
+        $number = $this->normalizeToParent($number);
+        return $this->number > $number;
+    }
+
+    /**
+     * Alias of isGreaterThan() method.
+     */
+    public function gt(int|string|BCMathNumber|Number $number): bool
+    {
+        return $this->isGreaterThan($number);
+    }
+
+    /**
+     * Return true if this instance is greater than or equal to $number, false
+     * otherwise.
+     */
+    public function isGreaterThanOrEqual(int|string|BCMathNumber|Number $number): bool
+    {
+        $number = $this->normalizeToParent($number); 
+        return $this->number >= $number;
+    }
+
+    /**
+     * Alias of isGreaterThanOrEqual() method.
+     */
+    public function gte(int|string|BCMathNumber|Number $number): bool
+    {
+        return $this->isGreaterThanOrEqual($number);
+    }
+
+    /**
+     * Return true if this instance is less than $number, false otherwise.
+     */
+    public function isLessThan(int|string|BCMathNumber|Number $number): bool
+    {
+        $number = $this->normalizeToParent($number); 
+        return $this->number < $number;
+    }
+
+    /**
+     * Alias of isLessThan() method.
+     */
+    public function lt(int|string|BCMathNumber|Number $number): bool
+    {
+        return $this->isLessThan($number);
+    }
+
+    /**
+     * Return true if this instance is lesse than or equal to $number, false 
+     * otherwise.
+     */
+    public function isLessThanOrEqual(int|string|BCMathNumber|Number $number): bool
+    {
+        $number = $this->normalizeToParent($number);
+        return $this->number <= $number;
+    }
+
+    /**
+     * Alias of isLessThanOrEqual() method.
+     */
+    public function lte(int|string|BCMathNumber|Number $number): bool
+    {
+        return $this->isLessThanOrEqual($number);
+    }
+
+    /**
+     * Transform $number into a BcMath\Number instance.
+     */
+    protected static function normalizeToParent(int|string|BCMathNumber|Number $number): BCMathNumber
+    {
+        if (self::isChild($number)) return $number->getParent();
+        if (is_int($number)) return new BCMathNumber($number);
+        if (is_string($number)) return new BCMathNumber($number);  
+        return $number;
+    }
+
+    /**
+     * Cast this instance to string.
+     */
     public function __toString(): string
     {
         return $this->number->value;
