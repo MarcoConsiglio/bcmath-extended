@@ -1,16 +1,14 @@
 {
   "name": "krowinski/bcmath-extended",
-  "description": "Extends php BCMath lib for missing functions like floor, ceil, round, abs, min, max, rand for big numbers. Also wraps existing BCMath functions. (more http://php.net/manual/en/book.bc.php) Supports scientific notations",
-  "keywords": ["bc", "bcmath", "round", "ceil", "round", "php", "precision", "bignumber", "math", "rand", "floor", "abs", "arbitrary-precision", "complex-numbers", "scientific-notation"],
+  "description": "Extends php BCMath lib for missing functions like floor, ceil, round, abs, min, max, rand for big numbers. Also wraps existing BCMath functions. (more http://php.net/manual/en/book.bc.php)",
+  "keywords": ["bcmath", "ceil", "round", "precision", "bignumber", "math", "rand", "floor", "abs", "arbitrary-precision"],
   "type": "library",
   "require": {
     "php": "^8.4",
     "ext-bcmath": "*"
   },
   "require-dev": {
-    "phpunit/phpunit": "^12.1",
-    "phpstan/phpstan": "^2.1",
-    "symplify/easy-coding-standard": "^12.5"
+    "phpunit/phpunit": "^12.1"
   },
   "license": "MIT",
   "authors": [
@@ -28,11 +26,6 @@
     "psr-4": {
       "MarcoConsiglio\\BCMathExtended\\Tests\\Unit\\": "tests/Unit/"
     }
-  },
-  "scripts": {
-    "cs:check": "ecs check",
-    "cs:fix": "ecs check --fix",
-    "phpstan:analyse": "phpstan analyse -cphpstan.neon"
   },
   "minimum-stability": "stable"
 }
