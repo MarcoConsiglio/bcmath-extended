@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace MarcoConsiglio\BCMathExtended;
 
+use DivisionByZeroError;
 use RoundingMode;
 use Stringable;
 use ValueError;
@@ -109,6 +110,7 @@ class Number implements Stringable
      * Divide this instance by $number.
      * 
      * @see https://www.php.net/manual/en/bcmath-number.div.php
+     * @throws DivisionByZeroError if $number is 0.
      */
     public function divide(Number|BcMathNumber|string|int $number, int|null $scale = null): Number
     {
