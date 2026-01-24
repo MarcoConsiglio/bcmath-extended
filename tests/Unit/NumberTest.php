@@ -39,7 +39,7 @@ class NumberTest extends BaseTestCase
         // Act
         $A = $a instanceof Number ? $a : new Number($a);
         $B = $b instanceof Number ? $b : new Number($b);
-        $SUM = $A->add($B)->getParent()->value;
+        $SUM = $A->plus($B)->getParent()->value;
 
         // Assert
         $this->assertEquals($sum, $SUM, "$a + $b = $sum");
