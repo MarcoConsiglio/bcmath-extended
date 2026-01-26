@@ -34,14 +34,52 @@ class NumberTest extends BaseTestCase
     }
 
     #[DataProvider("addends")]
+    #[TestDox("can be added to another one.")]
     public function test_addition(mixed $a, mixed $b, mixed $sum): void
     {
+        // Arrange
+        $A = $this->instantiateNumber($a);
+        $B = $this->instantiateNumber($b);
+
         // Act
-        $A = $a instanceof Number ? $a : new Number($a);
-        $B = $b instanceof Number ? $b : new Number($b);
-        $SUM = $A->plus($B)->getParent()->value;
+        $SUM = self::string($A->plus($B)->getParent()->value);
 
         // Assert
         $this->assertEquals($sum, $SUM, "$a + $b = $sum");
+    }
+
+    #[DataProvider("minuends")]
+    #[TestDox("can be subtracted from another one.")]
+    public function test_subtraction(mixed $a, mixed $b, mixed $diff): void
+    {
+        // Arrange
+        $A = $this->instantiateNumber($a);
+        $B = $this->instantiateNumber($b);
+
+        // Act
+        $DIFF = self::string($A->sub($B)->getParent()->value);
+
+        // Assert
+        $this->assertEquals($diff, $DIFF, "$a - $b = $diff");
+    }
+
+    #[DataProvider("factors")]
+    #[TestDox("can be multiplied by another one.")]
+    public function test_multiplication(mixed $a, mixed $b, mixed $prod): void
+    {
+        // Arrange
+        $A = $this->instantiateNumber($a);
+        $B = $this->instantiateNumber($b);
+
+        // Act
+        $PROD = self::string($A->mul($B)->getParent()->value);
+
+        // Assert
+        $this->assertEquals($prod, $PROD, "$a * $b = $prod");
+    }
+
+    protected function instantiateNumber(mixed $number): Number
+    {
+        return $number instanceof Number ? $number : new Number($number);
     }
 }

@@ -9,17 +9,42 @@ trait WithDataProviders
 {
     use WithFaker;
 
+    /**
+     * WARNING! Large float type numbers makes unrecoverable rounding errors!
+     * Use this constant to not reach huge numbers.
+     */
+    protected const float MAX = 1_000_000.0;
+
     public static function addends(): array
     {
-        // WARNING! Large float type numbers makes unrecoverable
-        // rounding errors!
-        $max = 1_000_000.0;
         self::setUpFaker();
         return [
             'Integer addends' => self::getIntegerAddends(),
-            'String addends' => self::getStringAddends($max),
-            "BcMath\\Number addends" => self::getBcMathNumberAddends($max),
-            "BcMathExtendend\\Number addends" => self::getBcMathExtendedNumberAddends($max)
+            'String addends' => self::getStringAddends(self::MAX),
+            "BcMath\\Number addends" => self::getBcMathNumberAddends(self::MAX),
+            "BcMathExtendend\\Number addends" => self::getBcMathExtendedNumberAddends(self::MAX)
+        ];
+    }
+
+    public static function minuends(): array
+    {
+        self::setUpFaker();
+        return [
+            'Integer minuends' => self::getIntegerMinuends(),
+            'String minuends' => self::getStringMinuends(self::MAX),
+            "BcMath\\Number minuends" => self::getBcMathNumberMinuends(self::MAX),
+            "BcMathExtendend\\Number minuends" => self::getBcMathExtendedNumberMinuends(self::MAX)
+        ];
+    }
+
+    public static function factors(): array
+    {
+        self::setUpFaker();
+        return [
+            'Integer factors' => self::getIntegerFactors(),
+            'String factors' => self::getStringFactors(self::MAX),
+            "BcMath\\Number factors" => self::getBcMathNumberFactors(self::MAX),
+            "BcMathExtendend\\Number factor" => self::getBcMathExtendedNumberFactors(self::MAX)
         ];
     }
 
@@ -28,10 +53,31 @@ trait WithDataProviders
         return [
             $a = self::randomInteger(), 
             $b = self::randomInteger(
-                min: $a >= 0 ? abs(-PHP_INT_MAX + $a) : abs(-PHP_INT_MAX - $a),
-                max: $a >= 0 ? PHP_INT_MAX - $a : PHP_INT_MAX + $a
+                max: $a >= 0 ? PHP_INT_MAX - $a : abs(-PHP_INT_MAX - $a)
             ),
             $a + $b
+        ];
+    }
+
+    protected static function getIntegerMinuends(): array
+    {
+        return [
+            $a = self::randomInteger(),
+            $b = self::randomInteger(
+                max: $a >= 0 ? PHP_INT_MAX - $a : abs(-PHP_INT_MAX - $a)
+            ),
+            $a - $b
+        ];
+    }
+
+    protected static function getIntegerFactors(): array
+    {
+        return [
+            $a = self::nonZeroRandomInteger(),
+            $b = self::randomInteger(
+                max: intval(PHP_INT_MAX / $a)
+            ),
+            $a * $b
         ];
     }
 
@@ -40,10 +86,29 @@ trait WithDataProviders
         return [
             $a_string = self::string($a = self::randomFloat(max: $max)),
             $b_string = self::string($b = self::randomFloat(
-                min: 0,
                 max: $a >= 0 ? $max - $a : abs(-$max - $a)
             )),
             self::string(bcadd($a_string, $b_string, self::countDecimalPlaces($a + $b)))
+        ];
+    }
+
+    protected static function getStringMinuends(float $max = PHP_FLOAT_MAX): array
+    {
+        return [
+            $a_string = self::string($a = self::randomFloat(max: $max)),
+            $b_string = self::string($b = self::randomFloat(
+                max: $a >= 0 ? abs(-$max + $a) : $max + $a
+            )),
+            self::string(bcsub($a_string, $b_string, self::countDecimalPlaces($a - $b)))
+        ];
+    }
+
+    protected static function getStringFactors(float $max = PHP_FLOAT_MAX): array
+    {
+        return [
+            $a_string = self::string($a = self::randomFloat(max: $max)),
+            $b_string = self::string($b = self::randomFloat(max: $max / $a)),
+            self::string(bcmul($a_string, $b_string, self::countDecimalPlaces($a) + self::countDecimalPlaces($b)))
         ];
     }
 
@@ -57,6 +122,36 @@ trait WithDataProviders
         ];
     }
 
+    protected static function getBcMathNumberMinuends(float $max = PHP_FLOAT_MAX): array
+    {
+        [$a, $b, $diff] = self::getStringMinuends($max);
+        return [
+            new BcMathNumber($a),
+            new BcMathNumber($b),
+            new BcMathNumber($diff)
+        ];
+    }
+
+    protected static function getBcMathNumberFactors(float $max = PHP_FLOAT_MAX): array
+    {
+        [$a, $b, $prod] = self::getStringFactors($max);
+        return [
+            new BcMathNumber($a),
+            new BcMathNumber($b),
+            new BcMathNumber($prod)
+        ];
+    }
+
+    protected static function getBcMathExtendedNumberFactors(float $max = PHP_FLOAT_MAX): array
+    {
+        [$a, $b, $prod] = self::getBcMathNumberFactors($max);
+        return [
+            new BcMathNumber($a),
+            new BcMathNumber($b),
+            new BcMathNumber($prod)
+        ];
+    }
+
     protected static function getBcMathExtendedNumberAddends(float $max = PHP_FLOAT_MAX): array
     {
         [$a, $b, $sum] = self::getBcMathNumberAddends($max);
@@ -67,12 +162,46 @@ trait WithDataProviders
         ];
     }
 
-    protected static function string(float $number): string
+    protected static function getBcMathExtendedNumberMinuends(float $max = PHP_FLOAT_MAX): array
     {
+        [$a, $b, $diff] = self::getBcMathNumberMinuends($max);
+        return [
+            new Number($a),
+            new Number($b),
+            new Number($diff)
+        ];
+    }
+
+    protected static function string(float|string $number): string
+    {
+        if (self::isStringFloat($number)) return self::trimTrailingZeros($number);
+        else if (is_string($number)) return $number;    
         $decimal_places = self::countDecimalPlaces($number);
-        if ($decimal_places == 0) return sprintf("%d", $number);
-        // return number_format($number, $decimal_places, thousands_separator: '');
-        return rtrim(number_format($number, $decimal_places, thousands_separator: ''), "0");
+        if ($decimal_places == 0) return self::formatInteger((int) $number);
+        return self::formatNumber($number, $decimal_places);
+    }
+
+    protected static function isStringFloat(string $number): bool
+    {
+        return is_string($number) && strpos($number, '.');
+    }
+
+    protected static function trimTrailingZeros(string $number): string
+    {
+        return rtrim($number, "0");
+    }
+
+    protected static function formatInteger(int $number): string
+    {
+        return sprintf("%d", $number);
+    }
+
+    protected static function formatNumber(int|float $number, int $decimal_places): string
+    {
+        if (is_int($number)) return self::formatInteger($number);
+        return self::trimTrailingZeros(
+            number_format($number, $decimal_places, thousands_separator: '')
+        );
     }
 
     /**

@@ -19,11 +19,4 @@ class BaseTestCase extends TestCase
         parent::setUp();
         $this->setUpFaker();
     }
-
-    protected function assertFloatEquals(float $expected, float $actual, string $message): void
-    {
-        $this->assertTrue();
-    }
-
-    // protected function nearlyEqual(float $a, float $b)
 }
