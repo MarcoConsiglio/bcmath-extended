@@ -78,6 +78,21 @@ class NumberTest extends BaseTestCase
         $this->assertEquals($prod, $PROD, "$a * $b = $prod");
     }
 
+    #[DataProvider("dividends")]
+    #[TestDox("can be divided by another")]
+    public function test_division(mixed $a, mixed $b, mixed $quot): void
+    {
+        // Arrange
+        $A = $this->instantiateNumber($a);
+        $B = $this->instantiateNumber($b);
+
+        // Act
+        $QUOT = self::string($A->div($B)->getParent()->value);
+
+        // Assert
+        $this->assertEquals($quot, $QUOT, "$a / $b = $quot");
+    }
+
     protected function instantiateNumber(mixed $number): Number
     {
         return $number instanceof Number ? $number : new Number($number);

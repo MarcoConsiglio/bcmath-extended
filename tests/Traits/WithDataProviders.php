@@ -3,6 +3,8 @@ namespace MarcoConsiglio\BCMathExtended\Tests\Traits;
 
 use BcMath\Number as BcMathNumber;
 use MarcoConsiglio\BCMathExtended\Number;
+use MarcoConsiglio\BCMathExtended\Tests\Divisors;
+use MarcoConsiglio\BCMathExtended\Tests\DivisorsPrime;
 use RoundingMode;
 
 trait WithDataProviders
@@ -48,6 +50,17 @@ trait WithDataProviders
         ];
     }
 
+    public static function dividends(): array
+    {
+        self::setUpFaker();
+        return [
+            'Integer dividends' => self::getIntegerDividends(),
+            'String dividends' => self::getStringDividends(self::MAX),
+            "BcMath\\Number dividends" => self::getBcMathNumberDividends(self::MAX),
+            "BcMathExtended\\Number factor" => self::getBcMathExtendedNumberDividends(self::MAX)
+        ];
+    }
+
     protected static function getIntegerAddends(): array
     {
         return [
@@ -81,6 +94,15 @@ trait WithDataProviders
         ];
     }
 
+    protected static function getIntegerDividends(): array
+    {
+        return [
+            $a = self::nonZeroRandomInteger(max: 1_000_000),
+            $b = self::$faker->randomElement(Divisors::of($a)),
+            $a / $b
+        ];
+    }
+
     protected static function getStringAddends(float $max = PHP_FLOAT_MAX): array
     {
         return [
@@ -88,7 +110,7 @@ trait WithDataProviders
             $b_string = self::string($b = self::randomFloat(
                 max: $a >= 0 ? $max - $a : abs(-$max - $a)
             )),
-            self::string(bcadd($a_string, $b_string, self::countDecimalPlaces($a + $b)))
+            self::string(new BcMathNumber($a_string)->add($b_string))
         ];
     }
 
@@ -99,7 +121,7 @@ trait WithDataProviders
             $b_string = self::string($b = self::randomFloat(
                 max: $a >= 0 ? abs(-$max + $a) : $max + $a
             )),
-            self::string(bcsub($a_string, $b_string, self::countDecimalPlaces($a - $b)))
+            self::string(new BcMathNumber($a_string)->sub($b_string))
         ];
     }
 
@@ -107,8 +129,17 @@ trait WithDataProviders
     {
         return [
             $a_string = self::string($a = self::randomFloat(max: $max)),
-            $b_string = self::string($b = self::randomFloat(max: $max / $a)),
-            self::string(bcmul($a_string, $b_string, self::countDecimalPlaces($a) + self::countDecimalPlaces($b)))
+            $b_string = self::string($b = self::randomFloat(max: abs($max / $a))),
+            self::string(new BcMathNumber($a_string)->mul($b_string))
+        ];
+    }
+
+    protected static function getStringDividends(float $max = PHP_FLOAT_MAX): array
+    {
+        return [
+            $a_string = self::string($a = self::nonZeroRandomFloat(max: $max)),
+            $b_string = self::string($b = self::nonZeroRandomFloat(max: abs($a / $max))),
+            self::string(new BcMathNumber($a_string)->div($b_string))
         ];
     }
 
@@ -142,13 +173,13 @@ trait WithDataProviders
         ];
     }
 
-    protected static function getBcMathExtendedNumberFactors(float $max = PHP_FLOAT_MAX): array
+    protected static function getBcMathNumberDividends(float $max = PHP_FLOAT_MAX): array
     {
-        [$a, $b, $prod] = self::getBcMathNumberFactors($max);
+        [$a, $b, $quot] = self::getStringDividends($max);
         return [
             new BcMathNumber($a),
             new BcMathNumber($b),
-            new BcMathNumber($prod)
+            new BcMathNumber($quot)
         ];
     }
 
@@ -169,6 +200,26 @@ trait WithDataProviders
             new Number($a),
             new Number($b),
             new Number($diff)
+        ];
+    }
+
+    protected static function getBcMathExtendedNumberFactors(float $max = PHP_FLOAT_MAX): array
+    {
+        [$a, $b, $prod] = self::getBcMathNumberFactors($max);
+        return [
+            new BcMathNumber($a),
+            new BcMathNumber($b),
+            new BcMathNumber($prod)
+        ];
+    }
+
+    protected static function getBcMathExtendedNumberDividends(float $max = PHP_FLOAT_MAX): array
+    {
+        [$a, $b, $quot] = self::getBcMathNumberDividends($max);
+        return [
+            new BcMathNumber($a),
+            new BcMathNumber($b),
+            new BcMathNumber($quot)
         ];
     }
 

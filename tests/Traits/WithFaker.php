@@ -66,7 +66,7 @@ trait WithFaker
     /**
      * Return a random integer except for zero.
      */
-    protected static function nonZeroRandomInteger(int $min = PHP_INT_MIN, int $max = PHP_INT_MAX): int
+    protected static function nonZeroRandomInteger(int $min = 0, int $max = PHP_INT_MAX): int
     {
         do {
             $number = self::randomInteger($min, $max);
@@ -119,7 +119,7 @@ trait WithFaker
         if ($min <= 0) $min = 0;
         if ($max <= 0) $max = PHP_FLOAT_MAX;
         do {
-            $number = self::randomRelativeFloat($min, $max);
+            $number = self::randomFloat($min, $max);
         } while ($number == 0);
         return $number;
     }
