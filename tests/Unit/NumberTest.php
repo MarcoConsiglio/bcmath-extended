@@ -127,7 +127,7 @@ class NumberTest extends BaseTestCase
     }
     
     #[DataProvider("power")]
-    #[TestDox("can be elevated to another one.")]
+    #[TestDox("can be elevated to an exponent.")]
     public function test_power(mixed $b, mixed $e, mixed $pow): void
     {
         // Arrange
@@ -139,6 +139,36 @@ class NumberTest extends BaseTestCase
 
         // Assert
         $this->assertEquals($pow, $POW, "$b ^ $e = $POW");
+    }
+
+    #[DataProvider("powerModulo")]
+    #[TestDox("can be elevated to an exponent and divided by a modulus to obtain the remainder.")]
+    public function test_power_modulo(mixed $b, mixed $e, mixed $m, mixed $pow_mod): void
+    {
+        // Arrange
+        $B = $this->instantiateNumber($b);
+        $E = $this->instantiateNumber($e);
+        $M = $this->instantiateNumber($m);
+        
+        // Act
+        $POWMOD = self::string($B->powerModulo($E, $M)->getParent()->value);
+
+        // Assert
+        $this->assertEquals($pow_mod, $POWMOD, "($b ^ $e) mod $m = $POWMOD");
+    }
+
+    public function test_specific_case(): void
+    {
+        // Arrange
+        $B = $this->instantiateNumber(2);
+        $E = $this->instantiateNumber(28);
+        $M = $this->instantiateNumber(-8);
+
+        // Act
+        $powmod = self::string($B->powerModulo($E, $M)->getParent()->value);
+
+        // Assert
+        $this->assertEquals("-8", $powmod);
     }
 
     protected function instantiateNumber(mixed $number): Number

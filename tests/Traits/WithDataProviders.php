@@ -94,6 +94,14 @@ trait WithDataProviders
         ];
     }
 
+    public static function powerModulo(): array
+    {
+        self::setUpFaker();
+        return [
+            'Integer power modulo' => self::getIntegerPowerModulo()
+        ];
+    }
+
     protected static function getIntegerAddends(): array
     {
         return [
@@ -163,6 +171,18 @@ trait WithDataProviders
                 max: $b > 0 ? intval(log(PHP_INT_MAX, $b)) : intval(log(PHP_INT_MAX, abs($b)))
             ),
             $b ** $e
+        ];
+    }
+
+    protected static function getIntegerPowerModulo(): array
+    {
+        return [
+            $b = self::nonZeroRandomInteger(max: 12),
+            $e = self::positiveNonZeroRandomInteger(
+                max: $b > 0 ? intval(log(PHP_INT_MAX, $b)) : intval(log(PHP_INT_MAX, abs($b)))
+            ),
+            $m = self::nonZeroRandomInteger(max: 12),
+            (int) (new Number(new BcMathNumber($b)->pow($e))->mod($m))->getParent()->value
         ];
     }
 

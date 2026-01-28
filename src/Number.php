@@ -129,7 +129,7 @@ class Number implements Stringable
     /**
      * Return the remainder of the division of this instance by $number.
      * 
-     * @see https://www.php.net/manual/en/bcmath-number.mod.php
+     * This method do not call the parent method mod().
      */
     public function modulo(Number|BcMathNumber|string|int $modulus, int|null $scale = null): Number
     {
@@ -149,7 +149,8 @@ class Number implements Stringable
     /**
      * Return the quotient and remainder of this instance divided by $divisor.
      * 
-     * @see https://www.php.net/manual/en/bcmath-number.divmod.php
+     * This method do not call the parent method mod().
+     * 
      * @return Number[] The first is the quotient of the division, the second 
      * is the remainder of the division.
      */
@@ -189,17 +190,16 @@ class Number implements Stringable
     }
 
     /**
-     * Raise this instance to $exponent and reduce the result to by $modulus.
+     * Raise this instance to $exponent and reduce the result by $modulus.
      * 
      * In other words, this method perform ($this ** $exponent) % $modulus.
-     * 
-     * @see https://www.php.net/manual/en/bcmath-number.powmod.php
+     * This method do not call the parent method mod().
      */
     public function powerModulo(Number|BcMathNumber|string|int $exponent, Number|BcMathNumber|string|int $modulus, int|null $scale = null): Number
     {
         $exponent = $this->normalizeToParent($exponent);
         $modulus = $this->normalizeToParent($modulus);
-        return new Number($this->number->powmod($exponent, $modulus, $scale));
+        return new Number($this->number)->power($exponent)->modulo($modulus, $scale);
     }
 
     /**
