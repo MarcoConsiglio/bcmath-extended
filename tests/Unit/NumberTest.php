@@ -94,7 +94,7 @@ class NumberTest extends BaseTestCase
     }
 
     #[DataProvider("remainders")]
-    #[TestDox("can be divided by another and obtain a remainder od the division.")]
+    #[TestDox("can be divided by another and obtain the remainder of the division.")]
     public function test_modulo(mixed $a, mixed $b, mixed $rem): void
     {
         // Arrange
@@ -109,6 +109,7 @@ class NumberTest extends BaseTestCase
     }
 
     #[DataProvider("quotientAndRemainders")]
+    #[TestDox("can be divided by another and obtain the integer quotient and remainder of the division.")]
     public function test_division_modulo(mixed $a, mixed $b, mixed $quot, mixed $rem): void
     {
         // Arrange
@@ -123,6 +124,21 @@ class NumberTest extends BaseTestCase
         // Assert
         $this->assertEquals($quot, $QUOT, "floor($a / $b) = $QUOT");
         $this->assertEquals($rem, $REM, "$a mod $b = $REM");
+    }
+    
+    #[DataProvider("power")]
+    #[TestDox("can be elevated to another one.")]
+    public function test_power(mixed $b, mixed $e, mixed $pow): void
+    {
+        // Arrange
+        $B = $this->instantiateNumber($b);
+        $E = $this->instantiateNumber($e);
+
+        // Act
+        $POW = self::string($B->pow($E)->getParent()->value);
+
+        // Assert
+        $this->assertEquals($pow, $POW, "$b ^ $e = $POW");
     }
 
     protected function instantiateNumber(mixed $number): Number

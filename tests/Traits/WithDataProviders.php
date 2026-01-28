@@ -83,6 +83,17 @@ trait WithDataProviders
         ];
     }
 
+    public static function power(): array
+    {
+        self::setUpFaker();
+        return [
+            'Integer power' => self::getIntegerPower(),
+            'String power' => self::getStringPower(self::MAX),
+            'BcMath\\Number power' => self::getBcMathNumberPower(self::MAX),
+            'BcMathExtended\\Number power' => self::getBcMathExtendedNumberPower(self::MAX)
+        ];
+    }
+
     protected static function getIntegerAddends(): array
     {
         return [
@@ -144,6 +155,17 @@ trait WithDataProviders
         ];
     }
 
+    protected static function getIntegerPower(): array
+    {
+        return [
+            $b = self::nonZeroRandomInteger(),
+            $e = self::positiveNonZeroRandomInteger(
+                max: $b > 0 ? intval(log(PHP_INT_MAX, $b)) : intval(log(PHP_INT_MAX, abs($b)))
+            ),
+            $b ** $e
+        ];
+    }
+
     protected static function getStringAddends(float $max = PHP_FLOAT_MAX): array
     {
         return [
@@ -197,7 +219,7 @@ trait WithDataProviders
     {
         return [
             $a_string = self::string($a = self::nonZeroRandomFloat(max: $max)),
-            $b_string = self::string($b = self::nonZeroRandomFloat(max: abs($a / $max))),
+            $b_string = self::string(self::nonZeroRandomFloat(max: abs($a / $max))),
             self::string(new BcMathNumber($a_string)->div($b_string)->floor()->value),
             // $a - $b * floor($a / $b)
             new BcMathNumber($a_string)->sub(
@@ -205,6 +227,17 @@ trait WithDataProviders
                     (new BcMathNumber($a_string)->div($b_string)->floor())->value
                 ))->value
             )
+        ];
+    }
+
+    protected static function getStringPower(float $max = PHP_FLOAT_MAX): array
+    {
+        return [
+            $b_string = self::string($b = self::nonZeroRandomFloat(max: $max)),
+            $e_string = self::string(self::randomInteger(
+                max: $b > 0 ? intval(log(PHP_INT_MAX, $b)) : intval(log(PHP_INT_MAX, abs($b)))
+            )),
+            self::string(new BcMathNumber($b_string)->pow($e_string)->value)
         ];
     }
 
@@ -269,6 +302,16 @@ trait WithDataProviders
         ];
     }
 
+    protected static function getBcMathNumberPower(float $max = PHP_FLOAT_MAX): array
+    {
+        [$a, $b, $pow] = self::getStringPower($max);
+        return [
+            new BcMathNumber($a),
+            new BcMathNumber($b),
+            new BcMathNumber($pow)
+        ];       
+    }
+
     protected static function getBcMathExtendedNumberAddends(float $max = PHP_FLOAT_MAX): array
     {
         [$a, $b, $sum] = self::getBcMathNumberAddends($max);
@@ -328,6 +371,16 @@ trait WithDataProviders
             new Number($quot),
             new Number($rem)
         ];
+    }
+
+    protected static function getBcMathExtendedNumberPower(float $max = PHP_FLOAT_MAX): array
+    {
+        [$a, $b, $pow] = self::getBcMathNumberPower($max);
+        return [
+            new Number($a),
+            new Number($b),
+            new Number($pow)
+        ];    
     }
 
     protected static function string(float|string $number): string
