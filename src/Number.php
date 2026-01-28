@@ -133,10 +133,9 @@ class Number implements Stringable
      */
     public function modulo(Number|BcMathNumber|string|int $modulus, int|null $scale = null): Number
     {
-        // $number - $modulus * floor($number / $modulus).
-        if ($scale !== null) bcscale($scale);
         $modulus = $this->normalizeToParent($modulus);
-        return new Number($this->number->sub($modulus->mul($this->number->div($modulus)->floor())));
+        // $number - $modulus * floor($number / $modulus).
+        return new Number($this->number->sub($modulus->mul($this->number->div($modulus, $scale)->floor())));
     }
 
     /**
@@ -157,8 +156,7 @@ class Number implements Stringable
     public function quotientAndRemainder(Number|BcMathNumber|string|int $divisor, int|null $scale = null): array
     {
         $divisor = $this->normalizeToParent($divisor);
-        [$quotient, $remainder] = $this->number->divmod($divisor, $scale);
-        return [new Number($quotient), new Number($remainder)];
+        return [$this->divide($divisor)->floor(), $this->modulo($divisor)];
     }
 
     /**

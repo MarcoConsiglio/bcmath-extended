@@ -38,7 +38,7 @@ trait WithFaker
     protected static function positiveRandomInteger(int $min = 0, int $max = PHP_INT_MAX): int
     {
         if ($min < 0) $min = 0;
-        if ($max < 0) $max = PHP_INT_MAX;
+        if ($max < 1) $max = PHP_INT_MAX;
         return self::$faker->numberBetween($min, $max);
     }
 
@@ -47,20 +47,29 @@ trait WithFaker
      */
     protected static function negativeRandomInteger(int $min = 1, int $max = PHP_INT_MAX): int
     {
-        if ($min < 1) $min = abs($min);
-        if ($min == 0) $min = 1;
-        if ($max < 0) $max = PHP_INT_MAX;
-        return -1 * self::$faker->numberBetween($min, $max);
+        if ($min <= 0) $min = 1;
+        if ($max <= 0) $max = PHP_INT_MAX;
+        return -(self::$faker->numberBetween($min, $max));
     }
 
     /**
      * Return a random positive integer except for zero.
      */
-    protected static function positiveNonNullRandomInteger(int $min = 1, int $max = PHP_INT_MAX): int
+    protected static function positiveNonZeroRandomInteger(int $min = 1, int $max = PHP_INT_MAX): int
     {
         if ($min < 1) $min = 1;
         if ($max < 0) $max = PHP_INT_MAX;
-        return self::randomInteger($min, $max);
+        return self::positiveRandomInteger($min, $max);
+    }
+
+    /**
+     * Return a random negative integer except for zero.
+     */
+    protected static function negativeNonZeroRandomInteger(int $min = 1, int $max = PHP_INT_MAX): int
+    {
+        if ($min < 1) $min = 1;
+        if ($max < 0) $max = PHP_INT_MAX;
+        return self::negativeRandomInteger($min, $max);
     }
 
     /**
@@ -114,7 +123,7 @@ trait WithFaker
     /**
      * Return a random relative float except for zero.
      */
-    protected static function nonZeroRandomFloat(float $min = PHP_FLOAT_MIN, float $max = PHP_FLOAT_MAX): float
+    protected static function nonZeroRandomFloat(float $min = 0, float $max = PHP_FLOAT_MAX): float
     {
         if ($min <= 0) $min = 0;
         if ($max <= 0) $max = PHP_FLOAT_MAX;

@@ -15,9 +15,9 @@ trait WithDataProviders
      * WARNING! Large float type numbers makes unrecoverable rounding errors!
      * Use this constant to not reach huge numbers.
      */
-    protected const float MAX = 1_000_000.0;
+    protected const int MAX = 1_000_000;
 
-    public static function addends(): array
+    public static function addition(): array
     {
         self::setUpFaker();
         return [
@@ -28,7 +28,7 @@ trait WithDataProviders
         ];
     }
 
-    public static function minuends(): array
+    public static function subtraction(): array
     {
         self::setUpFaker();
         return [
@@ -39,7 +39,7 @@ trait WithDataProviders
         ];
     }
 
-    public static function factors(): array
+    public static function multiplication(): array
     {
         self::setUpFaker();
         return [
@@ -58,6 +58,28 @@ trait WithDataProviders
             'String dividends' => self::getStringDividends(self::MAX),
             "BcMath\\Number dividends" => self::getBcMathNumberDividends(self::MAX),
             "BcMathExtended\\Number factor" => self::getBcMathExtendedNumberDividends(self::MAX)
+        ];
+    }
+
+    public static function remainders(): array
+    {
+        self::setUpFaker();
+        return [
+            'Integer modulus' => self::getIntegerModulus(),
+            'String modulus' => self::getStringModulus(self::MAX),
+            'BcMath\\Number modulus' => self::getBcMathNumberModulus(self::MAX),
+            'BcMathExtended\\Number modulus' => self::getBcMathExtendedNumberModulus(self::MAX)
+        ];
+    }
+
+    public static function quotientAndRemainders(): array
+    {
+        self::setUpFaker();
+        return [
+            'Integer dividends' => self::getIntegerQuotientRemainder(),
+            'String dividends' => self::getStringQuotientRemainder(self::MAX),
+            'BcMath\\Number dividends' => self::getBcMathNumberQuotientRemainder(self::MAX),
+            'BcMathExtended\\Number dividends' => self::getBcMathExtendedQuotientRemainder(self::MAX)
         ];
     }
 
@@ -103,11 +125,30 @@ trait WithDataProviders
         ];
     }
 
+    protected static function getIntegerModulus(): array
+    {
+        return [
+            $a = self::nonZeroRandomInteger(max: self::MAX),
+            $b = self::$faker->randomElement(Divisors::of($a)),
+            $a - $b * intval(floor($a / $b))
+        ];
+    }
+
+    protected static function getIntegerQuotientRemainder(): array
+    {
+        return [
+            $a = self::randomInteger(),
+            $b = self::nonZeroRandomInteger(max: abs(intval($a / PHP_INT_MAX) + 1)),
+            intval($a / $b),
+            $a - $b * intval($a / $b)
+        ];
+    }
+
     protected static function getStringAddends(float $max = PHP_FLOAT_MAX): array
     {
         return [
             $a_string = self::string($a = self::randomFloat(max: $max)),
-            $b_string = self::string($b = self::randomFloat(
+            $b_string = self::string(self::randomFloat(
                 max: $a >= 0 ? $max - $a : abs(-$max - $a)
             )),
             self::string(new BcMathNumber($a_string)->add($b_string))
@@ -118,7 +159,7 @@ trait WithDataProviders
     {
         return [
             $a_string = self::string($a = self::randomFloat(max: $max)),
-            $b_string = self::string($b = self::randomFloat(
+            $b_string = self::string(self::randomFloat(
                 max: $a >= 0 ? abs(-$max + $a) : $max + $a
             )),
             self::string(new BcMathNumber($a_string)->sub($b_string))
@@ -129,7 +170,7 @@ trait WithDataProviders
     {
         return [
             $a_string = self::string($a = self::randomFloat(max: $max)),
-            $b_string = self::string($b = self::randomFloat(max: abs($max / $a))),
+            $b_string = self::string(self::randomFloat(max: abs($max / $a))),
             self::string(new BcMathNumber($a_string)->mul($b_string))
         ];
     }
@@ -138,8 +179,32 @@ trait WithDataProviders
     {
         return [
             $a_string = self::string($a = self::nonZeroRandomFloat(max: $max)),
-            $b_string = self::string($b = self::nonZeroRandomFloat(max: abs($a / $max))),
+            $b_string = self::string(self::nonZeroRandomFloat(max: abs($a / $max))),
             self::string(new BcMathNumber($a_string)->div($b_string))
+        ];
+    }
+
+    protected static function getStringModulus(float $max = PHP_FLOAT_MAX): array
+    {
+        return [
+            $a_string = self::string(self::randomFloat(max: $max)),
+            $b_string = self::string(self::nonZeroRandomFloat(max: $max)),
+            new BcMathNumber($a_string)->sub(new BcMathNumber($a_string)->div($b_string)->floor()->mul($b_string))
+        ];
+    }
+
+    protected static function getStringQuotientRemainder(float $max = PHP_FLOAT_MAX): array
+    {
+        return [
+            $a_string = self::string($a = self::nonZeroRandomFloat(max: $max)),
+            $b_string = self::string($b = self::nonZeroRandomFloat(max: abs($a / $max))),
+            self::string(new BcMathNumber($a_string)->div($b_string)->floor()->value),
+            // $a - $b * floor($a / $b)
+            new BcMathNumber($a_string)->sub(
+                (new BcMathNumber($b_string)->mul(
+                    (new BcMathNumber($a_string)->div($b_string)->floor())->value
+                ))->value
+            )
         ];
     }
 
@@ -183,6 +248,27 @@ trait WithDataProviders
         ];
     }
 
+    protected static function getBcMathNumberModulus(float $max = PHP_FLOAT_MAX): array
+    {
+        [$a, $b, $rem] = self::getStringModulus($max);
+        return [
+            new BcMathNumber($a),
+            new BcMathNumber($b),
+            new BcMathNumber($rem)
+        ];
+    }
+
+    protected static function getBcMathNumberQuotientRemainder(float $max = PHP_FLOAT_MAX): array
+    {
+        [$a, $b, $quot, $rem] = self::getStringQuotientRemainder($max);
+        return [
+            new BcMathNumber($a),
+            new BcMathNumber($b),
+            new BcMathNumber($quot),
+            new BcMathNumber($rem)
+        ];
+    }
+
     protected static function getBcMathExtendedNumberAddends(float $max = PHP_FLOAT_MAX): array
     {
         [$a, $b, $sum] = self::getBcMathNumberAddends($max);
@@ -207,9 +293,9 @@ trait WithDataProviders
     {
         [$a, $b, $prod] = self::getBcMathNumberFactors($max);
         return [
-            new BcMathNumber($a),
-            new BcMathNumber($b),
-            new BcMathNumber($prod)
+            new Number($a),
+            new Number($b),
+            new Number($prod)
         ];
     }
 
@@ -217,24 +303,40 @@ trait WithDataProviders
     {
         [$a, $b, $quot] = self::getBcMathNumberDividends($max);
         return [
-            new BcMathNumber($a),
-            new BcMathNumber($b),
-            new BcMathNumber($quot)
+            new Number($a),
+            new Number($b),
+            new Number($quot)
+        ];
+    }
+
+    protected static function getBcMathExtendedNumberModulus(float $max = PHP_FLOAT_MAX): array
+    {
+        [$a, $b, $rem] = self::getBcMathNumberModulus($max);
+        return [
+            new Number($a),
+            new Number($b),
+            new Number($rem)
+        ];
+    }
+
+    protected static function getBcMathExtendedQuotientRemainder(float $max = PHP_FLOAT_MAX): array
+    {
+        [$a, $b, $quot, $rem] = self::getBcMathNumberQuotientRemainder($max);
+        return [
+            new Number($a),
+            new Number($b),
+            new Number($quot),
+            new Number($rem)
         ];
     }
 
     protected static function string(float|string $number): string
     {
-        if (self::isStringFloat($number)) return self::trimTrailingZeros($number);
+        if (is_string($number) && strpos($number, '.')) return self::trimTrailingZeros($number);
         else if (is_string($number)) return $number;    
         $decimal_places = self::countDecimalPlaces($number);
-        if ($decimal_places == 0) return self::formatInteger((int) $number);
+        if ($decimal_places == 0) return self::formatInteger($number);
         return self::formatNumber($number, $decimal_places);
-    }
-
-    protected static function isStringFloat(string $number): bool
-    {
-        return is_string($number) && strpos($number, '.');
     }
 
     protected static function trimTrailingZeros(string $number): string
@@ -242,9 +344,9 @@ trait WithDataProviders
         return rtrim($number, "0");
     }
 
-    protected static function formatInteger(int $number): string
+    protected static function formatInteger(float $number): string
     {
-        return sprintf("%d", $number);
+        return number_format($number, 0, '', '');
     }
 
     protected static function formatNumber(int|float $number, int $decimal_places): string

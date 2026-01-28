@@ -33,7 +33,7 @@ class NumberTest extends BaseTestCase
         $this->assertTrue(Number::isChild($number));
     }
 
-    #[DataProvider("addends")]
+    #[DataProvider("addition")]
     #[TestDox("can be added to another one.")]
     public function test_addition(mixed $a, mixed $b, mixed $sum): void
     {
@@ -45,10 +45,10 @@ class NumberTest extends BaseTestCase
         $SUM = self::string($A->plus($B)->getParent()->value);
 
         // Assert
-        $this->assertEquals($sum, $SUM, "$a + $b = $sum");
+        $this->assertEquals($sum, $SUM, "$a + $b = $SUM");
     }
 
-    #[DataProvider("minuends")]
+    #[DataProvider("subtraction")]
     #[TestDox("can be subtracted from another one.")]
     public function test_subtraction(mixed $a, mixed $b, mixed $diff): void
     {
@@ -60,10 +60,10 @@ class NumberTest extends BaseTestCase
         $DIFF = self::string($A->sub($B)->getParent()->value);
 
         // Assert
-        $this->assertEquals($diff, $DIFF, "$a - $b = $diff");
+        $this->assertEquals($diff, $DIFF, "$a - $b = $DIFF");
     }
 
-    #[DataProvider("factors")]
+    #[DataProvider("multiplication")]
     #[TestDox("can be multiplied by another one.")]
     public function test_multiplication(mixed $a, mixed $b, mixed $prod): void
     {
@@ -75,7 +75,7 @@ class NumberTest extends BaseTestCase
         $PROD = self::string($A->mul($B)->getParent()->value);
 
         // Assert
-        $this->assertEquals($prod, $PROD, "$a * $b = $prod");
+        $this->assertEquals($prod, $PROD, "$a * $b = $PROD");
     }
 
     #[DataProvider("dividends")]
@@ -90,7 +90,39 @@ class NumberTest extends BaseTestCase
         $QUOT = self::string($A->div($B)->getParent()->value);
 
         // Assert
-        $this->assertEquals($quot, $QUOT, "$a / $b = $quot");
+        $this->assertEquals($quot, $QUOT, "$a / $b = $QUOT");
+    }
+
+    #[DataProvider("remainders")]
+    #[TestDox("can be divided by another and obtain a remainder od the division.")]
+    public function test_modulo(mixed $a, mixed $b, mixed $rem): void
+    {
+        // Arrange
+        $A = $this->instantiateNumber($a);
+        $B = $this->instantiateNumber($b);
+
+        // Act
+        $REM = self::string($A->mod($B)->getParent()->value);
+
+        // Assert
+        $this->assertEquals($rem, $REM, "$a mod $b = $REM");
+    }
+
+    #[DataProvider("quotientAndRemainders")]
+    public function test_division_modulo(mixed $a, mixed $b, mixed $quot, mixed $rem): void
+    {
+        // Arrange
+        $A = $this->instantiateNumber($a);
+        $B = $this->instantiateNumber($b);
+
+        // Act
+        [$QUOT, $REM] = $A->divmod($B);
+        $QUOT = self::string($QUOT->getParent()->value);
+        $REM = self::string($REM->getParent()->value);
+
+        // Assert
+        $this->assertEquals($quot, $QUOT, "floor($a / $b) = $QUOT");
+        $this->assertEquals($rem, $REM, "$a mod $b = $REM");
     }
 
     protected function instantiateNumber(mixed $number): Number
