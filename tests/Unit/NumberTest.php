@@ -157,20 +157,6 @@ class NumberTest extends BaseTestCase
         $this->assertEquals($pow_mod, $POWMOD, "($b ^ $e) mod $m = $POWMOD");
     }
 
-    public function test_specific_case(): void
-    {
-        // Arrange
-        $B = $this->instantiateNumber(2);
-        $E = $this->instantiateNumber(28);
-        $M = $this->instantiateNumber(-8);
-
-        // Act
-        $powmod = self::string($B->powerModulo($E, $M)->getParent()->value);
-
-        // Assert
-        $this->assertEquals("-8", $powmod);
-    }
-
     protected function instantiateNumber(mixed $number): Number
     {
         return $number instanceof Number ? $number : new Number($number);

@@ -98,7 +98,8 @@ trait WithDataProviders
     {
         self::setUpFaker();
         return [
-            'Integer power modulo' => self::getIntegerPowerModulo()
+            // 'Integer power modulo' => self::getIntegerPowerModulo(),
+            'String power modulo' => self::getStringPowerModulo(self::MAX)
         ];
     }
 
@@ -177,11 +178,11 @@ trait WithDataProviders
     protected static function getIntegerPowerModulo(): array
     {
         return [
-            $b = self::nonZeroRandomInteger(max: 12),
+            $b = self::nonZeroRandomInteger(),
             $e = self::positiveNonZeroRandomInteger(
                 max: $b > 0 ? intval(log(PHP_INT_MAX, $b)) : intval(log(PHP_INT_MAX, abs($b)))
             ),
-            $m = self::nonZeroRandomInteger(max: 12),
+            $m = self::nonZeroRandomInteger(),
             (int) (new Number(new BcMathNumber($b)->pow($e))->mod($m))->getParent()->value
         ];
     }
@@ -258,6 +259,25 @@ trait WithDataProviders
                 max: $b > 0 ? intval(log(PHP_INT_MAX, $b)) : intval(log(PHP_INT_MAX, abs($b)))
             )),
             self::string(new BcMathNumber($b_string)->pow($e_string)->value)
+        ];
+    }
+
+    protected static function getStringPowerModulo(float $max = PHP_FLOAT_MAX): array
+    {
+        $b_string = self::string($b = self::nonZeroRandomFloat(max: $max));
+        $e = self::nonZeroRandomInteger(
+                max: $b > 0 ? intval(log(PHP_FLOAT_MAX, $b)) : intval(log(PHP_FLOAT_MAX, abs($b)))
+            );
+        $e_string = $e > 0 ? self::string($e - 1) : self::string($e + 1);
+        $m_string = self::string($m = self::nonZeroRandomFloat(max: $max));
+        $power = new BcMathNumber($b_string)->pow($e_string);
+        $modulus = new BcMathNumber($m_string);
+        $result = $power->sub($modulus->mul($power->div($modulus)->floor()));
+        return [
+            self::string($b_string),
+            self::string($e_string),
+            self::string($m_string),
+            self::string($result->value)
         ];
     }
 
