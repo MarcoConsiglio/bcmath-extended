@@ -151,7 +151,7 @@ class NumberTest extends BaseTestCase
         $M = $this->instantiateNumber($m);
         
         // Act
-        $POWMOD = self::string($B->powerModulo($E, $M)->getParent()->value);
+        $POWMOD = self::string($B->powmod($E, $M)->getParent()->value);
 
         // Assert
         $this->assertEquals($pow_mod, $POWMOD, "($b ^ $e) mod $m = $POWMOD");

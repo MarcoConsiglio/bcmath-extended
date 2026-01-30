@@ -98,8 +98,12 @@ trait WithDataProviders
     {
         self::setUpFaker();
         return [
-            // 'Integer power modulo' => self::getIntegerPowerModulo(),
-            'String power modulo' => self::getStringPowerModulo(self::MAX)
+            'Integer power modulo' => self::getIntegerPowerModulo(),
+            'String power modulo' => self::getStringPowerModulo(self::MAX),
+            'BcMath\\Number power modulo' => self::getBcMathNumerPowerModulo(self::MAX),
+            'BcMathExtended\\Number power modulo' => self::getBcMathExtendedNumerPowerModulo(self::MAX)
+        ];
+    }
         ];
     }
 
