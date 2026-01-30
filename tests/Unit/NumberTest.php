@@ -9,8 +9,8 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\TestDox;
 
-#[TestDox("The Number class")]
-#[CoversClass(Number::class)]
+#[TestDox("The BcMathExtended\\Number class")]
+#[CoversClass(Number::class)]   
 class NumberTest extends BaseTestCase
 {
     #[TestDox('extends the BcMath\\Number class through composition.')]
@@ -155,6 +155,20 @@ class NumberTest extends BaseTestCase
 
         // Assert
         $this->assertEquals($pow_mod, $POWMOD, "($b ^ $e) mod $m = $POWMOD");
+    }
+
+    #[DataProvider("squareRoot")]
+    #[TestDox("can calculate the square root of itself.")]
+    public function test_square_root(mixed $n, mixed $sqrt): void
+    {
+        // Arrange
+        $N = $this->instantiateNumber($n);
+
+        // Act
+        $SQRT = self::string($N->sqrt()->getParent()->value);
+
+        // Assert
+        $this->assertEquals($sqrt, $SQRT, "sqrt($n) = $SQRT");
     }
 
     protected function instantiateNumber(mixed $number): Number

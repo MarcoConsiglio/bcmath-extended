@@ -100,10 +100,19 @@ trait WithDataProviders
         return [
             'Integer power modulo' => self::getIntegerPowerModulo(),
             'String power modulo' => self::getStringPowerModulo(self::MAX),
-            'BcMath\\Number power modulo' => self::getBcMathNumerPowerModulo(self::MAX),
+            'BcMath\\Number power modulo' => self::getBcMathNumberPowerModulo(self::MAX),
             'BcMathExtended\\Number power modulo' => self::getBcMathExtendedNumerPowerModulo(self::MAX)
         ];
     }
+
+    public static function squareRoot(): array
+    {
+        self::setUpFaker();
+        return [
+            'Integer square root' => self::getIntegerSquareRoot(),
+            'String square root' => self::getStringSquareRoot(self::MAX),
+            'BcMath\\Number square root' => self::getBcMathNumberSquareRoot(self::MAX),
+            'BcMathExtended\\Number square root' => self::getBcMathExtendedNumberSquareRoot(self::MAX)
         ];
     }
 
@@ -188,6 +197,14 @@ trait WithDataProviders
             ),
             $m = self::nonZeroRandomInteger(),
             (int) (new Number(new BcMathNumber($b)->pow($e))->mod($m))->getParent()->value
+        ];
+    }
+
+    protected static function getIntegerSquareRoot(): array
+    {
+        return [
+            $n = self::randomInteger(max: intval(sqrt(PHP_INT_MAX))) ** 2,
+            sqrt($n)
         ];
     }
 
@@ -285,6 +302,16 @@ trait WithDataProviders
         ];
     }
 
+    protected static function getStringSquareRoot(float $max = PHP_FLOAT_MAX): array
+    {
+        $n = self::string(self::randomFloat(max: sqrt($max)) ** 2);
+        $sqrt = new BcMathNumber($n)->sqrt()->value;
+        return [
+            $n,
+            self::string($sqrt)
+        ];
+    }
+
     protected static function getBcMathNumberAddends(float $max = PHP_FLOAT_MAX): array
     {
         [$a, $b, $sum] = self::getStringAddends($max);
@@ -353,6 +380,26 @@ trait WithDataProviders
             new BcMathNumber($a),
             new BcMathNumber($b),
             new BcMathNumber($pow)
+        ];       
+    }
+
+    protected static function getBcMathNumberPowerModulo(float $max = PHP_FLOAT_MAX): array
+    {
+        [$b, $e, $m, $pow_mod] = self::getStringPowerModulo($max);
+        return [
+            new BcMathNumber($b),
+            new BcMathNumber($e),
+            new BcMathNumber($m),
+            new BcMathNumber($pow_mod)
+        ];
+    }
+
+    protected static function getBcMathNumberSquareRoot(float $max = PHP_FLOAT_MAX): array
+    {
+        [$n, $sqrt] = self::getStringSquareRoot($max);
+        return [
+            new BcMathNumber($n),
+            new BcMathNumber($sqrt)
         ];       
     }
 
@@ -425,6 +472,26 @@ trait WithDataProviders
             new Number($b),
             new Number($pow)
         ];    
+    }
+
+    protected static function getBcMathExtendedNumerPowerModulo(float $max = PHP_FLOAT_MAX): array
+    {
+        [$b, $e, $m, $pow_mod] = self::getBcMathNumberPowerModulo($max);
+        return [
+            new Number($b),
+            new Number($e),
+            new Number($m),
+            new Number($pow_mod)
+        ];
+    }
+
+    protected static function getBcMathExtendedNumberSquareRoot(float $max = PHP_FLOAT_MAX): array
+    {
+        [$n, $sqrt] = self::getBcMathNumberSquareRoot($max);
+        return [
+            new Number($n),
+            new Number($sqrt)
+        ];       
     }
 
     protected static function string(float|string $number): string
