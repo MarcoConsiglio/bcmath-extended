@@ -481,7 +481,7 @@ trait WithDataProviders
     {
         return [
             self::string($number = self::randomFloat(max: $max)),
-            self::string(intval(floor($number)))
+            self::string(floor($number))
         ];
     }
 
@@ -489,7 +489,7 @@ trait WithDataProviders
     {
         return [
             self::string($number = self::randomFloat(max: $max)),
-            self::string(intval(ceil($number)))
+            self::string(ceil($number))
         ];
     }
 
@@ -836,7 +836,7 @@ trait WithDataProviders
      */
     protected static function trimTrailingZeros(string $number): string
     {
-        return rtrim($number, "0");
+        return preg_replace("/\.?0+$/", "", $number);
     }
 
     /**
@@ -853,9 +853,7 @@ trait WithDataProviders
     protected static function formatFloat(float $number): string
     {
         $decimal_places = self::countDecimalPlaces($number);
-        return self::trimTrailingZeros(
-            number_format($number, $decimal_places, thousands_separator: '')
-        );
+        return number_format($number, $decimal_places, thousands_separator: '');
     }
 
     /**

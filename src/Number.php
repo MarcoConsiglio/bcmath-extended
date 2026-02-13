@@ -362,9 +362,7 @@ class Number implements Stringable
      */
     public static function max(mixed ...$values): Number
     {
-        foreach ($values as $index => $value) {
-            $values[$index] = self::normalizeToParent($value);
-        }
+        $values = self::normalizeArrayToParent($values);
         return new Number(max(...$values));
     }
 
@@ -551,6 +549,22 @@ class Number implements Stringable
         if (is_int($number)) return new BCMathNumber($number);
         if (is_string($number)) return new BCMathNumber($number);  
         return $number; // Parent instance.
+    }
+
+    /**
+     * Transform $numbers into an array of BcMath\Number instances.
+     * 
+     * @param int[]|string[]|BcMathNumber[]|Number[]
+     * @return BcMathNumber[]
+     * @throws TypError if at least one element of $numbers is not of type
+     * int, string, BcMath\Number or BcMathExtended\Number.
+     */
+    protected static function normalizeArrayToParent(array $numbers): array
+    {
+        foreach ($numbers as $index => $number) {
+            $numbers[$index] = self::normalizeToParent($number);
+        }
+        return $numbers;
     }
 
     /**
