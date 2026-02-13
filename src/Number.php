@@ -371,9 +371,7 @@ class Number implements Stringable
      */
     public static function min(mixed ...$values): Number
     {
-        foreach ($values as $index => $value) {
-            $values[$index] = self::normalizeToParent($value);
-        }
+        $values = self::normalizeArrayToParent($values);
         return new Number(min($values));
     }
 
