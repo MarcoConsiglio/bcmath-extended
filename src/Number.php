@@ -350,38 +350,11 @@ class Number implements Stringable
     }
 
     /**
-     * Return the number of decimal places of $number.
-     */
-    public static function getDecimalsLength(int|string|BCMathNumber|Number $number): int
-    {
-        $number = self::normalizeToParent($number);
-        return self::getDecimalsLength($number->value);
-    }
-
-    /**
      * Return true if $number is a float number.
      */
     protected static function isFloat(int|string|BCMathNumber|Number $number): bool
     {
         return str_contains((string) $number, '.');
-    }
-
-    /**
-     * Perform the logarithm of $number in base $base.
-     */
-    public function log(int|string|BCMathNumber|Number $number, int|string|BCMathNumber|Number $base, int|null $scale = null): Number
-    {
-        $number = $this->normalizeToParent($number);
-        $base = $this->normalizeToParent($base);
-        if ($number == 0 && $base != 0) throw new InfiniteError("log($number, $base)");
-        if ($number == 0 && $base == 0) throw new IndeterminateFormError("log($number, $base)");
-        if ($number == 1 && $base != 1) throw new NotANumberError("log($number, $base)");
-        if ($number == 1 && $base == 1) throw new IndeterminateFormError("log($number, $base)");
-        if ($base < 0) throw new IndeterminateFormError("log($number, $base)");
-        if ($number < 0) throw throw new NotANumberError("log($number, $base)");
-        $result = log((float) $number->value, (float) $base->value);
-        if ($scale === null) $scale = PHP_FLOAT_DIG;
-        return new Number(sprintf("%.{$scale}f", $result));
     }
 
     /**

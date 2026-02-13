@@ -4,10 +4,14 @@ namespace MarcoConsiglio\BCMathExtended\Tests\Unit;
 
 use MarcoConsiglio\BCMathExtended\Number;
 use BcMath\Number as BcMathNumber;
+// use MarcoConsiglio\BCMathExtended\Exceptions\IndeterminateFormError;
+// use MarcoConsiglio\BCMathExtended\Exceptions\InfiniteError;
+// use MarcoConsiglio\BCMathExtended\Exceptions\NotANumberError;
 use MarcoConsiglio\BCMathExtended\Tests\BaseTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\TestDox;
+use PHPUnit\Framework\Attributes\UsesClass;
 
 #[TestDox("The BcMathExtended\\Number class")]
 #[CoversClass(Number::class)]   
@@ -308,8 +312,37 @@ class NumberTest extends BaseTestCase
         $this->assertEquals($ceil, $CEIL, "ceil($num) = $CEIL");
     }
 
+    #[DataProvider("max")]
+    #[TestDox("can calculate the max between numbers.")]
+    public function test_max(array $nums, mixed $max): void
+    {
+        // Arrange
+        foreach ($nums as $index => $num) {
+            $NUMS[$index] = $this->instantiateNumber($num);
+        }
+
+        // Act
+        $MAX = self::string(Number::max(...$NUMS)->getParent()->value);
+
+        // Assert
+        $this->assertEquals($max, $MAX, $this->getMaxErrorMessage($nums, $MAX));
+    }
+
     protected function instantiateNumber(mixed $number): Number
     {
         return $number instanceof Number ? $number : new Number($number);
+    }
+
+    protected function getMaxErrorMessage(mixed $vars, mixed $max): string
+    {
+        $message = "max(";
+        $count = count($vars);
+        for ($i = 0; $i <= $count - 1; $i++) {
+            if ($i == $count - 1) {
+                $message .= $vars[$i].")";
+            } else $message .= $vars[$i].", ";
+        }
+        $message .= " = $max";
+        return $message;
     }
 }

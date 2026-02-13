@@ -165,6 +165,24 @@ trait WithDataProviders
             'BcMathExtended\\Number ceil' => self::getBcMathExtendedNumberCeil(self::MAX)
         ];
     }
+
+    public static function max(): array
+    {
+        self::setUpFaker();
+        return [
+            'Integer max' => self::getIntegerMax(),
+            'String max' => self::getStringMax(self::MAX),
+            'BcMath\\Number max' => self::getBcMathNumberMax(self::MAX),
+            'BcMathExtended\\Number max' => self::getBcMathExtendedNumberMax(self::MAX)
+        ];
+    }
+
+    /**
+     *  ╔═════════════════╗
+     *  ║INTEGER DATA SETS║
+     *  ╚═════════════════╝
+     */
+
     protected static function getIntegerAddends(): array
     {
         return [
@@ -295,6 +313,25 @@ trait WithDataProviders
             $number
         ];
     }
+
+    protected static function getIntegerMax(): array
+    {
+        $count = self::positiveRandomInteger(2, 5);
+        for ($i = 0; $i <= $count - 1; $i++) {
+            $vars[$i] = self::randomInteger();
+        }
+        $max = max($vars);
+        return [
+            $vars,
+            $max
+        ];
+    }
+
+    /**
+     *  ╔════════════════╗
+     *  ║STRING DATA SETS║
+     *  ╚════════════════╝
+     */
 
     protected static function getStringAddends(float $max = PHP_FLOAT_MAX): array
     {
@@ -455,6 +492,29 @@ trait WithDataProviders
             self::string(intval(ceil($number)))
         ];
     }
+
+    protected static function getStringMax(float $max = PHP_FLOAT_MAX): array
+    {
+        $count = self::positiveRandomInteger(2, 5);
+        for ($i = 0; $i <= $count - 1; $i ++) {
+            $vars[$i] = self::randomFloat(max: $max);
+        }
+        $max = self::string(max($vars));
+        foreach ($vars as $index => $var) {
+            $vars[$index] = self::string($var);
+        }
+        return [
+            $vars,
+            $max
+        ];
+    }
+
+    /**
+     *  ╔═══════════════════════╗
+     *  ║BCMath\Number DATA SETS║
+     *  ╚═══════════════════════╝
+     */
+
     protected static function getBcMathNumberAddends(float $max = PHP_FLOAT_MAX): array
     {
         [$a, $b, $sum] = self::getStringAddends($max);
@@ -583,6 +643,25 @@ trait WithDataProviders
             new BcMathNumber($ceil)
         ];
     }
+
+    protected static function getBcMathNumberMax(float $max = PHP_FLOAT_MAX): array
+    {
+        [$vars, $max] = self::getStringMax($max);
+        foreach ($vars as $index => $var) {
+            $vars[$index] = new BcMathNumber($var);
+        }
+        return [
+            $vars,
+            new BcMathNumber($max)
+        ];
+    }
+
+    /**
+     *  ╔═══════════════════════════════╗
+     *  ║BCMathExtended\Number DATA SETS║
+     *  ╚═══════════════════════════════╝
+     */
+
     protected static function getBcMathExtendedNumberAddends(float $max = PHP_FLOAT_MAX): array
     {
         [$a, $b, $sum] = self::getBcMathNumberAddends($max);
@@ -711,6 +790,20 @@ trait WithDataProviders
             new Number($ceil)
         ];
     }
+
+    protected static function getBcMathExtendedNumberMax(float $max = PHP_FLOAT_MAX): array
+    {
+        [$vars, $max] = self::getBcMathNumberMax($max);
+        foreach ($vars as $index => $var) {
+            $vars[$index] = new Number($var);
+        }
+        $max = new Number($max);
+        return [
+            $vars,
+            $max
+        ];
+    }
+
     /**
      * Format a $number to a numeric string.
      */
