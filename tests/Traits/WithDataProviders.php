@@ -177,6 +177,17 @@ trait WithDataProviders
         ];
     }
 
+    public static function min(): array
+    {
+        self::setUpFaker();
+        return [
+            'Integer min' => self::getIntegerMin(),
+            'String min' => self::getStringMin(self::MAX),
+            'BcMath\\Number min' => self::getBcMathNumberMin(self::MAX),
+            'BcMathExtended\\Number min' => self::getBcMathExtendedNumberMin(self::MAX)
+        ];
+    }
+
     /**
      *  ╔═════════════════╗
      *  ║INTEGER DATA SETS║
@@ -316,15 +327,26 @@ trait WithDataProviders
 
     protected static function getIntegerMax(): array
     {
+        return self::getIntegerMinOrMax("max");
+    }
+
+    protected static function getIntegerMin(): array
+    {
+        return self::getIntegerMinOrMax("min");
+    }
+
+    protected static function getIntegerMinOrMax(string $min_or_max): array
+    {
+        if ($min_or_max != "min" && $min_or_max != "max") $min_or_max = "max";
         $count = self::positiveRandomInteger(2, 5);
         for ($i = 0; $i <= $count - 1; $i++) {
             $vars[$i] = self::randomInteger();
         }
-        $max = max($vars);
+        $result = $min_or_max($vars);
         return [
             $vars,
-            $max
-        ];
+            $result
+        ];        
     }
 
     /**
@@ -493,19 +515,30 @@ trait WithDataProviders
         ];
     }
 
-    protected static function getStringMax(float $max = PHP_FLOAT_MAX): array
+    protected static function getStringMax(float $max_random = PHP_FLOAT_MAX): array
     {
+        return self::getStringMinOrMax("max", $max_random);
+    }
+
+    protected static function getStringMin(float $max_random = PHP_FLOAT_MAX): array
+    {
+        return self::getStringMinOrMax("min", $max_random);
+    }
+
+    protected static function getStringMinOrMax(string $min_or_max, float $max_random = PHP_FLOAT_MAX): array
+    {
+        if ($min_or_max != "min" && $min_or_max != "max") $min_or_max = "max";
         $count = self::positiveRandomInteger(2, 5);
         for ($i = 0; $i <= $count - 1; $i ++) {
-            $vars[$i] = self::randomFloat(max: $max);
+            $vars[$i] = self::randomFloat(max: $max_random);
         }
-        $max = self::string(max($vars));
+        $result = self::string($min_or_max($vars));
         foreach ($vars as $index => $var) {
             $vars[$index] = self::string($var);
         }
         return [
             $vars,
-            $max
+            $result
         ];
     }
 
@@ -644,15 +677,27 @@ trait WithDataProviders
         ];
     }
 
-    protected static function getBcMathNumberMax(float $max = PHP_FLOAT_MAX): array
+    protected static function getBcMathNumberMax(float $max_random = PHP_FLOAT_MAX): array
     {
-        [$vars, $max] = self::getStringMax($max);
+        [$vars, $max] = self::getStringMax($max_random);
         foreach ($vars as $index => $var) {
             $vars[$index] = new BcMathNumber($var);
         }
         return [
             $vars,
             new BcMathNumber($max)
+        ];
+    }
+
+    protected static function getBcMathNumberMin(float $max_random = PHP_FLOAT_MAX): array
+    {
+        [$vars, $min] = self::getStringMin($max_random);
+        foreach ($vars as $index => $var) {
+            $vars[$index] = new BcMathNumber($var);
+        }
+        return [
+            $vars,
+            new BcMathNumber($min)
         ];
     }
 
@@ -791,9 +836,9 @@ trait WithDataProviders
         ];
     }
 
-    protected static function getBcMathExtendedNumberMax(float $max = PHP_FLOAT_MAX): array
+    protected static function getBcMathExtendedNumberMax(float $max_random = PHP_FLOAT_MAX): array
     {
-        [$vars, $max] = self::getBcMathNumberMax($max);
+        [$vars, $max] = self::getBcMathNumberMax($max_random);
         foreach ($vars as $index => $var) {
             $vars[$index] = new Number($var);
         }
@@ -803,6 +848,20 @@ trait WithDataProviders
             $max
         ];
     }
+
+    protected static function getBcMathExtendedNumberMin(float $max_random = PHP_FLOAT_MAX): array
+    {
+        [$vars, $min] = self::getBcMathNumberMin($max_random);
+        foreach ($vars as $index => $var) {
+            $vars[$index] = new Number($var);
+        }
+        $min = new Number($min);
+        return [
+            $vars,
+            $min
+        ];
+    }
+
 
     /**
      * Format a $number to a numeric string.
