@@ -105,7 +105,7 @@ trait WithFaker
     }
 
     /**
-     * Alias of randomFloat() method.
+     * Return a positive random float.
      */
     protected static function positiveRandomFloat(float $min = 0, float $max = PHP_FLOAT_MAX): float
     {
@@ -113,11 +113,33 @@ trait WithFaker
     }
 
     /**
+     * Return a positve non zero random float.
+     */
+    protected static function positiveNonZeroRandomFloat(float $min = 0, float $max = PHP_FLOAT_MAX): float
+    {
+        do {
+            $number = self::positiveRandomFloat($min, $max);
+        } while ($number == 0);
+        return $number;
+    }
+
+    /**
      * Return a negative random float.
      */
     protected static function negativeRandomFloat(float $min = 0, float $max = PHP_FLOAT_MAX): float
     {
-        return -1 * self::randomFloat($min, $max);
+        return -self::randomFloat($min, $max);
+    }
+
+    /**
+     * Return a negative non zero random float.
+     */
+    protected static function negativeNonZeroRandomFloat(float $min = 0, float $max = PHP_FLOAT_MAX): float
+    {
+        do {
+            $number = self::negativeRandomFloat($min, $max);
+        } while ($number == 0);
+        return $number;
     }
 
     /**

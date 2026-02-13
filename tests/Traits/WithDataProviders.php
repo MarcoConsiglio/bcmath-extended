@@ -126,6 +126,17 @@ trait WithDataProviders
     //         'BcMathExtended\\Number logarithm' => self::getBcMathExtendedNumberLog(self::MAX)
     //     ];
     // }
+
+    public static function rounding(): array
+    {
+        self::setUpFaker();
+        return [
+            'Integer rounding' => self::getIntegerRounding(),
+            'String rounding' => self::getStringRounding(self::MAX),
+            'BcMath\\Number rounding' => self::getBcMathNumberRounding(self::MAX),
+            'BcMathExtended\\Number rounding' => self::getBCMathExtendedNumberRounding(self::MAX)
+        ];
+    }
     protected static function getIntegerAddends(): array
     {
         return [
@@ -227,6 +238,19 @@ trait WithDataProviders
     //         round(log($arg, $base), 13, RoundingMode::HalfTowardsZero)
     //     ];
     // }
+
+    protected static function getIntegerRounding(): array
+    {
+        $number = self::randomInteger();
+        $digits = self::countIntDigits($number);
+        $precision = self::positiveRandomInteger(max: $digits - 1);
+        $rounded = new BcMathNumber($number)->round($precision, RoundingMode::HalfTowardsZero);
+        return [
+            $number,
+            $precision,
+            $rounded
+        ];
+    }
     protected static function getStringAddends(float $max = PHP_FLOAT_MAX): array
     {
         return [
@@ -345,6 +369,31 @@ trait WithDataProviders
     //         self::string($log)
     //     ];
     // }
+
+    protected static function getStringRounding(float $max = PHP_FLOAT_MAX): array
+    {
+        $number = self::string($float_number = self::randomFloat(max: $max));
+        $decimal_digits = self::countDecimalPlaces($float_number);
+        $integer_digits = self::countIntDigits(intval($float_number));
+        if ($decimal_digits == 0) {
+            $precision = self::$faker->randomElement([
+                0, self::negativeRandomInteger(max: $integer_digits)
+            ]);
+        } else {
+            $precision = self::$faker->randomElement([
+                self::positiveRandomInteger(min: 1, max: $decimal_digits),
+                self::$faker->randomElement([
+                    0, self::negativeRandomInteger(max: self::countIntDigits(intval($float_number)))
+                ])
+            ]);
+        }
+        $rounded = new BcMathNumber($number)->round($precision, RoundingMode::HalfTowardsZero);
+        return [
+            $number,
+            $precision,
+            $rounded
+        ];
+    }
     protected static function getBcMathNumberAddends(float $max = PHP_FLOAT_MAX): array
     {
         [$a, $b, $sum] = self::getStringAddends($max);
@@ -445,6 +494,16 @@ trait WithDataProviders
     //         new BcMathNumber($log),
     //     ];
     // }
+
+    protected static function getBcMathNumberRounding(float $max = PHP_FLOAT_MAX): array
+    {
+        [$n, $p, $rnd] = self::getStringRounding($max);
+        return [
+            new BcMathNumber($n),
+            $p, // Precision must be integer!
+            new BcMathNumber($rnd),
+        ];
+    }
     protected static function getBcMathExtendedNumberAddends(float $max = PHP_FLOAT_MAX): array
     {
         [$a, $b, $sum] = self::getBcMathNumberAddends($max);
@@ -545,28 +604,72 @@ trait WithDataProviders
     //         new Number($log),
     //     ];
     // }
+
+    protected static function getBCMathExtendedNumberRounding(float $max = PHP_FLOAT_MAX): array
+    {
+        [$n, $p, $rnd] = self::getBcMathNumberRounding($max);
+        return [
+            new Number($n),
+            $p, // Precision must be integer!
+            new Number($rnd)
+        ];
+    }
+    /**
+     * Format a $number to a numeric string.
+     */
+    protected static function string(int|float|string $number): string
+    {
+        if (self::isFloatString($number)) return self::trimTrailingZeros($number);
+        else if (self::isIntString($number)) return $number;    
+        if (is_int($number)) return self::formatInteger($number);
+        return self::formatFloat($number);
     }
 
+    /**
+     * Return true if $number is a decimal numeric string, false otherwise.
+     */
+    private static function isFloatString(mixed $number): bool
+    {
+        return is_string($number) && strpos($number, '.');
+    }
+
+    /**
+     * Return true if $number is an integer numeric string, false otherwise.
+     */
+    private static function isIntString(mixed $number): bool
+    {
+        return is_string($number) && ! strpos($number, '.');
+    }
+
+    /**
+     * Remove trailing zeros from a numeric string.
+     */
     protected static function trimTrailingZeros(string $number): string
     {
         return rtrim($number, "0");
     }
 
-    protected static function formatInteger(float $number): string
+    /**
+     * Format an integer $number to string.
+     */
+    protected static function formatInteger(int $number): string
     {
-        return number_format($number, 0, '', '');
+        return sprintf("%d", $number);
     }
 
-    protected static function formatNumber(int|float $number, int $decimal_places): string
+    /**
+     * Format a float $number to string, also removing unneeded trailing zeros.
+     */
+    protected static function formatFloat(float $number): string
     {
-        if (is_int($number)) return self::formatInteger($number);
+        $decimal_places = self::countDecimalPlaces($number);
         return self::trimTrailingZeros(
             number_format($number, $decimal_places, thousands_separator: '')
         );
     }
 
     /**
-     * Count the decimal digits of a decimal number.
+     * Count the decimal digits of a decimal $number.
      */
     public static function countDecimalPlaces(float $number): int
     {
@@ -574,6 +677,19 @@ trait WithDataProviders
         return $decimal_digits;
     }
 
+    /**
+     * Count the digits of an integer $number.
+     */
+    public static function countIntDigits(int $number): int
+    {
+        if (abs($number) == 0) return 1;
+        if (abs($number) == 1) return 1;
+        return intval(log(abs($number), 10) + 1);
+    }
+
+    /**
+     * Count the decimal digits of a $number string.
+     */
     public static function countStringDecimalPlaces(string $number): int
     {
         return strlen(substr(strrchr($number, "."), 1));

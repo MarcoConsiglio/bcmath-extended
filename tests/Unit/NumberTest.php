@@ -11,6 +11,9 @@ use PHPUnit\Framework\Attributes\TestDox;
 
 #[TestDox("The BcMathExtended\\Number class")]
 #[CoversClass(Number::class)]   
+// #[UsesClass(InfiniteError::class)]
+// #[UsesClass(NotANumberError::class)]
+// #[UsesClass(IndeterminateFormError::class)]
 class NumberTest extends BaseTestCase
 {
     #[TestDox('extends the BcMath\\Number class through composition.')]
@@ -262,6 +265,20 @@ class NumberTest extends BaseTestCase
     //     // Act
     //     (new Number($arg))->log($base);       
     // }
+
+    #[DataProvider("rounding")]
+    #[TestDox("can round its value to a specified precision.")]
+    public function test_round(mixed $num, int $prec, mixed $rnd): void
+    {
+        // Arrange
+        $NUM = $this->instantiateNumber($num);
+
+        // Act
+        $RND = self::string($NUM->round($prec)->getParent()->value);
+
+        // Assert
+        $this->assertEquals($rnd, $RND, "round($NUM, $prec) = $RND");
+    }
 
     protected function instantiateNumber(mixed $number): Number
     {
