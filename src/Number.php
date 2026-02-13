@@ -228,6 +228,94 @@ class Number implements Stringable
         return $this->squareRoot($scale);
     }
 
+    // /**
+    //  * Perform the logarithm of this instance in base $base.
+    //  * 
+    //  * @param int|null $scale If set to null the value will be $this->getParent()->scale.
+    //  */
+    // public function log(int|string|BCMathNumber|Number $base, int|null $scale = null): Number
+    // {
+    //     $base = $this->normalizeToParent($base);
+    //     $this->checkNotANumber($base);
+    //     $this->checkIndeterminateForm($base);
+    //     $this->checkInfinite($base);
+    //     $result = log((float) $this->number->value, (float) $base->value);
+    //     if ($scale == null) $scale = $this->number->scale;
+    //     return new Number(sprintf("%.{$scale}f", $result));
+    // }
+
+    // /**
+    //  * Check if the result of the logarithm operation is not a number.
+    //  */
+    // protected function checkNotANumber(BCMathNumber $base): void
+    // {
+    //     if ($this->isNegativeNumber($this->number)) throw throw new NotANumberError("log($this->number, $base)");
+    //     if ($this->isArgOneAndBaseNotOne($this->number, $base)) throw new NotANumberError("log($this->number, $base)");
+    // }
+
+    // /**
+    //  * Check if the logarithm operation is an indeterminate form.
+    //  */
+    // protected function checkIndeterminateForm(BCMathNumber $base): void
+    // {
+    //     if ($this->isNegativeNumber($base)) throw new IndeterminateFormError("log($this->number, $base)");
+    //     if ($this->isArgumentAndBaseEqualZero($this->number, $base)) throw new IndeterminateFormError("log($this->number, $base)");
+    //     if ($this->isArgOneAndBaseOne($this->number, $base)) throw new IndeterminateFormError("log($this->number, $base)");
+    // }
+
+    // /**
+    //  * Check if the result of the logarithm operation is infinite.
+    //  */
+    // protected function checkInfinite(BCMathNumber $base): void
+    // {
+    //     if ($this->isArgZeroAndBaseNotZero($this->number, $base)) throw new InfiniteError("log($this->number, $base)");
+    // }
+
+    // private function isArgOneAndBaseOne(BCMathNumber $argument, BCMathNumber $base): bool
+    // {
+    //     return $this->isOne($argument) && $this->isOne($base);
+    // }
+
+    // private function isArgOneAndBaseNotOne(BCMathNumber $argument, BCMathNumber $base): bool
+    // {
+    //     return $this->isOne($argument) && $this->isNotOne($base);
+    // }
+
+    // private function isArgZeroAndBaseNotZero(BCMathNumber $argument, BCMathNumber $base): bool
+    // {
+    //     return $this->isZero($argument) && $this->isNotZero($base);
+    // }
+
+    // private function isOne(BCMathNumber $number): bool
+    // {
+    //     return $number == 1;
+    // }
+
+    // private function isZero(BCMathNumber $number): bool
+    // {
+    //     return $number == 0;
+    // }
+
+    // private function isNotOne(BCMathNumber $number): bool
+    // {
+    //     return $number != 1;
+    // }
+
+    // private function isNotZero(BCMathNumber $number): bool
+    // {
+    //     return $number != 0;
+    // }
+
+    // private function isNegativeNumber(BCMathNumber $base): bool
+    // {
+    //     return $base < 0;
+    // }
+
+    // private function isArgumentAndBaseEqualZero(BCMathNumber $argument, BCMathNumber $base): bool
+    // {
+    //     return $argument == 0 && $base == 0;
+    // }
+
     /**
      * Round this instance to $precision digits.
      * 

@@ -116,6 +116,16 @@ trait WithDataProviders
         ];
     }
 
+    // public static function logarithm(): array
+    // {
+    //     self::setUpFaker();
+    //     return [
+    //         'Integer logarithm' => self::getIntegerLog(),
+    //         'String logarithm' => self::getStringLog(self::MAX),
+    //         'BcMath\\Number logarithm' => self::getBcMathNumberLog(self::MAX),
+    //         'BcMathExtended\\Number logarithm' => self::getBcMathExtendedNumberLog(self::MAX)
+    //     ];
+    // }
     protected static function getIntegerAddends(): array
     {
         return [
@@ -208,6 +218,15 @@ trait WithDataProviders
         ];
     }
 
+    // protected static function getIntegerLog(): array
+    // {
+    //     $base = self::positiveNonZeroRandomInteger(min: 2);
+    //     return [
+    //         $arg = self::positiveRandomInteger(min: intval($base ** -PHP_INT_MAX), max: intval($base ** PHP_INT_MAX)),
+    //         $base,
+    //         round(log($arg, $base), 13, RoundingMode::HalfTowardsZero)
+    //     ];
+    // }
     protected static function getStringAddends(float $max = PHP_FLOAT_MAX): array
     {
         return [
@@ -312,6 +331,20 @@ trait WithDataProviders
         ];
     }
 
+    // protected static function getStringLog(float $max = PHP_FLOAT_MAX): array
+    // {
+    //     $base = round(self::positiveRandomFloat(max: $max), 13, RoundingMode::HalfTowardsZero);
+    //     $arg = 
+    //         $base > 1 ?
+    //         self::positiveRandomFloat(max: $base ** log($max, $base)):
+    //         self::positiveRandomFloat(min: $base ** log($max, $base), max: $max);
+    //     $log = round(log($arg, $base), 13, RoundingMode::HalfTowardsZero);
+    //     return [
+    //         self::string($arg),
+    //         self::string($base),
+    //         self::string($log)
+    //     ];
+    // }
     protected static function getBcMathNumberAddends(float $max = PHP_FLOAT_MAX): array
     {
         [$a, $b, $sum] = self::getStringAddends($max);
@@ -403,6 +436,15 @@ trait WithDataProviders
         ];       
     }
 
+    // protected static function getBcMathNumberLog(float $max = PHP_FLOAT_MAX): array
+    // {
+    //     [$arg, $base, $log] = self::getStringLog($max);
+    //     return [
+    //         new BcMathNumber($arg),
+    //         new BcMathNumber($base),
+    //         new BcMathNumber($log),
+    //     ];
+    // }
     protected static function getBcMathExtendedNumberAddends(float $max = PHP_FLOAT_MAX): array
     {
         [$a, $b, $sum] = self::getBcMathNumberAddends($max);
@@ -494,13 +536,15 @@ trait WithDataProviders
         ];       
     }
 
-    protected static function string(float|string $number): string
-    {
-        if (is_string($number) && strpos($number, '.')) return self::trimTrailingZeros($number);
-        else if (is_string($number)) return $number;    
-        $decimal_places = self::countDecimalPlaces($number);
-        if ($decimal_places == 0) return self::formatInteger($number);
-        return self::formatNumber($number, $decimal_places);
+    // protected static function getBcMathExtendedNumberLog(float $max = PHP_FLOAT_MAX): array
+    // {
+    //     [$arg, $base, $log] = self::getBcMathNumberLog($max);
+    //     return [
+    //         new Number($arg),
+    //         new Number($base),
+    //         new Number($log),
+    //     ];
+    // }
     }
 
     protected static function trimTrailingZeros(string $number): string

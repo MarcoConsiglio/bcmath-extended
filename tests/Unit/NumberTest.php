@@ -171,6 +171,98 @@ class NumberTest extends BaseTestCase
         $this->assertEquals($sqrt, $SQRT, "sqrt($n) = $SQRT");
     }
 
+    // #[DataProvider("logarithm")]
+    // #[TestDox("can calculate the logarithm of itself with a specified base.")]
+    // public function test_logarithm(mixed $arg, mixed $base, mixed $log): void
+    // {
+    //     // Arrange
+    //     $ARG = $this->instantiateNumber($arg);
+
+    //     // Act
+    //     $LOG = self::string($ARG->log($base, 13)->getParent()->value);
+
+    //     // Assert
+    //     $this->assertEquals($log, $LOG, "log($arg, $base) = $LOG");
+    // }
+
+    // public function test_logarithm_negative_argument_error(): void
+    // {
+    //     // Act
+    //     $arg = $this->negativeNonZeroRandomInteger();
+    //     $base = $this->positiveRandomInteger();
+
+    //     // Assert
+    //     $this->expectException(NotANumberError::class);
+
+    //     // Act
+    //     (new Number($arg))->log($base);
+    // }
+
+    // public function test_logarithm_negative_base_error(): void
+    // {
+    //     // Act
+    //     $arg = $this->positiveNonZeroRandomInteger(min: 2);
+    //     $base = $this->negativeNonZeroRandomInteger();
+
+    //     // Assert
+    //     $this->expectException(IndeterminateFormError::class);
+
+    //     // Act
+    //     (new Number($arg))->log($base);   
+    // }
+
+    // public function test_logarithm_argument_zero(): void
+    // {
+    //     // Act
+    //     $arg = 0;
+    //     $base = $this->positiveNonZeroRandomInteger(min: 2);
+
+    //     // Assert
+    //     $this->expectException(InfiniteError::class);
+
+    //     // Act
+    //     (new Number($arg))->log($base);   
+    // }
+
+    // public function test_logarithm_argument_and_base_zero(): void
+    // {
+    //     // Act
+    //     $arg = 0;
+    //     $base = 0;
+
+    //     // Assert
+    //     $this->expectException(IndeterminateFormError::class);
+
+    //     // Act
+    //     (new Number($arg))->log($base);          
+    // }
+
+    // public function test_logarithm_argument_one(): void
+    // {
+    //     // Act
+    //     $arg = 1;
+    //     $base = $this->positiveRandomInteger(min: 2);
+
+    //     // Assert
+    //     $this->expectException(NotANumberError::class);
+
+    //     // Act
+    //     (new Number($arg))->log($base);        
+    // }
+
+    // public function test_logarithm_argument_and_base_one(): void
+    // {
+    //     // Act
+    //     $arg = 1;
+    //     $base = 1;
+
+    //     // Assert
+    //     $this->expectException(IndeterminateFormError::class);
+
+    //     // Act
+    //     (new Number($arg))->log($base);       
+    // }
+
     protected function instantiateNumber(mixed $number): Number
     {
         return $number instanceof Number ? $number : new Number($number);
