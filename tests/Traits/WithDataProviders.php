@@ -17,6 +17,12 @@ trait WithDataProviders
      */
     protected const int MAX = 1_000_000;
 
+    /**
+     *  ╔══════════════╗
+     *  ║DATA PROVIDERS║
+     *  ╚══════════════╝
+     */
+
     public static function addition(): array
     {
         self::setUpFaker();
@@ -137,6 +143,28 @@ trait WithDataProviders
             'BcMathExtended\\Number rounding' => self::getBCMathExtendedNumberRounding(self::MAX)
         ];
     }
+
+    public static function floor(): array
+    {
+        self::setUpFaker();
+        return [
+            'Integer floor' => self::getIntegerFloor(),
+            'String floor' => self::getStringFloor(self::MAX),
+            'BcMath\\Number floor' => self::getBcMathNumberFloor(self::MAX),
+            'BcMathExtended\\Number floor' => self::getBcMathExtendedNumberFloor(self::MAX)
+        ];
+    }
+
+    public static function ceil(): array
+    {
+        self::setUpFaker();
+        return [
+            'Integer ceil' => self::getIntegerCeil(),
+            'String ceil' => self::getStringCeil(self::MAX),
+            'BcMath\\Number ceil' => self::getBcMathNumberCeil(self::MAX),
+            'BcMathExtended\\Number ceil' => self::getBcMathExtendedNumberCeil(self::MAX)
+        ];
+    }
     protected static function getIntegerAddends(): array
     {
         return [
@@ -251,6 +279,23 @@ trait WithDataProviders
             $rounded
         ];
     }
+
+    protected static function getIntegerFloor(): array
+    {
+        return [
+            $number = self::randomInteger(),
+            $number
+        ];
+    }
+
+    protected static function getIntegerCeil(): array
+    {
+        return [
+            $number = self::randomInteger(),
+            $number
+        ];
+    }
+
     protected static function getStringAddends(float $max = PHP_FLOAT_MAX): array
     {
         return [
@@ -394,6 +439,22 @@ trait WithDataProviders
             $rounded
         ];
     }
+
+    protected static function getStringFloor(float $max = PHP_FLOAT_MAX): array
+    {
+        return [
+            self::string($number = self::randomFloat(max: $max)),
+            self::string(intval(floor($number)))
+        ];
+    }
+
+    protected static function getStringCeil(float $max = PHP_FLOAT_MAX): array
+    {
+        return [
+            self::string($number = self::randomFloat(max: $max)),
+            self::string(intval(ceil($number)))
+        ];
+    }
     protected static function getBcMathNumberAddends(float $max = PHP_FLOAT_MAX): array
     {
         [$a, $b, $sum] = self::getStringAddends($max);
@@ -504,6 +565,24 @@ trait WithDataProviders
             new BcMathNumber($rnd),
         ];
     }
+
+    protected static function getBcMathNumberFloor(float $max = PHP_FLOAT_MAX): array
+    {
+        [$n, $flr] = self::getStringFloor($max);
+        return [
+            new BcMathNumber($n),
+            new BcMathNumber($flr)
+        ];
+    }
+
+    protected static function getBcMathNumberCeil(float $max = PHP_FLOAT_MAX): array
+    {
+        [$n, $ceil] = self::getStringCeil($max);
+        return [
+            new BcMathNumber($n),
+            new BcMathNumber($ceil)
+        ];
+    }
     protected static function getBcMathExtendedNumberAddends(float $max = PHP_FLOAT_MAX): array
     {
         [$a, $b, $sum] = self::getBcMathNumberAddends($max);
@@ -612,6 +691,24 @@ trait WithDataProviders
             new Number($n),
             $p, // Precision must be integer!
             new Number($rnd)
+        ];
+    }
+
+    protected static function getBcMathExtendedNumberFloor(float $max = PHP_FLOAT_MAX): array
+    {
+        [$n, $flr] = self::getBcMathNumberFloor($max);
+        return [
+            new Number($n),
+            new Number($flr)
+        ];
+    }
+
+    protected static function getBcMathExtendedNumberCeil(float $max = PHP_FLOAT_MAX): array
+    {
+        [$n, $ceil] = self::getBcMathNumberCeil($max);
+        return [
+            new Number($n),
+            new Number($ceil)
         ];
     }
     /**

@@ -280,6 +280,34 @@ class NumberTest extends BaseTestCase
         $this->assertEquals($rnd, $RND, "round($NUM, $prec) = $RND");
     }
 
+    #[DataProvider("floor")]
+    #[TestDox("can return its floor value.")]
+    public function test_floor(mixed $num, mixed $flr): void
+    {
+        // Arrange
+        $NUM = $this->instantiateNumber($num);
+
+        // Act
+        $FLR = self::string($NUM->floor()->getParent()->value);
+
+        // Assert
+        $this->assertEquals($flr, $FLR, "floor($num) = $FLR");
+    }
+
+    #[DataProvider("ceil")]
+    #[TestDox("can return its ceil value.")]
+    public function test_ceil(mixed $num, mixed $ceil): void
+    {
+        // Arrange
+        $NUM = $this->instantiateNumber($num);
+
+        // Act
+        $CEIL = self::string($NUM->ceil()->getParent()->value);
+
+        // Assert
+        $this->assertEquals($ceil, $CEIL, "ceil($num) = $CEIL");
+    }
+
     protected function instantiateNumber(mixed $number): Number
     {
         return $number instanceof Number ? $number : new Number($number);

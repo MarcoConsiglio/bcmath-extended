@@ -392,7 +392,7 @@ class Number implements Stringable
         foreach ($values as $index => $value) {
             $values[$index] = self::normalizeToParent($value);
         }
-        return new Number(max($values));
+        return new Number(max(...$values));
     }
 
     /**
@@ -577,7 +577,7 @@ class Number implements Stringable
         if (self::isChild($number)) return $number->getParent();
         if (is_int($number)) return new BCMathNumber($number);
         if (is_string($number)) return new BCMathNumber($number);  
-        return $number;
+        return $number; // Parent instance.
     }
 
     /**
