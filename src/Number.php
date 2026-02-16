@@ -350,14 +350,6 @@ class Number implements Stringable
     }
 
     /**
-     * Return true if $number is a float number.
-     */
-    protected static function isFloat(int|string|BCMathNumber|Number $number): bool
-    {
-        return str_contains((string) $number, '.');
-    }
-
-    /**
      * Return the greatest number in $values.
      */
     public static function max(mixed ...$values): Number
@@ -373,24 +365,6 @@ class Number implements Stringable
     {
         $values = self::normalizeArrayToParent($values);
         return new Number(min($values));
-    }
-
-    /**
-     * Return true if $number is positive, false otherwise.
-     */
-    protected static function isNegative(int|string|BCMathNumber|Number $number): bool
-    {
-        $number = self::normalizeToParent($number);
-        return $number < 0;
-    }
-
-    /**
-     * Return true if $number is negative, false otherwise.
-     */
-    protected static function isPositive(int|string|BCMathNumber|Number $number): bool
-    {
-        $number = self::normalizeToParent($number);
-        return $number >= 0;
     }
 
     /**
@@ -432,6 +406,40 @@ class Number implements Stringable
             return new Number($number);
         }
         else return new Number($number);
+    }
+
+    /**
+     * Return true if $number is positive, false otherwise.
+     */
+    public static function isNegative(int|string|BCMathNumber|Number $number): bool
+    {
+        $number = self::normalizeToParent($number);
+        return $number < 0;
+    }
+
+    /**
+     * Return true if $number is negative, false otherwise.
+     */
+    protected static function isPositive(int|string|BCMathNumber|Number $number): bool
+    {
+        $number = self::normalizeToParent($number);
+        return $number >= 0;
+    }
+
+    /**
+     * Return true if $this number is a decimal number, false otherwise.
+     */
+    public function isFloat(): bool
+    {
+        return str_contains((string) $this->number->value, '.');
+    }
+
+    /**
+     * Return true if $this number is a integer number, false otherwise.
+     */
+    public function isInt(): bool
+    {
+        return ! str_contains((string) $this->number->value, '.');
     }
 
     /**

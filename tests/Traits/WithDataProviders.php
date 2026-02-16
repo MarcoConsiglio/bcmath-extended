@@ -188,6 +188,16 @@ trait WithDataProviders
         ];
     }
 
+    public static function floats(): array
+    {
+        self::setUpFaker();
+        return [
+            'String float' => self::getStringFloat(self::MAX),
+            'BcMath\\Number float' => self::getBcMathNumberFloat(self::MAX),
+            'BcMathExtended\\Number float' => self::getBcMathExtendedNumberFloat(self::MAX)
+        ];
+    }
+
     /**
      *  ╔═════════════════╗
      *  ║INTEGER DATA SETS║
@@ -542,6 +552,17 @@ trait WithDataProviders
         ];
     }
 
+    protected static function getStringFloat(float $max = PHP_FLOAT_MAX): array
+    {
+        do {
+            $number = self::randomFloat(max: $max);
+        } while ($number == intval($number));
+        return [
+            self::string($number),
+            true
+        ];
+    }
+
     /**
      *  ╔═══════════════════════╗
      *  ║BCMath\Number DATA SETS║
@@ -698,6 +719,15 @@ trait WithDataProviders
         return [
             $vars,
             new BcMathNumber($min)
+        ];
+    }
+
+    protected static function getBcMathNumberFloat(float $max = PHP_FLOAT_MAX): array
+    {
+        [$number, $is_float] = self::getStringFloat($max);
+        return [
+            new BcMathNumber($number),
+            $is_float
         ];
     }
 
@@ -859,6 +889,15 @@ trait WithDataProviders
         return [
             $vars,
             $min
+        ];
+    }
+
+    protected static function getBcMathExtendedNumberFloat(float $max = PHP_FLOAT_MAX): array
+    {
+        [$number, $is_float] = self::getBcMathNumberFloat($max);
+        return [
+            new Number($number),
+            $is_float
         ];
     }
 

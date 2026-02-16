@@ -342,6 +342,30 @@ class NumberTest extends BaseTestCase
         $this->assertEquals($min, $MIN, $this->getMinErrorMessage($nums, $MIN));
     }
 
+    #[DataProvider("floats")]
+    #[TestDox("can check if a number is a decimal.")]
+    public function test_is_float(mixed $num, bool $res): void
+    {
+        // Arrange
+        $NUM = $this->instantiateNumber($num);
+
+        // Act
+        $RES = $NUM->isFloat();
+
+        // Assert
+        $this->assertEquals($res, $RES, "Is $NUM a float? $RES");
+    }
+
+    #[TestDox("can check if a number is not a decimal.")]
+    public function test_is_not_float(): void
+    {
+        // Arrange
+        $number = $this->instantiateNumber($this->randomInteger());
+
+        // Act & Assert
+        $this->assertFalse($number->isFloat(), "Is $number a float?");
+    }
+
     /**
      * Instantiate a BcMathExtended\Number class from an int, string or
      * BcMath\Number instance, is is not already a BcMathExtended\Number
@@ -368,16 +392,25 @@ class NumberTest extends BaseTestCase
         return $numbers;
     }
 
+    /**
+     * Return an error message for the operation max($vars) = $max.
+     */
     protected function getMaxErrorMessage(mixed $vars, mixed $max): string
     {
         return $this->getMinOrMaxErrorMessage("max", $vars, $max);
     }
 
+    /**
+     * Return an error message for the operation min($vars) = $min.
+     */   
     protected function getMinErrorMessage(mixed $vars, mixed $min): string
     {
         return $this->getMinOrMaxErrorMessage("min", $vars, $min);
     }
 
+    /**
+     * Return an error message for the operation max or min.
+     */
     private function getMinOrMaxErrorMessage(string $min_or_max, mixed $vars, mixed $result): string
     {
         if ($min_or_max != "min" && $min_or_max != "max") $min_or_max = "max";
