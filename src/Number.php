@@ -431,7 +431,7 @@ class Number implements Stringable
      */
     public function isFloat(): bool
     {
-        return str_contains((string) $this->number->value, '.');
+        return str_contains($this->number->value, '.');
     }
 
     /**
@@ -439,7 +439,7 @@ class Number implements Stringable
      */
     public function isInt(): bool
     {
-        return ! str_contains((string) $this->number->value, '.');
+        return ! str_contains($this->number->value, '.');
     }
 
     /**
