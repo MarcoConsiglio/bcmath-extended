@@ -439,7 +439,7 @@ class Number implements Stringable
      */
     public function isInt(): bool
     {
-        return ! str_contains($this->number->value, '.');
+        return ! $this->isFloat();
     }
 
     /**

@@ -349,11 +349,8 @@ class NumberTest extends BaseTestCase
         // Arrange
         $NUM = $this->instantiateNumber($num);
 
-        // Act
-        $RES = $NUM->isFloat();
-
-        // Assert
-        $this->assertEquals($res, $RES, "Is $NUM a float? $RES");
+        // Act & Assert
+        $this->assertTrue($NUM->isFloat(), "Is $NUM a float? $RES");
     }
 
     #[TestDox("can check if a number is not a decimal.")]
@@ -363,7 +360,28 @@ class NumberTest extends BaseTestCase
         $number = $this->instantiateNumber($this->randomInteger());
 
         // Act & Assert
-        $this->assertFalse($number->isFloat(), "Is $number a float?");
+        $this->assertFalse($res = $number->isFloat(), "Is $number a float? $res");
+    }
+
+    #[TestDox("can check if a number is an integer.")]
+    public function test_is_int(): void
+    {
+        // Arrange
+        $number = $this->instantiateNumber($this->randomInteger());
+
+        // Act & Assert
+        $this->assertTrue($res = $number->isInt(), "Is $number a int? $res");
+    }
+
+    #[TestDox("can check if a number is not an integer.")]
+    public function test_is_not_int(): void
+    {
+        // Arrange
+        $float_number = $this->randomFloatStrict(max: $this::MAX);
+        $number = $this->instantiateNumber($this->string($float_number));
+
+        // Act & Assert
+        $this->assertFalse($res = $number->isInt(), "Is $number a int? $res");       
     }
 
     /**
