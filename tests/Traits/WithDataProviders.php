@@ -554,11 +554,8 @@ trait WithDataProviders
 
     protected static function getStringFloat(float $max = PHP_FLOAT_MAX): array
     {
-        do {
-            $number = self::randomFloat(max: $max);
-        } while ($number == intval($number));
         return [
-            self::string($number),
+            self::string(self::randomFloatStrict(max: $max)),
             true
         ];
     }

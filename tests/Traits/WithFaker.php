@@ -105,6 +105,20 @@ trait WithFaker
     }
 
     /**
+     * Return a random relative float that is not an integer, i.e. 3.0.
+     * 
+     * @param float $max Warning! Using this method with a big number in $max parameter result
+     * in endless cycle.
+     */
+    protected static function randomFloatStrict(float $min = 0, float $max = PHP_FLOAT_MAX): float
+    {
+        do {
+            $number = self::randomFloat($min, $max);
+        } while ($number == intval($number));
+        return $number;
+    }
+
+    /**
      * Return a positive random float.
      */
     protected static function positiveRandomFloat(float $min = 0, float $max = PHP_FLOAT_MAX): float
