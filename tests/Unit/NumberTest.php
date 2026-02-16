@@ -49,7 +49,7 @@ class NumberTest extends BaseTestCase
         $B = $this->instantiateNumber($b);
 
         // Act
-        $SUM = self::string($A->plus($B)->getParent()->value);
+        $SUM = $this->string($A->plus($B)->getParent()->value);
 
         // Assert
         $this->assertEquals($sum, $SUM, "$a + $b = $SUM");
@@ -64,7 +64,7 @@ class NumberTest extends BaseTestCase
         $B = $this->instantiateNumber($b);
 
         // Act
-        $DIFF = self::string($A->sub($B)->getParent()->value);
+        $DIFF = $this->string($A->sub($B)->getParent()->value);
 
         // Assert
         $this->assertEquals($diff, $DIFF, "$a - $b = $DIFF");
@@ -79,7 +79,7 @@ class NumberTest extends BaseTestCase
         $B = $this->instantiateNumber($b);
 
         // Act
-        $PROD = self::string($A->mul($B)->getParent()->value);
+        $PROD = $this->string($A->mul($B)->getParent()->value);
 
         // Assert
         $this->assertEquals($prod, $PROD, "$a * $b = $PROD");
@@ -94,7 +94,7 @@ class NumberTest extends BaseTestCase
         $B = $this->instantiateNumber($b);
 
         // Act
-        $QUOT = self::string($A->div($B)->getParent()->value);
+        $QUOT = $this->string($A->div($B)->getParent()->value);
 
         // Assert
         $this->assertEquals($quot, $QUOT, "$a / $b = $QUOT");
@@ -109,7 +109,7 @@ class NumberTest extends BaseTestCase
         $B = $this->instantiateNumber($b);
 
         // Act
-        $REM = self::string($A->mod($B)->getParent()->value);
+        $REM = $this->string($A->mod($B)->getParent()->value);
 
         // Assert
         $this->assertEquals($rem, $REM, "$a mod $b = $REM");
@@ -125,8 +125,8 @@ class NumberTest extends BaseTestCase
 
         // Act
         [$QUOT, $REM] = $A->divmod($B);
-        $QUOT = self::string($QUOT->getParent()->value);
-        $REM = self::string($REM->getParent()->value);
+        $QUOT = $this->string($QUOT->getParent()->value);
+        $REM = $this->string($REM->getParent()->value);
 
         // Assert
         $this->assertEquals($quot, $QUOT, "floor($a / $b) = $QUOT");
@@ -142,7 +142,7 @@ class NumberTest extends BaseTestCase
         $E = $this->instantiateNumber($e);
 
         // Act
-        $POW = self::string($B->pow($E)->getParent()->value);
+        $POW = $this->string($B->pow($E)->getParent()->value);
 
         // Assert
         $this->assertEquals($pow, $POW, "$b ^ $e = $POW");
@@ -158,7 +158,7 @@ class NumberTest extends BaseTestCase
         $M = $this->instantiateNumber($m);
         
         // Act
-        $POWMOD = self::string($B->powmod($E, $M)->getParent()->value);
+        $POWMOD = $this->string($B->powmod($E, $M)->getParent()->value);
 
         // Assert
         $this->assertEquals($pow_mod, $POWMOD, "($b ^ $e) mod $m = $POWMOD");
@@ -172,7 +172,7 @@ class NumberTest extends BaseTestCase
         $N = $this->instantiateNumber($n);
 
         // Act
-        $SQRT = self::string($N->sqrt()->getParent()->value);
+        $SQRT = $this->string($N->sqrt()->getParent()->value);
 
         // Assert
         $this->assertEquals($sqrt, $SQRT, "sqrt($n) = $SQRT");
@@ -186,7 +186,7 @@ class NumberTest extends BaseTestCase
     //     $ARG = $this->instantiateNumber($arg);
 
     //     // Act
-    //     $LOG = self::string($ARG->log($base, 13)->getParent()->value);
+    //     $LOG = $this->string($ARG->log($base, 13)->getParent()->value);
 
     //     // Assert
     //     $this->assertEquals($log, $LOG, "log($arg, $base) = $LOG");
@@ -278,7 +278,7 @@ class NumberTest extends BaseTestCase
         $NUM = $this->instantiateNumber($num);
 
         // Act
-        $RND = self::string($NUM->round($prec)->getParent()->value);
+        $RND = $this->string($NUM->round($prec)->getParent()->value);
 
         // Assert
         $this->assertEquals($rnd, $RND, "round($NUM, $prec) = $RND");
@@ -292,7 +292,7 @@ class NumberTest extends BaseTestCase
         $NUM = $this->instantiateNumber($num);
 
         // Act
-        $FLR = self::string($NUM->floor()->getParent()->value);
+        $FLR = $this->string($NUM->floor()->getParent()->value);
 
         // Assert
         $this->assertEquals($flr, $FLR, "floor($num) = $FLR");
@@ -306,7 +306,7 @@ class NumberTest extends BaseTestCase
         $NUM = $this->instantiateNumber($num);
 
         // Act
-        $CEIL = self::string($NUM->ceil()->getParent()->value);
+        $CEIL = $this->string($NUM->ceil()->getParent()->value);
 
         // Assert
         $this->assertEquals($ceil, $CEIL, "ceil($num) = $CEIL");
@@ -322,7 +322,7 @@ class NumberTest extends BaseTestCase
         }
 
         // Act
-        $MAX = self::string(Number::max(...$NUMS)->getParent()->value);
+        $MAX = $this->string(Number::max(...$NUMS)->getParent()->value);
 
         // Assert
         $this->assertEquals($max, $MAX, $this->getMaxErrorMessage($nums, $MAX));
@@ -336,7 +336,7 @@ class NumberTest extends BaseTestCase
         // $NUMS = $this->instantiateNumbers($nums);
 
         // Act
-        $MIN = self::string(Number::min(...$nums)->getParent()->value);
+        $MIN = $this->string(Number::min(...$nums)->getParent()->value);
 
         // Assert
         $this->assertEquals($min, $MIN, $this->getMinErrorMessage($nums, $MIN));
