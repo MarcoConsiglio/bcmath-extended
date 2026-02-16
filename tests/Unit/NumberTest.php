@@ -344,13 +344,13 @@ class NumberTest extends BaseTestCase
 
     #[DataProvider("floats")]
     #[TestDox("can check if a number is a decimal.")]
-    public function test_is_float(mixed $num, bool $res): void
+    public function test_is_float(mixed $num): void
     {
         // Arrange
         $NUM = $this->instantiateNumber($num);
 
         // Act & Assert
-        $this->assertTrue($NUM->isFloat(), "Is $NUM a float? $RES");
+        $this->assertTrue($res = $NUM->isFloat(), "Is $NUM a float? $res");
     }
 
     #[TestDox("can check if a number is not a decimal.")]

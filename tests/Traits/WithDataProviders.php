@@ -555,8 +555,7 @@ trait WithDataProviders
     protected static function getStringFloat(float $max = PHP_FLOAT_MAX): array
     {
         return [
-            self::string(self::randomFloatStrict(max: $max)),
-            true
+            self::string(self::randomFloatStrict(max: $max))
         ];
     }
 
@@ -721,10 +720,9 @@ trait WithDataProviders
 
     protected static function getBcMathNumberFloat(float $max = PHP_FLOAT_MAX): array
     {
-        [$number, $is_float] = self::getStringFloat($max);
+        [$number] = self::getStringFloat(max: $max);
         return [
-            new BcMathNumber($number),
-            $is_float
+            new BcMathNumber($number)
         ];
     }
 
@@ -891,10 +889,9 @@ trait WithDataProviders
 
     protected static function getBcMathExtendedNumberFloat(float $max = PHP_FLOAT_MAX): array
     {
-        [$number, $is_float] = self::getBcMathNumberFloat($max);
+        [$number] = self::getBcMathNumberFloat($max);
         return [
-            new Number($number),
-            $is_float
+            new Number($number)
         ];
     }
 
