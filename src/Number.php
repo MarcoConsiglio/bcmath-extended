@@ -8,8 +8,8 @@ use RoundingMode;
 use Stringable;
 use ValueError;
 use BcMath\Number as BCMathNumber;
-use MarcoConsiglio\BCMathExtended\Exceptions\IndeterminateFormError;
-use MarcoConsiglio\BCMathExtended\Exceptions\InfiniteError;
+// use MarcoConsiglio\BCMathExtended\Exceptions\IndeterminateFormError;
+// use MarcoConsiglio\BCMathExtended\Exceptions\InfiniteError;
 use MarcoConsiglio\BCMathExtended\Exceptions\NotANumberError;
 
 class Number implements Stringable
@@ -368,31 +368,32 @@ class Number implements Stringable
     }
 
     /**
-     * Return the factorial of $number.
+     * Return the factorial of $this number.
+     * 
+     * @throws NotANumber if $this->number is a decimal number or a negative number.
      */
-    public static function factorial(int|string|BCMathNumber|Number $number): Number
+    public function factorial(): Number
     {
-        $number = self::normalizeToParent($number);
-        if (! is_int((int) $number)) throw new NotANumberError("$number!");
-        if ($number < 0) throw new NotANumberError("$number!");
-        return new Number(self::f((int) $number->value));
+        if ($this->isFloat()) throw new NotANumberError("$this->number!");
+        if ($this->number < 0) throw new NotANumberError("$this->number!");
+        return new Number($this->f((int) $this->number->value));
     }
 
     /**
      * Alias of factorial() method.
      */
-    public static function fact(int|string|BCMathNumber|Number $number): Number
+    public function fact(): Number
     {
-        return self::factorial($number);
+        return $this->factorial();
     }
 
     /**
      * Recursive alogorithm that calcs the factorial of $n.
      */
-    private static function f(int $n): int 
+    private function f(int $n): int 
     {
         if ($n == 0) return 1;
-        return $n * self::f($n - 1);
+        return $n * $this->f($n - 1);
     }
 
     /**

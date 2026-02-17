@@ -1,6 +1,7 @@
 <?php
 namespace MarcoConsiglio\BCMathExtended\Tests\Traits;
 
+use ArithmeticError;
 use BcMath\Number as BcMathNumber;
 use MarcoConsiglio\BCMathExtended\Number;
 use MarcoConsiglio\BCMathExtended\Tests\Divisors;
@@ -188,6 +189,18 @@ trait WithDataProviders
         ];
     }
 
+    public static function factorials(): array
+    {
+        self::setUpFaker();
+        $max = 20;
+        return [
+            'Integer factorial' => self::getIntegerFactorial($max),
+            'String factorial' => self::getStringFactorial($max),
+            'BcMath\\Number factorial' => self::getBcMathNumberFactorial($max),
+            'BcMathExtended\\Number factorial' => self::getBcMathExtendedNumberFactorial($max)
+        ];   
+    }
+
     public static function floats(): array
     {
         self::setUpFaker();
@@ -357,6 +370,16 @@ trait WithDataProviders
             $vars,
             $result
         ];        
+    }
+
+    protected static function getIntegerFactorial(int $max = 20): array
+    {
+        $n = self::positiveRandomInteger(max: $max);
+        $factorial = self::factorial($n);
+        return [
+            $n,
+            $factorial
+        ];
     }
 
     /**
@@ -552,12 +575,22 @@ trait WithDataProviders
         ];
     }
 
+    protected static function getStringFactorial(int $max = 20): array
+    {
+        [$n, $fact] = self::getIntegerFactorial($max);
+        return [
+            self::string($n),
+            self::string($fact),
+        ];
+    }
+
     protected static function getStringFloat(float $max = PHP_FLOAT_MAX): array
     {
         return [
             self::string(self::randomFloatStrict(max: $max))
         ];
     }
+
 
     /**
      *  ╔═══════════════════════╗
@@ -690,7 +723,7 @@ trait WithDataProviders
         [$n, $ceil] = self::getStringCeil($max);
         return [
             new BcMathNumber($n),
-            new BcMathNumber($ceil)
+            $ceil
         ];
     }
 
@@ -715,6 +748,15 @@ trait WithDataProviders
         return [
             $vars,
             new BcMathNumber($min)
+        ];
+    }
+
+    protected static function getBcMathNumberFactorial(int $max = 20): array
+    {
+        [$n, $fact] = self::getIntegerFactorial($max);
+        return [
+            new BcMathNumber($n),
+            new BcMathNumber($fact)
         ];
     }
 
@@ -857,7 +899,7 @@ trait WithDataProviders
         [$n, $ceil] = self::getBcMathNumberCeil($max);
         return [
             new Number($n),
-            new Number($ceil)
+            $ceil
         ];
     }
 
@@ -887,6 +929,15 @@ trait WithDataProviders
         ];
     }
 
+    protected static function getBcMathExtendedNumberFactorial(int $max = 20): array
+    {
+        [$n, $fact] = self::getIntegerFactorial($max);
+        return [
+            new Number($n),
+            new Number($fact)
+        ];
+    }
+
     protected static function getBcMathExtendedNumberFloat(float $max = PHP_FLOAT_MAX): array
     {
         [$number] = self::getBcMathNumberFloat($max);
@@ -894,7 +945,6 @@ trait WithDataProviders
             new Number($number)
         ];
     }
-
 
     /**
      * Format a $number to a numeric string.
@@ -928,7 +978,10 @@ trait WithDataProviders
      */
     protected static function trimTrailingZeros(string $number): string
     {
-        return preg_replace("/\.?0+$/", "", $number);
+        $decimal_separator = strpos($number, '.');
+        if($decimal_separator === false) { // It is integer number.
+            return $number;
+        } else return rtrim(rtrim($number, '0'), '.'); // It is a decimal number.
     }
 
     /**
@@ -945,7 +998,8 @@ trait WithDataProviders
     protected static function formatFloat(float $number): string
     {
         $decimal_places = self::countDecimalPlaces($number);
-        return number_format($number, $decimal_places, thousands_separator: '');
+        $number = number_format($number, $decimal_places, thousands_separator: '');
+        return self::trimTrailingZeros($number);
     }
 
     /**
@@ -973,5 +1027,18 @@ trait WithDataProviders
     public static function countStringDecimalPlaces(string $number): int
     {
         return strlen(substr(strrchr($number, "."), 1));
+    }
+
+    /**
+     * Return the factorial of $n
+     */
+    protected static function factorial(int $n): int
+    {
+        if ($n < 0) throw new ArithmeticError("Cannot calculate $n!");
+        $result = 1;
+        for ($i = 1; $i <= $n; $i++) {
+            $result *= $i;
+        }
+        return $result;
     }
 }

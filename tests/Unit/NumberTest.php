@@ -4,6 +4,7 @@ namespace MarcoConsiglio\BCMathExtended\Tests\Unit;
 
 use MarcoConsiglio\BCMathExtended\Number;
 use BcMath\Number as BcMathNumber;
+use MarcoConsiglio\BCMathExtended\Exceptions\NotANumberError;
 // use MarcoConsiglio\BCMathExtended\Exceptions\IndeterminateFormError;
 // use MarcoConsiglio\BCMathExtended\Exceptions\InfiniteError;
 // use MarcoConsiglio\BCMathExtended\Exceptions\NotANumberError;
@@ -16,7 +17,7 @@ use PHPUnit\Framework\Attributes\UsesClass;
 #[TestDox("The BcMathExtended\\Number class")]
 #[CoversClass(Number::class)]   
 // #[UsesClass(InfiniteError::class)]
-// #[UsesClass(NotANumberError::class)]
+#[UsesClass(NotANumberError::class)]
 // #[UsesClass(IndeterminateFormError::class)]
 class NumberTest extends BaseTestCase
 {
@@ -340,6 +341,50 @@ class NumberTest extends BaseTestCase
 
         // Assert
         $this->assertEquals($min, $MIN, $this->getMinErrorMessage($nums, $MIN));
+    }
+
+    #[DataProvider("factorials")]
+    #[TestDox("can calculate the factorial of itself")]
+    public function test_factorial(mixed $n, mixed $fact): void
+    {
+        // Arrange
+        $N = $this->instantiateNumber($n);
+
+        // Act
+        $FACT = $N->fact();
+
+        // Assert
+        $this->assertEquals($fact, $FACT->getParent()->value, "$N! = $FACT");
+    }
+
+    #[TestDox("throws NotANumberError when trying to calculate factorial with a decimal number.")]
+    public function test_factorial_with_float_input(): void
+    {
+        // Arrange
+        $n = $this->positiveRandomFloatStrict(max: self::MAX);
+        $N = $this->instantiateNumber($this->string($n));
+
+        // Assert
+        $this->expectException(NotANumberError::class);
+        $this->expectExceptionMessage("Cannot calculate the expression $n!.");
+
+        // Act
+        $N->factorial();
+    }
+
+    #[TestDox("throws NotANumberError when trying to calculate factorial with a negative number.")]
+    public function test_factorial_with_negative_number(): void
+    {
+        // Arrange
+        $n = $this->negativeRandomInteger();
+        $N = $this->instantiateNumber($n);
+
+        // Assert
+        $this->expectException(NotANumberError::class);
+        $this->expectExceptionMessage("Cannot calculate the expression $n!.");
+
+        // Act
+        $N->factorial();
     }
 
     #[DataProvider("floats")]
