@@ -387,6 +387,34 @@ class NumberTest extends BaseTestCase
         $N->factorial();
     }
 
+    #[DataProvider("positiveAbs")]
+    #[TestDox("can calculate the absolute number of itself, so a positive number remains the same.")]
+    public function test_positive_absolute(mixed $n, mixed $abs): void
+    {
+        // Arrange
+        $N = $this->instantiateNumber($n);
+
+        // Act
+        $ABS = $this->string($N->abs()->getParent()->value);
+
+        // Assert
+        $this->assertEquals($abs, $ABS, "abs($N) = $ABS");
+    }
+
+    #[DataProvider("negativeAbs")]
+    #[TestDox("can calculate the absolute number of itself, so a negative number become a positive one.")]
+    public function test_negative_absolute(mixed $n, mixed $abs): void
+    {
+        // Arrange
+        $N = $this->instantiateNumber($n);
+
+        // Act
+        $ABS = $this->string($N->abs()->getParent()->value);
+
+        // Assert
+        $this->assertEquals($abs, $ABS, "abs($N) = $ABS");
+    }
+
     #[DataProvider("floats")]
     #[TestDox("can check if a number is a decimal.")]
     public function test_is_float(mixed $num): void

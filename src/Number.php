@@ -397,34 +397,31 @@ class Number implements Stringable
     }
 
     /**
-     * Return the absolute value of $number.
+     * Return the absolute value of $this->number.
      */
-    public static function abs(int|string|BCMathNumber|Number $number): Number
+    public function abs(): Number
     {
-        $number = self::normalizeToParent($number);
-        if (static::isNegative($number)) {
-            $number = substr($number->value, 1);
+        if ($this->isNegative()) {
+            $number = substr($this->number->value, 1);
             return new Number($number);
         }
-        else return new Number($number);
+        else return $this;
     }
 
     /**
-     * Return true if $number is positive, false otherwise.
+     * Return true if $this->number is positive, false otherwise.
      */
-    public static function isNegative(int|string|BCMathNumber|Number $number): bool
+    public function isNegative(): bool
     {
-        $number = self::normalizeToParent($number);
-        return $number < 0;
+        return $this->number < 0;
     }
 
     /**
-     * Return true if $number is negative, false otherwise.
+     * Return true if $this->number is negative, false otherwise.
      */
-    protected static function isPositive(int|string|BCMathNumber|Number $number): bool
+    protected function isPositive(): bool
     {
-        $number = self::normalizeToParent($number);
-        return $number >= 0;
+        return $this->number >= 0;
     }
 
     /**
