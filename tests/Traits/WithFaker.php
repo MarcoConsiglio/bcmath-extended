@@ -161,7 +161,7 @@ trait WithFaker
      */
     protected static function negativeRandomFloat(float $min = 0, float $max = PHP_FLOAT_MAX): float
     {
-        return -self::randomFloat($min, $max);
+        return -self::positiveRandomFloat($min, $max);
     }
 
     /**

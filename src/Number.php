@@ -419,7 +419,7 @@ class Number implements Stringable
     /**
      * Return true if $this->number is negative, false otherwise.
      */
-    protected function isPositive(): bool
+    public function isPositive(): bool
     {
         return $this->number >= 0;
     }
