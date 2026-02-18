@@ -4,4 +4,5 @@
 .vscode
 /vendor
 composer.lock
+random.txt
 tests/coverage_report
