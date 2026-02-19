@@ -27,6 +27,6 @@
         </report>
     </coverage>
     <logging>
-        <testdoxHtml outputFile="test_book.html" />
+        <testdoxText outputFile="test_book.txt" />
     </logging>
 </phpunit>
