@@ -1,5 +1,6 @@
 .cache/
 .idea/
+.phpdoc
 .phpunit.cache
 .vscode
 /vendor
