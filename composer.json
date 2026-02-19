@@ -1,6 +1,6 @@
 {
-  "name": "krowinski/bcmath-extended",
-  "description": "Extends php BCMath lib for missing functions like floor, ceil, round, abs, min, max, rand for big numbers. Also wraps existing BCMath functions. (more http://php.net/manual/en/book.bc.php)",
+  "name": "marcoconsiglio/bcmath-extended",
+  "description": "The BCMathExtended library extends the PHP BCMath extension adding more features like abs, min, max, random, factorial, type comparison between integer and decimal or positive and negative, modulo and power modulo with negative modulus (see more on BCMath extendsion http://php.net/manual/en/book.bc.php).",
   "keywords": ["bcmath", "ceil", "round", "precision", "bignumber", "math", "rand", "floor", "abs", "arbitrary-precision"],
   "type": "library",
   "require": {
