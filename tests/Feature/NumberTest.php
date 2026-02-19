@@ -5,6 +5,7 @@ use MarcoConsiglio\BCMathExtended\Number;
 use BcMath\Number as BcMathNumber;
 use MarcoConsiglio\BCMathExtended\Tests\BaseTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\Attributes\TestDox;
 
 #[TestDox("The Number class")]
@@ -20,6 +21,7 @@ class NumberTest extends BaseTestCase
         $this->assertInstanceOf(BcMathNumber::class, $number->getParent());
     }
 
+    #[Depends("test_getParent")]
     #[DataProvider("addition")]
     #[TestDox("can be added to another one.")]
     public function test_addition(mixed $a, mixed $b, mixed $sum): void
@@ -35,6 +37,7 @@ class NumberTest extends BaseTestCase
         $this->assertEquals($sum, $SUM, "$a + $b = $SUM");
     }
 
+    #[Depends("test_getParent")]
     #[DataProvider("subtraction")]
     #[TestDox("can be subtracted from another one.")]
     public function test_subtraction(mixed $a, mixed $b, mixed $diff): void
@@ -50,6 +53,7 @@ class NumberTest extends BaseTestCase
         $this->assertEquals($diff, $DIFF, "$a - $b = $DIFF");
     }
 
+    #[Depends("test_getParent")]
     #[DataProvider("multiplication")]
     #[TestDox("can be multiplied by another one.")]
     public function test_multiplication(mixed $a, mixed $b, mixed $prod): void
@@ -65,6 +69,7 @@ class NumberTest extends BaseTestCase
         $this->assertEquals($prod, $PROD, "$a * $b = $PROD");
     }
 
+    #[Depends("test_getParent")]
     #[DataProvider("dividends")]
     #[TestDox("can be divided by another")]
     public function test_division(mixed $a, mixed $b, mixed $quot): void
@@ -80,6 +85,11 @@ class NumberTest extends BaseTestCase
         $this->assertEquals($quot, $QUOT, "$a / $b = $QUOT");
     }
 
+    #[Depends("test_getParent")]
+    #[Depends("test_division")]
+    #[Depends("test_floor")]
+    #[Depends("test_multiplication")]
+    #[Depends("test_subtraction")]
     #[DataProvider("remainders")]
     #[TestDox("can be divided by another and obtain the remainder of the division.")]
     public function test_modulo(mixed $a, mixed $b, mixed $rem): void
@@ -95,7 +105,12 @@ class NumberTest extends BaseTestCase
         $this->assertEquals($rem, $REM, "$a mod $b = $REM");
     }
 
+    #[Depends("test_getParent")]
     #[DataProvider("quotientAndRemainders")]
+    #[Depends("test_division")]
+    #[Depends("test_floor")]
+    #[Depends("test_multiplication")]
+    #[Depends("test_subtraction")]
     #[TestDox("can be divided by another and obtain the integer quotient and remainder of the division.")]
     public function test_division_modulo(mixed $a, mixed $b, mixed $quot, mixed $rem): void
     {
@@ -113,6 +128,7 @@ class NumberTest extends BaseTestCase
         $this->assertEquals($rem, $REM, "$a mod $b = $REM");
     }
     
+    #[Depends("test_getParent")]
     #[DataProvider("power")]
     #[TestDox("can be elevated to an exponent.")]
     public function test_power(mixed $b, mixed $e, mixed $pow): void
@@ -128,6 +144,11 @@ class NumberTest extends BaseTestCase
         $this->assertEquals($pow, $POW, "$b ^ $e = $POW");
     }
 
+    #[Depends("test_getParent")]
+    #[Depends("test_division")]
+    #[Depends("test_floor")]
+    #[Depends("test_multiplication")]
+    #[Depends("test_subtraction")]
     #[DataProvider("powerModulo")]
     #[TestDox("can be elevated to an exponent and divided by a modulus to obtain the remainder.")]
     public function test_power_modulo(mixed $b, mixed $e, mixed $m, mixed $pow_mod): void
@@ -144,6 +165,7 @@ class NumberTest extends BaseTestCase
         $this->assertEquals($pow_mod, $POWMOD, "($b ^ $e) mod $m = $POWMOD");
     }
 
+    #[Depends("test_getParent")]
     #[DataProvider("squareRoot")]
     #[TestDox("can calculate the square root of itself.")]
     public function test_square_root(mixed $n, mixed $sqrt): void
@@ -158,7 +180,8 @@ class NumberTest extends BaseTestCase
         $this->assertEquals($sqrt, $SQRT, "sqrt($n) = $SQRT");
     }
 
-   #[DataProvider("rounding")]
+    #[Depends("test_getParent")]
+    #[DataProvider("rounding")]
     #[TestDox("can round its value to a specified precision.")]
     public function test_round(mixed $num, int $prec, mixed $rnd): void
     {
@@ -172,6 +195,7 @@ class NumberTest extends BaseTestCase
         $this->assertEquals($rnd, $RND, "round($NUM, $prec) = $RND");
     }
 
+    #[Depends("test_getParent")]
     #[DataProvider("floor")]
     #[TestDox("can return its floor value.")]
     public function test_floor(mixed $num, mixed $flr): void
@@ -186,6 +210,7 @@ class NumberTest extends BaseTestCase
         $this->assertEquals($flr, $FLR, "floor($num) = $FLR");
     }
 
+    #[Depends("test_getParent")]
     #[DataProvider("ceil")]
     #[TestDox("can return its ceil value.")]
     public function test_ceil(mixed $num, mixed $ceil): void
@@ -200,6 +225,7 @@ class NumberTest extends BaseTestCase
         $this->assertEquals($ceil, $CEIL, "ceil($num) = $CEIL");
     }
 
+    #[Depends("test_getParent")]
     #[DataProvider("max")]
     #[TestDox("can calculate the max value in a list of numbers.")]
     public function test_max(array $nums, mixed $max): void
@@ -216,6 +242,7 @@ class NumberTest extends BaseTestCase
         $this->assertEquals($max, $MAX, $this->getMaxErrorMessage($nums, $MAX));
     }
 
+    #[Depends("test_getParent")]
     #[DataProvider("min")]
     #[TestDox("can calculate the min value in a list of numbers.")]
     public function test_min(array $nums, mixed $min): void
@@ -230,6 +257,8 @@ class NumberTest extends BaseTestCase
         $this->assertEquals($min, $MIN, $this->getMinErrorMessage($nums, $MIN));
     }
 
+    #[Depends("test_getParent")]
+    #[Depends("test_isFloat")]
     #[DataProvider("factorials")]
     #[TestDox("can calculate the factorial of itself")]
     public function test_factorial(mixed $n, mixed $fact): void
@@ -244,6 +273,7 @@ class NumberTest extends BaseTestCase
         $this->assertEquals($fact, $FACT->getParent()->value, "$N! = $FACT");
     }
 
+    #[Depends("test_getParent")]
     #[DataProvider("floats")]
     #[TestDox("can check if a number is a decimal.")]
     public function test_isFloat(mixed $num): void
@@ -255,6 +285,8 @@ class NumberTest extends BaseTestCase
         $this->assertTrue($res = $NUM->isFloat(), "Is $NUM a float? $res");
     }
 
+    #[Depends("test_getParent")]
+    #[Depends("test_isFloat")]
     #[TestDox("can check if a number is an integer.")]
     public function test_isInt(): void
     {
@@ -265,6 +297,8 @@ class NumberTest extends BaseTestCase
         $this->assertTrue($res = $number->isInt(), "Is $number a int? $res");
     }
 
+    #[Depends("test_getParent")]
+    #[Depends("test_isNegative")]
     #[TestDox("can calculate the absolute number of itself")]
     public function test_abs(): void
     {
@@ -282,6 +316,7 @@ class NumberTest extends BaseTestCase
         $this->assertEquals(abs($original_number), $absolute, "abs($original_number) = $absolute");
     }
 
+    #[Depends("test_getParent")]
     #[TestDox("can check if it is a positive number.")]
     public function test_isPositive(): void
     {
@@ -298,6 +333,7 @@ class NumberTest extends BaseTestCase
         $this->assertFalse($number->isNegative(), $error_message);
     }
 
+    #[Depends("test_getParent")]
     #[TestDox("can check if it is a negative number.")]
     public function test_isNegative(): void
     {
@@ -314,6 +350,7 @@ class NumberTest extends BaseTestCase
         $this->assertFalse($number->isPositive(), $error_message);
     }
 
+    #[Depends("test_getParent")]
     #[TestDox("can check if it is equal to another number.")]
     public function test_isEqual(): void
     {
@@ -326,6 +363,7 @@ class NumberTest extends BaseTestCase
         $this->assertTrue($number_A->eq($number_B), "$number_A ≠ $number_B");
     }
 
+    #[Depends("test_getParent")]
     #[TestDox("can check if it is different from another number.")]
     public function test_isDifferent(): void
     {
@@ -339,6 +377,7 @@ class NumberTest extends BaseTestCase
         $this->assertTrue($number_A->not($number_B), "$number_A ≠ $number_B");      
     }
 
+    #[Depends("test_getParent")]
     #[TestDox("can check if it is less than another number.")]
     public function test_isLessThan(): void
     {
@@ -352,6 +391,7 @@ class NumberTest extends BaseTestCase
         $this->assertTrue($number_B->lt($number_A), "$number_B ≮ $number_A");
     }
 
+    #[Depends("test_getParent")]
     #[TestDox("can check if it is less than or equal to another number.")]
     public function test_isLessThanOrEqual(): void
     {
@@ -365,6 +405,7 @@ class NumberTest extends BaseTestCase
         $this->assertTrue($number_B->lte($number_A), "$number_B ≰ $number_A");
     }
 
+    #[Depends("test_getParent")]
     #[TestDox("can check if it is greater than another number.")]
     public function test_isGreaterThan(): void
     {
@@ -378,6 +419,7 @@ class NumberTest extends BaseTestCase
         $this->assertTrue($number_A->gt($number_B), "$number_A ≯ $number_B");
     }
 
+    #[Depends("test_getParent")]
     #[TestDox("can check if it is greater than or equal to another number.")]
     public function test_isGreaterThanOrEqual(): void
     {

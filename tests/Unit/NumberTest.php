@@ -10,6 +10,8 @@ use MarcoConsiglio\BCMathExtended\Exceptions\NotANumberError;
 use MarcoConsiglio\BCMathExtended\Tests\BaseTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
+use MarcoConsiglio\BCMathExtended\Tests\Feature\NumberTest as FeatureNumberTest;
+use PHPUnit\Framework\Attributes\DependsExternal;
 use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\Attributes\UsesClass;
 
@@ -108,6 +110,7 @@ class NumberTest extends BaseTestCase
     //     (new Number($arg))->log($base);       
     // }
 
+    #[DependsExternal(FeatureNumberTest::class, "test_factorial")]
     #[TestDox("throws NotANumberError when trying to calculate factorial with a decimal number.")]
     public function test_factorial_with_float_input(): void
     {
@@ -123,6 +126,7 @@ class NumberTest extends BaseTestCase
         $N->factorial();
     }
 
+    #[DependsExternal(FeatureNumberTest::class, "test_factorial")]
     #[TestDox("throws NotANumberError when trying to calculate factorial with a negative number.")]
     public function test_factorial_with_negative_number(): void
     {
@@ -139,6 +143,7 @@ class NumberTest extends BaseTestCase
     }
 
     #[DataProvider("positiveAbs")]
+    #[DependsExternal(FeatureNumberTest::class, "test_abs")]
     #[TestDox("can calculate the absolute number of itself, so a positive number remains the same.")]
     public function test_positive_absolute(mixed $n, mixed $abs): void
     {
@@ -153,6 +158,7 @@ class NumberTest extends BaseTestCase
     }
 
     #[DataProvider("negativeAbs")]
+    #[DependsExternal(FeatureNumberTest::class, "test_abs")]
     #[TestDox("can calculate the absolute number of itself, so a negative number become a positive one.")]
     public function test_negative_absolute(mixed $n, mixed $abs): void
     {
@@ -166,6 +172,8 @@ class NumberTest extends BaseTestCase
         $this->assertEquals($abs, $ABS, "abs($N) = $ABS");
     }
 
+    #[DependsExternal(FeatureNumberTest::class, "test_getParent")]
+    #[DependsExternal(FeatureNumberTest::class, "test_isFloat")]
     #[TestDox("can check if a number is not a decimal.")]
     public function test_is_not_float(): void
     {
@@ -176,6 +184,8 @@ class NumberTest extends BaseTestCase
         $this->assertFalse($res = $number->isFloat(), "Is $number a float? $res");
     }
 
+    #[DependsExternal(FeatureNumberTest::class, "test_getParent")]
+    #[DependsExternal(FeatureNumberTest::class, "test_isFloat")]
     #[TestDox("can check if a number is not an integer.")]
     public function test_is_not_int(): void
     {

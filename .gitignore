@@ -5,4 +5,5 @@
 /vendor
 composer.lock
 random.txt
+test_book.txt
 tests/coverage_report
