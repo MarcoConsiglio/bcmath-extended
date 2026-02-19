@@ -3,7 +3,6 @@ declare(strict_types=1);
 namespace MarcoConsiglio\BCMathExtended\Tests\Unit;
 
 use MarcoConsiglio\BCMathExtended\Number;
-use BcMath\Number as BcMathNumber;
 use MarcoConsiglio\BCMathExtended\Exceptions\NotANumberError;
 // use MarcoConsiglio\BCMathExtended\Exceptions\IndeterminateFormError;
 // use MarcoConsiglio\BCMathExtended\Exceptions\InfiniteError;
@@ -21,7 +20,7 @@ use PHPUnit\Framework\Attributes\UsesClass;
 // #[UsesClass(IndeterminateFormError::class)]
 class NumberTest extends BaseTestCase
 {
-    #[TestDox("can statically check if an instance is a child of BcMath\\Number class.")]
+    #[TestDox("can statically check if an instance is a child of BCMath\\Number class.")]
     public function test_isChild(): void
     {
         // Arrange

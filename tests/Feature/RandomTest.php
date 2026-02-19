@@ -4,9 +4,12 @@ namespace MarcoConsiglio\BCMathExtended\Tests\Feature;
 use MarcoConsiglio\BCMathExtended\Number;
 use MarcoConsiglio\BCMathExtended\Random;
 use MarcoConsiglio\BCMathExtended\Tests\BaseTestCase;
+use PHPUnit\Framework\Attributes\TestDox;
 
+#[TestDox("The Random class")]
 class RandomTest extends BaseTestCase
 {
+    #[TestDox("can generate a random Number instance.")]
     public function test_random_number(): void
     {
         // Act & Assert

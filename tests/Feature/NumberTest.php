@@ -7,6 +7,7 @@ use MarcoConsiglio\BCMathExtended\Tests\BaseTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\TestDox;
 
+#[TestDox("The Number class")]
 class NumberTest extends BaseTestCase
 {
     #[TestDox('extends the BcMath\\Number class through composition.')]
