@@ -1,4 +1,10 @@
+.cache/
 .idea/
+.phpdoc
+.phpunit.cache
+.vscode
 /vendor
 composer.lock
-.cache/
+random.txt
+test_book.txt
+tests/coverage_report
