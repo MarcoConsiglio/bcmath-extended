@@ -1,6 +1,6 @@
 ![GitHub License](https://img.shields.io/github/license/MarcoConsiglio/bcmath-extended)
 ![GitHub Release](https://img.shields.io/github/v/release/MarcoConsiglio/bcmath-extended)
-![Static Badge](https://img.shields.io/badge/version-v1.1.0-white)
+![Static Badge](https://img.shields.io/badge/version-v1.2.0-white)
 <br>
 ![Static Badge](https://img.shields.io/badge/91%25-rgb(40%2C%20167%2C%2069)?label=Line%20coverage&labelColor=rgb(255%2C255%2C255))
 ![Static Badge](https://img.shields.io/badge/94%25-rgb(40%2C%20167%2C%2069)?label=Branch%20coverage&labelColor=rgb(255%2C255%2C255))
@@ -77,3 +77,6 @@ The same input type set of BCMath is used:
 - Scientific notation is not supported (that's why `float` is not a valid input type)
 
 For example `"1234567.89"` is allowed while `"1,234,567.89"` is **not**.
+
+# API Documentation
+You can find the API documentation at `docs/html/index.html`.

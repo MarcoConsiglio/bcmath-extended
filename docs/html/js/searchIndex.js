@@ -271,6 +271,11 @@ Search.appendIndex(
             "summary": "Normalize\u0020allowed\u0020input\u0020types\u0020to\u0020Number\u0020type.",
             "url": "classes/MarcoConsiglio-BCMathExtended-Number.html#method_toNumber"
         },                {
+            "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Number\u003A\u003A\u0024value",
+            "name": "value",
+            "summary": "The\u0020value\u0020of\u0020this\u0020instance.",
+            "url": "classes/MarcoConsiglio-BCMathExtended-Number.html#property_value"
+        },                {
             "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Random",
             "name": "Random",
             "summary": "Generate\u0020a\u0020random\u0020number.",

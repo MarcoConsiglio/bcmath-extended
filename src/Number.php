@@ -16,10 +16,15 @@ class Number implements Stringable
 {
     /**
      * The parent composite instance.
-     *
-     * @var BCMathNumber
      */
     protected BCMathNumber $number;
+
+    /**
+     * The value of this instance.
+     */
+    public string $value {
+        get {return $this->number->value;}
+    }
 
     /**
      * Construct a Number.
