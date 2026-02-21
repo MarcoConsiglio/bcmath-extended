@@ -1,4 +1,8 @@
 # Changelog
+## v1.2.0 2026-02-21
+### Added
+- `Number::$value` property to read the value of the parent instance `BcMath\Number`.
+
 ## v1.1.0 2026-02-21
 ### Added
 - `Number::toNumber()` method to normalize allowed input types to Number type.
