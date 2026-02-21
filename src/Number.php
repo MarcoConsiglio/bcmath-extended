@@ -578,4 +578,13 @@ class Number implements Stringable
     {
         return $this->number->value;
     }
+
+    /**
+     * Normalize allowed input types to Number type.
+     */
+    public static function toNumber(int|string|BCMathNumber|Number $number): Number
+    {
+        if ($number instanceof Number) return $number;
+        return new Number($number);
+    }
 }
