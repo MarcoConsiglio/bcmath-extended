@@ -21,6 +21,7 @@ class NumberTest extends BaseTestCase
         $this->assertInstanceOf(BcMathNumber::class, $number->getParent());
     }
 
+    #[TestDox("has a value property which is a string.")]
     public function test_value_property(): void
     {
         // Arrange
