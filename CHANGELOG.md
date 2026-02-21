@@ -1,5 +1,13 @@
 # Changelog
-## Added
+## v1.1.0 2026-02-21
+### Added
+- `Number::toNumber()` method to normalize allowed input types to Number type.
+### Changed
+- README documentation
+- API documentation
+
+## v1.0.0 2026-02-19
+### Added
 - `BCMathExtended\Number` class that extends the `BCMath\Number` class.
 - `BCMathExtended\Number::{`  
 &ensp;&ensp;&ensp;&ensp;`getParent`,  

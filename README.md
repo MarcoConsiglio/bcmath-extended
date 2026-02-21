@@ -1,5 +1,6 @@
 ![GitHub License](https://img.shields.io/github/license/MarcoConsiglio/bcmath-extended)
-![Static Badge](https://img.shields.io/badge/version-v1.0.0-white)
+![GitHub Release](https://img.shields.io/github/v/release/MarcoConsiglio/bcmath-extended)
+![Static Badge](https://img.shields.io/badge/version-v1.1.0-white)
 <br>
 ![Static Badge](https://img.shields.io/badge/91%25-rgb(40%2C%20167%2C%2069)?label=Line%20coverage&labelColor=rgb(255%2C255%2C255))
 ![Static Badge](https://img.shields.io/badge/94%25-rgb(40%2C%20167%2C%2069)?label=Branch%20coverage&labelColor=rgb(255%2C255%2C255))
@@ -32,7 +33,6 @@ The following list of features of the `Number` class are the same as those found
 - Spaceship comparison
 - Comparison operator overloading
 - Serialization/unserialization
-- Support for scientific notation
 
 ## Added features
 - Modulo *
@@ -72,6 +72,8 @@ The same input type set of BCMath is used:
 - `MarcoConsiglio\BCMathExtended\Number`
 
 ## String numeric format
-Only decimal separator `.` is allowed. Thousand separator is not supported.
+- Only decimal separator `.` is allowed. 
+- Thousand separator is not supported.
+- Scientific notation is not supported (that's why `float` is not a valid input type)
 
-For example `"1234567.89"` is allowed while `"1,234,567.89"` is not.
+For example `"1234567.89"` is allowed while `"1,234,567.89"` is **not**.

@@ -234,6 +234,17 @@ trait WithDataProviders
         ];
     }
 
+    public static function inputTypes(): array
+    {
+        self::setUpFaker();
+        return [
+            'int type' => [self::randomInteger()],
+            'string type' => [self::string(self::randomFloat(max: self::MAX))],
+            'BcMath\\Number type' => [new BcMathNumber(self::string(self::randomFloat(max: self::MAX)))],
+            'BcMathExtended\\Number type' => [new Number(self::string(self::randomFloat(max: self::MAX)))]
+        ];
+    }
+
     /**
      *  ╔═════════════════╗
      *  ║INTEGER DATA SETS║
