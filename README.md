@@ -32,7 +32,6 @@ The following list of features of the `Number` class are the same as those found
 - Spaceship comparison
 - Comparison operator overloading
 - Serialization/unserialization
-- Support for scientific notation
 
 ## Added features
 - Modulo *
@@ -72,6 +71,8 @@ The same input type set of BCMath is used:
 - `MarcoConsiglio\BCMathExtended\Number`
 
 ## String numeric format
-Only decimal separator `.` is allowed. Thousand separator is not supported.
+- Only decimal separator `.` is allowed. 
+- Thousand separator is not supported.
+- Scientific notation is not supported (that's why `float` is not a valid input type)
 
-For example `"1234567.89"` is allowed while `"1,234,567.89"` is not.
+For example `"1234567.89"` is allowed while `"1,234,567.89"` is **not**.
