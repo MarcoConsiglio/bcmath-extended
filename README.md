@@ -1,4 +1,5 @@
 ![GitHub License](https://img.shields.io/github/license/MarcoConsiglio/bcmath-extended)
+![GitHub Release](https://img.shields.io/github/v/release/MarcoConsiglio/bcmath-extended)
 ![Static Badge](https://img.shields.io/badge/version-v1.1.0-white)
 <br>
 ![Static Badge](https://img.shields.io/badge/91%25-rgb(40%2C%20167%2C%2069)?label=Line%20coverage&labelColor=rgb(255%2C255%2C255))
