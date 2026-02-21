@@ -5,8 +5,8 @@
 ### Changed
 - README documentation
 - API documentation
-## v1.0.0 2026-02-19
 
+## v1.0.0 2026-02-19
 ### Added
 - `BCMathExtended\Number` class that extends the `BCMath\Number` class.
 - `BCMathExtended\Number::{`  
