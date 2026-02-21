@@ -21,6 +21,21 @@ class NumberTest extends BaseTestCase
         $this->assertInstanceOf(BcMathNumber::class, $number->getParent());
     }
 
+    public function test_value_property(): void
+    {
+        // Arrange
+        $original_value = $this->string(
+            $this->randomFloatStrict(max: $this::MAX)
+        );
+        $number = new Number($original_value);
+
+        // Act
+        $value = $number->value;
+
+        // Assert
+        $this->assertSame($original_value, $value, "$original_value ≠ $value");
+    }
+
     #[Depends("test_getParent")]
     #[DataProvider("addition")]
     #[TestDox("can be added to another one.")]
