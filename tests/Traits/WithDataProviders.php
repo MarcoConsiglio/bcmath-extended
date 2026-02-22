@@ -5,7 +5,6 @@ use ArithmeticError;
 use BcMath\Number as BcMathNumber;
 use MarcoConsiglio\BCMathExtended\Number;
 use MarcoConsiglio\BCMathExtended\Tests\Divisors;
-use MarcoConsiglio\BCMathExtended\Tests\DivisorsPrime;
 use RoundingMode;
 
 trait WithDataProviders

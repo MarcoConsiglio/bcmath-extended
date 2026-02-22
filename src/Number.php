@@ -8,6 +8,10 @@ use RoundingMode;
 use Stringable;
 use ValueError;
 use BcMath\Number as BCMathNumber;
+use MarcoConsiglio\BCMathExtended\Builders\FromBcMathNumber;
+use MarcoConsiglio\BCMathExtended\Builders\FromFloat;
+use MarcoConsiglio\BCMathExtended\Builders\FromInt;
+use MarcoConsiglio\BCMathExtended\Builders\FromString;
 // use MarcoConsiglio\BCMathExtended\Exceptions\IndeterminateFormError;
 // use MarcoConsiglio\BCMathExtended\Exceptions\InfiniteError;
 use MarcoConsiglio\BCMathExtended\Exceptions\NotANumberError;
@@ -32,10 +36,13 @@ class Number implements Stringable
      * @throws ValueError if $number is string and not a well-formed BCMath numeric string.
      * @see https://www.php.net/manual/en/bcmath-number.construct.php
      */
-    public function __construct(string|int|BCMathNumber $number)
+    public function __construct(string|int|float|BCMathNumber $number)
     {
-        if ($number instanceof BCMathNumber) $this->number = $number;
-        else $this->number = new BCMathNumber($number);
+        if (is_string($number)) $builder = new FromString($number);
+        else if (is_int($number)) $builder = new FromInt($number);
+        else if (is_float($number)) $builder = new FromFloat($number);
+        else $builder = new FromBcMathNumber($number);
+        $this->number = $builder->getResult();
     }
 
     /**
@@ -591,5 +598,70 @@ class Number implements Stringable
     {
         if ($number instanceof Number) return $number;
         return new Number($number);
+    }
+
+    /**
+     * Format a $number to a numeric string.
+     */
+    public static function string(int|float|string $number): string
+    {
+        if (self::isFloatString($number)) return self::trimTrailingZeros($number);
+        else if (self::isIntString($number)) return $number;    
+        if (is_int($number)) return self::formatInteger($number);
+        return self::formatFloat($number);
+    }
+
+    /**
+     * Return true if $number is a decimal numeric string, false otherwise.
+     */
+    private static function isFloatString(mixed $number): bool
+    {
+        return is_string($number) && strpos($number, '.');
+    }
+
+    /**
+     * Return true if $number is an integer numeric string, false otherwise.
+     */
+    private static function isIntString(mixed $number): bool
+    {
+        return is_string($number) && ! strpos($number, '.');
+    }
+
+    /**
+     * Remove trailing zeros from a numeric string.
+     */
+    private static function trimTrailingZeros(string $number): string
+    {
+        $decimal_separator = strpos($number, '.');
+        if($decimal_separator === false) { // It is integer number.
+            return $number;
+        } else return rtrim(rtrim($number, '0'), '.'); // It is a decimal number.
+    }
+
+    /**
+     * Format an integer $number to string.
+     */
+    private static function formatInteger(int $number): string
+    {
+        return sprintf("%d", $number);
+    }
+
+    /**
+     * Format a float $number to string, also removing unneeded trailing zeros.
+     */
+    private static function formatFloat(float $number): string
+    {
+        $decimal_places = self::countDecimalPlaces($number);
+        $number = number_format($number, $decimal_places, thousands_separator: '');
+        return self::trimTrailingZeros($number);
+    }
+
+    /**
+     * Count the decimal digits of a decimal $number.
+     */
+    public static function countDecimalPlaces(float $number): int
+    {
+        for ($decimal_digits = 0; $number != round($number, $decimal_digits, RoundingMode::HalfTowardsZero); ++$decimal_digits);
+        return $decimal_digits;
     }
 }
