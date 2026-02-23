@@ -1,6 +1,66 @@
 Search.appendIndex(
     [
                 {
+            "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Builders\\FromBcMathNumber",
+            "name": "FromBcMathNumber",
+            "summary": "",
+            "url": "classes/MarcoConsiglio-BCMathExtended-Builders-FromBcMathNumber.html"
+        },                {
+            "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Builders\\FromBcMathNumber\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "Construct\u0020a\u0020Number\u0020Builder\u0020accepting\u0020a\u0020float\u0020type\u0020input.",
+            "url": "classes/MarcoConsiglio-BCMathExtended-Builders-FromBcMathNumber.html#method___construct"
+        },                {
+            "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Builders\\FromBcMathNumber\u003A\u003AgetResult\u0028\u0029",
+            "name": "getResult",
+            "summary": "Get\u0020the\u0020builder\u0020output.",
+            "url": "classes/MarcoConsiglio-BCMathExtended-Builders-FromBcMathNumber.html#method_getResult"
+        },                {
+            "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Builders\\FromFloat",
+            "name": "FromFloat",
+            "summary": "",
+            "url": "classes/MarcoConsiglio-BCMathExtended-Builders-FromFloat.html"
+        },                {
+            "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Builders\\FromFloat\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "Construct\u0020a\u0020Number\u0020Builder\u0020accepting\u0020a\u0020float\u0020type\u0020input.",
+            "url": "classes/MarcoConsiglio-BCMathExtended-Builders-FromFloat.html#method___construct"
+        },                {
+            "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Builders\\FromFloat\u003A\u003AgetResult\u0028\u0029",
+            "name": "getResult",
+            "summary": "Get\u0020the\u0020builder\u0020output.",
+            "url": "classes/MarcoConsiglio-BCMathExtended-Builders-FromFloat.html#method_getResult"
+        },                {
+            "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Builders\\FromInt",
+            "name": "FromInt",
+            "summary": "",
+            "url": "classes/MarcoConsiglio-BCMathExtended-Builders-FromInt.html"
+        },                {
+            "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Builders\\FromInt\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "Construct\u0020a\u0020Number\u0020Builder\u0020accepting\u0020an\u0020int\u0020type\u0020input.",
+            "url": "classes/MarcoConsiglio-BCMathExtended-Builders-FromInt.html#method___construct"
+        },                {
+            "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Builders\\FromInt\u003A\u003AgetResult\u0028\u0029",
+            "name": "getResult",
+            "summary": "Get\u0020the\u0020output\u0020of\u0020the\u0020builder.",
+            "url": "classes/MarcoConsiglio-BCMathExtended-Builders-FromInt.html#method_getResult"
+        },                {
+            "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Builders\\FromString",
+            "name": "FromString",
+            "summary": "",
+            "url": "classes/MarcoConsiglio-BCMathExtended-Builders-FromString.html"
+        },                {
+            "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Builders\\FromString\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "Construct\u0020a\u0020Number\u0020Builder\u0020accepting\u0020a\u0020numeric\u0020string\u0020type\u0020input.",
+            "url": "classes/MarcoConsiglio-BCMathExtended-Builders-FromString.html#method___construct"
+        },                {
+            "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Builders\\FromString\u003A\u003AgetResult\u0028\u0029",
+            "name": "getResult",
+            "summary": "Get\u0020the\u0020builder\u0020output.",
+            "url": "classes/MarcoConsiglio-BCMathExtended-Builders-FromString.html#method_getResult"
+        },                {
             "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Exceptions\\IndeterminateFormError",
             "name": "IndeterminateFormError",
             "summary": "",
@@ -30,6 +90,16 @@ Search.appendIndex(
             "name": "__construct",
             "summary": "",
             "url": "classes/MarcoConsiglio-BCMathExtended-Exceptions-NotANumberError.html#method___construct"
+        },                {
+            "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Interfaces\\Builder",
+            "name": "Builder",
+            "summary": "The\u0020concept\u0020of\u0020a\u0020Number\u0020builder.",
+            "url": "classes/MarcoConsiglio-BCMathExtended-Interfaces-Builder.html"
+        },                {
+            "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Interfaces\\Builder\u003A\u003AgetResult\u0028\u0029",
+            "name": "getResult",
+            "summary": "Get\u0020the\u0020builder\u0020output.",
+            "url": "classes/MarcoConsiglio-BCMathExtended-Interfaces-Builder.html#method_getResult"
         },                {
             "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Number",
             "name": "Number",
@@ -266,10 +336,15 @@ Search.appendIndex(
             "summary": "Cast\u0020this\u0020instance\u0020to\u0020string.",
             "url": "classes/MarcoConsiglio-BCMathExtended-Number.html#method___toString"
         },                {
-            "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Number\u003A\u003AtoNumber\u0028\u0029",
-            "name": "toNumber",
-            "summary": "Normalize\u0020allowed\u0020input\u0020types\u0020to\u0020Number\u0020type.",
-            "url": "classes/MarcoConsiglio-BCMathExtended-Number.html#method_toNumber"
+            "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Number\u003A\u003Astring\u0028\u0029",
+            "name": "string",
+            "summary": "Format\u0020a\u0020\u0024number\u0020to\u0020a\u0020numeric\u0020string.",
+            "url": "classes/MarcoConsiglio-BCMathExtended-Number.html#method_string"
+        },                {
+            "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Number\u003A\u003AcountDecimalPlaces\u0028\u0029",
+            "name": "countDecimalPlaces",
+            "summary": "Count\u0020the\u0020decimal\u0020digits\u0020of\u0020a\u0020decimal\u0020\u0024number.",
+            "url": "classes/MarcoConsiglio-BCMathExtended-Number.html#method_countDecimalPlaces"
         },                {
             "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Number\u003A\u003A\u0024value",
             "name": "value",
@@ -291,10 +366,20 @@ Search.appendIndex(
             "summary": "",
             "url": "namespaces/default.html"
         },                {
+            "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Builders",
+            "name": "Builders",
+            "summary": "",
+            "url": "namespaces/marcoconsiglio-bcmathextended-builders.html"
+        },                {
             "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Exceptions",
             "name": "Exceptions",
             "summary": "",
             "url": "namespaces/marcoconsiglio-bcmathextended-exceptions.html"
+        },                {
+            "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Interfaces",
+            "name": "Interfaces",
+            "summary": "",
+            "url": "namespaces/marcoconsiglio-bcmathextended-interfaces.html"
         },                {
             "fqsen": "\\MarcoConsiglio\\BCMathExtended",
             "name": "BCMathExtended",
