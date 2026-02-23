@@ -1,4 +1,13 @@
 # Changelog
+## v2.0.0 2026-02-21
+### Added
+- `Number::string()` method to format a number to a numeric string.
+### Changed
+- `Number` class constructor now accept `float` type input.
+- README and API documentation.
+### Removed
+- `Number::toNumber()` method.
+
 ## v1.2.0 2026-02-21
 ### Added
 - `Number::$value` property to read the value of the parent instance `BcMath\Number`.
