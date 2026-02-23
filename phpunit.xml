@@ -5,7 +5,9 @@
          beStrictAboutCoverageMetadata="true"
          beStrictAboutOutputDuringTests="true"
          colors="true"
-         cacheDirectory=".phpunit.cache">
+         cacheDirectory=".phpunit.cache"
+         resolveDependencies="true"
+         executionOrder="depends">
     <testsuites>
         <testsuite name="Unit">
             <directory>tests/Unit</directory>
