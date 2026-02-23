@@ -216,29 +216,6 @@ trait WithDataProviders
         ];   
     }
 
-    public static function positiveAbs(): array
-    {
-        self::setUpFaker();
-        return [
-            'Integer positive' => self::getIntegerAbs(),
-            'String positive' => self::getStringAbs(self::MAX),
-            'BcMath\\Number positive' => self::getBcMathNumberAbs(self::MAX),
-            'BcMathExtended\\Number positive' => self::getBcMathExtendedNumberAbs(self::MAX)
-        ];
-    }
-
-    public static function negativeAbs(): array
-    {
-        self::setUpFaker();
-        $negative = false;
-        return [
-            'Integer negative' => self::getIntegerAbs($negative),
-            'String negative' => self::getStringAbs(self::MAX, $negative),
-            'BcMath\\Number negative' => self::getBcMathNumberAbs(self::MAX, $negative),
-            'BcMathExtended\\Number negative' => self::getBcMathExtendedNumberAbs(self::MAX, $negative)
-        ];
-    }
-
     /**
      *  ╔═════════════════╗
      *  ║INTEGER DATA SETS║
@@ -407,16 +384,6 @@ trait WithDataProviders
         return [
             $n,
             $factorial
-        ];
-    }
-
-    protected static function getIntegerAbs(bool $positive = true): array
-    {
-        if ($positive) $n = self::positiveRandomInteger();
-        else $n = self::negativeRandomInteger();
-        return [
-            $n,
-            abs($n)
         ];
     }
 
@@ -621,17 +588,6 @@ trait WithDataProviders
             self::string($fact),
         ];
     }
-
-    protected static function getStringAbs(float $max = PHP_FLOAT_MAX, bool $positive = true): array
-    {
-        if ($positive) $n = self::positiveRandomFloat(max: $max);
-        else $n = self::negativeRandomFloat(max: $max);
-        return [
-            self::string($n),
-            self::string(abs($n))
-        ];
-    }
-
 
     /**
      *  ╔═══════════════╗
@@ -995,15 +951,6 @@ trait WithDataProviders
         ];
     }
 
-    protected static function getBcMathNumberAbs(float $max = PHP_FLOAT_MAX, bool $positive = true): array
-    {
-        [$n, $abs] = self::getStringAbs($max, $positive);
-        return [
-            new BcMathNumber($n),
-            new BcMathNumber($abs)
-        ];
-    }
-
     /**
      *  ╔═══════════════════════════════╗
      *  ║BCMathExtended\Number DATA SETS║
@@ -1173,16 +1120,7 @@ trait WithDataProviders
             new Number($fact)
         ];
     }
-
-    protected static function getBcMathExtendedNumberAbs(float $max = PHP_FLOAT_MAX, bool $positive = true): array
-    {
-        [$n, $abs] = self::getStringAbs($max, $positive);
-        return [
-            new Number($n),
-            new Number($abs)
-        ];
-    }
-
+    
     /**
      * Format a $number to a numeric string.
      */
