@@ -9,7 +9,8 @@
   },
   "require-dev": {
     "phpunit/phpunit": "^13.0",
-    "fakerphp/faker": "^1.24"
+    "fakerphp/faker": "^1.24",
+    "marcoconsiglio/faker-php-number-helpers": "^1.1"
   },
   "license": "MIT",
   "authors": [
