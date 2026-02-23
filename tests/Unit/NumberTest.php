@@ -202,12 +202,4 @@ class NumberTest extends BaseTestCase
         // Act & Assert
         $this->assertFalse($res = $number->isInt(), "Is $number a int? $res");       
     }
-
-    #[DataProvider("inputTypes")]
-    #[TestDox("can normalize int, string or BcMath\Number types into Number type.")]
-    public function test_normalize_input_types(mixed $input): void
-    {
-        // Act & Assert
-        $this->assertInstanceOf(Number::class, Number::toNumber($input));
-    }
 }

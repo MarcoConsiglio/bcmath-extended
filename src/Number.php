@@ -559,10 +559,11 @@ class Number implements Stringable
     /**
      * Transform $number into a BcMath\Number instance.
      */
-    protected static function normalizeToParent(int|string|BCMathNumber|Number $number): BCMathNumber
+    protected static function normalizeToParent(int|float|string|BCMathNumber|Number $number): BCMathNumber
     {
         if (self::isChild($number)) return $number->getParent();
         if (is_int($number)) return new BCMathNumber($number);
+        if (is_float($number)) return new BCMathNumber(Number::string($number));
         if (is_string($number)) return new BCMathNumber($number);  
         return $number; // Parent instance.
     }
@@ -589,15 +590,6 @@ class Number implements Stringable
     public function __toString(): string
     {
         return $this->number->value;
-    }
-
-    /**
-     * Normalize allowed input types to Number type.
-     */
-    public static function toNumber(int|string|BCMathNumber|Number $number): Number
-    {
-        if ($number instanceof Number) return $number;
-        return new Number($number);
     }
 
     /**

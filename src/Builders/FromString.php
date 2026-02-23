@@ -3,6 +3,7 @@ namespace MarcoConsiglio\BCMathExtended\Builders;
 
 use BcMath\Number as BcMathNumber;
 use MarcoConsiglio\BCMathExtended\Interfaces\Builder;
+use MarcoConsiglio\BCMathExtended\Number;
 use ValueError;
 
 class FromString implements Builder
@@ -33,7 +34,9 @@ class FromString implements Builder
      */
     protected function validate(): void
     {
-        $this->bc_math_number = new BcMathNumber($this->number);
+        $this->bc_math_number = new BcMathNumber(
+            Number::string($this->number)
+        );
     }
 
     /**
