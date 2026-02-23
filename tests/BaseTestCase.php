@@ -4,6 +4,7 @@ namespace MarcoConsiglio\BCMathExtended\Tests;
 use MarcoConsiglio\BCMathExtended\Number;
 use BcMath\Number as BcMathNumber;
 use MarcoConsiglio\BCMathExtended\Tests\Traits\WithDataProviders;
+use MarcoConsiglio\FakerPhpNumberHelpers\WithFakerHelpers;
 use Override;
 use PHPUnit\Framework\TestCase;
 
@@ -47,6 +48,17 @@ class BaseTestCase extends TestCase
         return $numbers;
     }
 
+    /**
+     * Get a congruent integer number to $value modulo $modulus multiplied
+     * by $k.
+     */
+    protected static function getCongruentIntegerValue(int $value, int $modulus, int $k): int
+    {
+        $reminder = $value % $modulus;
+        $congruent_value = $k * $modulus + $reminder;
+        if ($congruent_value > PHP_INT_MAX || $congruent_value < PHP_INT_MIN) return $reminder;
+        return $congruent_value % $modulus;
+    }
 
     /**
      * Return an error message for the operation max($vars) = $max.

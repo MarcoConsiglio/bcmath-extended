@@ -5,12 +5,12 @@ use ArithmeticError;
 use BcMath\Number as BcMathNumber;
 use MarcoConsiglio\BCMathExtended\Number;
 use MarcoConsiglio\BCMathExtended\Tests\Divisors;
-use MarcoConsiglio\BCMathExtended\Tests\DivisorsPrime;
+use MarcoConsiglio\FakerPhpNumberHelpers\WithFakerHelpers;
 use RoundingMode;
 
 trait WithDataProviders
 {
-    use WithFaker;
+    use WithFakerHelpers;
 
     /**
      * WARNING! Large float type numbers makes unrecoverable rounding errors!
@@ -30,6 +30,7 @@ trait WithDataProviders
         return [
             'Integer addends' => self::getIntegerAddends(),
             'String addends' => self::getStringAddends(self::MAX),
+            'Float addends' => self::getFloatAddends(self::MAX),
             "BcMath\\Number addends" => self::getBcMathNumberAddends(self::MAX),
             "BcMathExtendend\\Number addends" => self::getBcMathExtendedNumberAddends(self::MAX)
         ];
@@ -41,6 +42,7 @@ trait WithDataProviders
         return [
             'Integer minuends' => self::getIntegerMinuends(),
             'String minuends' => self::getStringMinuends(self::MAX),
+            'Float minuends' => self::getFloatMinuends(self::MAX),
             "BcMath\\Number minuends" => self::getBcMathNumberMinuends(self::MAX),
             "BcMathExtendend\\Number minuends" => self::getBcMathExtendedNumberMinuends(self::MAX)
         ];
@@ -52,6 +54,7 @@ trait WithDataProviders
         return [
             'Integer factors' => self::getIntegerFactors(),
             'String factors' => self::getStringFactors(self::MAX),
+            'Float factors' => self::getFloatFactors(self::MAX),
             "BcMath\\Number factors" => self::getBcMathNumberFactors(self::MAX),
             "BcMathExtendend\\Number factor" => self::getBcMathExtendedNumberFactors(self::MAX)
         ];
@@ -63,6 +66,7 @@ trait WithDataProviders
         return [
             'Integer dividends' => self::getIntegerDividends(),
             'String dividends' => self::getStringDividends(self::MAX),
+            'Float dividends' => self::getFloatDividends(self::MAX),
             "BcMath\\Number dividends" => self::getBcMathNumberDividends(self::MAX),
             "BcMathExtended\\Number factor" => self::getBcMathExtendedNumberDividends(self::MAX)
         ];
@@ -74,6 +78,7 @@ trait WithDataProviders
         return [
             'Integer modulus' => self::getIntegerModulus(),
             'String modulus' => self::getStringModulus(self::MAX),
+            'Float modulus' => self::getFloatModulus(self::MAX),
             'BcMath\\Number modulus' => self::getBcMathNumberModulus(self::MAX),
             'BcMathExtended\\Number modulus' => self::getBcMathExtendedNumberModulus(self::MAX)
         ];
@@ -85,6 +90,7 @@ trait WithDataProviders
         return [
             'Integer dividends' => self::getIntegerQuotientRemainder(),
             'String dividends' => self::getStringQuotientRemainder(self::MAX),
+            'Float dividends' => self::getFloatQuotientRemainder(self::MAX),
             'BcMath\\Number dividends' => self::getBcMathNumberQuotientRemainder(self::MAX),
             'BcMathExtended\\Number dividends' => self::getBcMathExtendedQuotientRemainder(self::MAX)
         ];
@@ -96,6 +102,7 @@ trait WithDataProviders
         return [
             'Integer power' => self::getIntegerPower(),
             'String power' => self::getStringPower(self::MAX),
+            'Float power' => self::getFloatPower(self::MAX),
             'BcMath\\Number power' => self::getBcMathNumberPower(self::MAX),
             'BcMathExtended\\Number power' => self::getBcMathExtendedNumberPower(self::MAX)
         ];
@@ -107,6 +114,7 @@ trait WithDataProviders
         return [
             'Integer power modulo' => self::getIntegerPowerModulo(),
             'String power modulo' => self::getStringPowerModulo(self::MAX),
+            'Float power modulo' => self::getFloatPowerModulo(self::MAX),
             'BcMath\\Number power modulo' => self::getBcMathNumberPowerModulo(self::MAX),
             'BcMathExtended\\Number power modulo' => self::getBcMathExtendedNumerPowerModulo(self::MAX)
         ];
@@ -118,6 +126,7 @@ trait WithDataProviders
         return [
             'Integer square root' => self::getIntegerSquareRoot(),
             'String square root' => self::getStringSquareRoot(self::MAX),
+            'Float square root' => self::getFloatSquareRoot(self::MAX),
             'BcMath\\Number square root' => self::getBcMathNumberSquareRoot(self::MAX),
             'BcMathExtended\\Number square root' => self::getBcMathExtendedNumberSquareRoot(self::MAX)
         ];
@@ -140,6 +149,7 @@ trait WithDataProviders
         return [
             'Integer rounding' => self::getIntegerRounding(),
             'String rounding' => self::getStringRounding(self::MAX),
+            'Float rounding' => self::getFloatRounding(self::MAX),
             'BcMath\\Number rounding' => self::getBcMathNumberRounding(self::MAX),
             'BcMathExtended\\Number rounding' => self::getBCMathExtendedNumberRounding(self::MAX)
         ];
@@ -151,6 +161,7 @@ trait WithDataProviders
         return [
             'Integer floor' => self::getIntegerFloor(),
             'String floor' => self::getStringFloor(self::MAX),
+            'Float floor' => self::getFloatFloor(self::MAX),
             'BcMath\\Number floor' => self::getBcMathNumberFloor(self::MAX),
             'BcMathExtended\\Number floor' => self::getBcMathExtendedNumberFloor(self::MAX)
         ];
@@ -162,6 +173,7 @@ trait WithDataProviders
         return [
             'Integer ceil' => self::getIntegerCeil(),
             'String ceil' => self::getStringCeil(self::MAX),
+            'Float ceil' => self::getFloatCeil(self::MAX),
             'BcMath\\Number ceil' => self::getBcMathNumberCeil(self::MAX),
             'BcMathExtended\\Number ceil' => self::getBcMathExtendedNumberCeil(self::MAX)
         ];
@@ -173,6 +185,7 @@ trait WithDataProviders
         return [
             'Integer max' => self::getIntegerMax(),
             'String max' => self::getStringMax(self::MAX),
+            'Float max' => self::getFloatMax(self::MAX),
             'BcMath\\Number max' => self::getBcMathNumberMax(self::MAX),
             'BcMathExtended\\Number max' => self::getBcMathExtendedNumberMax(self::MAX)
         ];
@@ -184,6 +197,7 @@ trait WithDataProviders
         return [
             'Integer min' => self::getIntegerMin(),
             'String min' => self::getStringMin(self::MAX),
+            'Float min' => self::getFloatMin(self::MAX),
             'BcMath\\Number min' => self::getBcMathNumberMin(self::MAX),
             'BcMathExtended\\Number min' => self::getBcMathExtendedNumberMin(self::MAX)
         ];
@@ -196,53 +210,10 @@ trait WithDataProviders
         return [
             'Integer factorial' => self::getIntegerFactorial($max),
             'String factorial' => self::getStringFactorial($max),
+            'Float factorial' => self::getFloatFactorial($max),
             'BcMath\\Number factorial' => self::getBcMathNumberFactorial($max),
             'BcMathExtended\\Number factorial' => self::getBcMathExtendedNumberFactorial($max)
         ];   
-    }
-
-    public static function positiveAbs(): array
-    {
-        self::setUpFaker();
-        return [
-            'Integer positive' => self::getIntegerAbs(),
-            'String positive' => self::getStringAbs(self::MAX),
-            'BcMath\\Number positive' => self::getBcMathNumberAbs(self::MAX),
-            'BcMathExtended\\Number positive' => self::getBcMathExtendedNumberAbs(self::MAX)
-        ];
-    }
-
-    public static function negativeAbs(): array
-    {
-        self::setUpFaker();
-        $negative = false;
-        return [
-            'Integer negative' => self::getIntegerAbs($negative),
-            'String negative' => self::getStringAbs(self::MAX, $negative),
-            'BcMath\\Number negative' => self::getBcMathNumberAbs(self::MAX, $negative),
-            'BcMathExtended\\Number negative' => self::getBcMathExtendedNumberAbs(self::MAX, $negative)
-        ];
-    }
-
-    public static function floats(): array
-    {
-        self::setUpFaker();
-        return [
-            'String float' => self::getStringFloat(self::MAX),
-            'BcMath\\Number float' => self::getBcMathNumberFloat(self::MAX),
-            'BcMathExtended\\Number float' => self::getBcMathExtendedNumberFloat(self::MAX)
-        ];
-    }
-
-    public static function inputTypes(): array
-    {
-        self::setUpFaker();
-        return [
-            'int type' => [self::randomInteger()],
-            'string type' => [self::string(self::randomFloat(max: self::MAX))],
-            'BcMath\\Number type' => [new BcMathNumber(self::string(self::randomFloat(max: self::MAX)))],
-            'BcMathExtended\\Number type' => [new Number(self::string(self::randomFloat(max: self::MAX)))]
-        ];
     }
 
     /**
@@ -413,16 +384,6 @@ trait WithDataProviders
         return [
             $n,
             $factorial
-        ];
-    }
-
-    protected static function getIntegerAbs(bool $positive = true): array
-    {
-        if ($positive) $n = self::positiveRandomInteger();
-        else $n = self::negativeRandomInteger();
-        return [
-            $n,
-            abs($n)
         ];
     }
 
@@ -628,23 +589,199 @@ trait WithDataProviders
         ];
     }
 
-    protected static function getStringAbs(float $max = PHP_FLOAT_MAX, bool $positive = true): array
+    /**
+     *  ╔═══════════════╗
+     *  ║FLOAT DATA SETS║
+     *  ╚═══════════════╝
+     */
+
+    protected static function getFloatAddends(float $max = PHP_FLOAT_MAX): array
     {
-        if ($positive) $n = self::positiveRandomFloat(max: $max);
-        else $n = self::negativeRandomFloat(max: $max);
+        $a = self::randomFloat(max: $max, precision: 3);
+        $b = self::randomFloat(max: $max, precision: 3);
+        $A = new BcMathNumber(self::string($a));
+        $B = new BcMathNumber(self::string($b));
         return [
-            self::string($n),
-            self::string(abs($n))
+            $a,
+            $b,
+            self::string($A->add($B)->value)
         ];
     }
 
-    protected static function getStringFloat(float $max = PHP_FLOAT_MAX): array
+    protected static function getFloatMinuends(float $max = PHP_FLOAT_MAX): array
     {
+        $a = self::randomFloat(max: $max, precision: 3);
+        $b = self::randomFloat(max: $max, precision: 3);
+        $A = new BcMathNumber(self::string($a));
+        $B = new BcMathNumber(self::string($b));
         return [
-            self::string(self::randomFloatStrict(max: $max))
+            $a,
+            $b,
+            self::string($A->sub($B)->value)
         ];
     }
 
+    protected static function getFloatFactors(float $max = PHP_FLOAT_MAX): array
+    {
+        $a = self::randomFloat(max: $max, precision: 3);
+        $b = self::randomFloat(max: $max, precision: 3);
+        $A = new BcMathNumber(self::string($a));
+        $B = new BcMathNumber(self::string($b));
+        return [
+            $a,
+            $b,
+            self::string($A->mul($B)->value)
+        ];
+    }
+
+    protected static function getFloatDividends(float $max = PHP_FLOAT_MAX): array
+    {
+        $a = self::randomFloat(max: $max, precision: 3);
+        $b = self::randomFloat(max: $max, precision: 3);
+        $A = new BcMathNumber(self::string($a));
+        $B = new BcMathNumber(self::string($b));
+        return [
+            $a,
+            $b,
+            self::string($A->div($B)->value)
+        ];        
+    }
+
+    protected static function getFloatModulus(float $max = PHP_FLOAT_MAX): array
+    {
+        $a = self::randomFloat(max: $max, precision: 3);
+        $b = self::randomFloat(max: $max, precision: 3);
+        $A = new BcMathNumber(self::string($a));
+        $B = new BcMathNumber(self::string($b));
+        return [
+            $a,
+            $b,
+            self::string($A->sub($A->div($B)->floor()->mul($B))->value)
+        ];  
+    }
+    
+    protected static function getFloatQuotientRemainder(float $max = PHP_FLOAT_MAX): array
+    {
+        $a = self::randomFloat(max: $max, precision: 3);
+        $b = self::randomFloat(max: $max, precision: 3);
+        $A = new BcMathNumber(self::string($a));
+        $B = new BcMathNumber(self::string($b));
+        return [
+            $a,
+            $b,
+            self::string($A->div($B)->floor()->value),
+            self::string($A->sub($A->div($B)->floor()->mul($B))->value)
+        ];  
+    }
+
+    protected static function getFloatPower(float $max = PHP_FLOAT_MAX): array
+    {
+        $a = self::nonZeroRandomFloat(max: $max);
+        $k = self::randomInteger(
+            max: $a > 0 ? intval(log(PHP_FLOAT_MAX, $a)) : intval(log(PHP_FLOAT_MAX, abs($a)))
+        );
+        $A = new BcMathNumber(self::string($a));
+        $K = new BcMathNumber(self::string($k));
+        return [
+            $a,
+            $k,
+            self::string($A->pow($K)->value)
+        ];
+    } 
+
+    protected static function getFloatPowerModulo(float $max = PHP_FLOAT_MAX): array
+    {
+        $a = self::nonZeroRandomFloat(max: $max);
+        $k = self::randomInteger(
+            max: $a > 0 ? intval(log(PHP_FLOAT_MAX, $a)) : intval(log(PHP_FLOAT_MAX, abs($a)))
+        );
+        $m = self::nonZeroRandomFloat(max: $max);
+        $A = new BcMathNumber(self::string($a));
+        $K = new BcMathNumber(self::string($k));
+        $M = new BcMathNumber(self::string($m));
+        $P = $A->pow($K);
+        $result = $P->sub($M->mul($P->div($M)->floor()))->value;
+        return [
+            $a,
+            $k,
+            $m,
+            self::string($result)
+        ];  
+    }
+
+    protected static function getFloatSquareRoot(float $max = PHP_FLOAT_MAX): array
+    {
+        $a = self::randomFloat(max: sqrt($max)) ** 2;
+        $A = new BcMathNumber(self::string($a));
+        return [
+            $a,
+            self::string($A->sqrt()->value)
+        ];
+    }
+
+    protected static function getFloatRounding(float $max = PHP_FLOAT_MAX): array
+    {
+        $a = self::randomFloat(max: $max, precision: 4);
+        $A = new BcMathNumber(self::string($a));
+        return [
+            $a,
+            2,
+            self::string($A->round(2)->value)
+        ];
+    }
+
+    protected static function getFloatFloor(float $max = PHP_FLOAT_MAX): array
+    {
+        $a = self::randomFloatStrict(max: $max);
+        $A = new BcMathNumber(self::string($a));
+        return [
+            $a,
+            self::string($A->floor()->value)
+        ];
+    }
+
+    protected static function getFloatCeil(float $max = PHP_FLOAT_MAX): array
+    {
+        $a = self::randomFloatStrict(max: $max);
+        $A = new BcMathNumber(self::string($a));
+        return [
+            $a,
+            self::string($A->ceil()->value)
+        ];
+    }
+
+    protected static function getFloatMax(float $max_random = PHP_FLOAT_MAX): array
+    {
+        return self::getFloatMinOrMax("max", $max_random);
+    }
+
+    protected static function getFloatMin(float $max_random = PHP_FLOAT_MAX): array
+    {
+        return self::getFloatMinOrMax("min", $max_random);
+    }
+
+    protected static function getFloatMinOrMax(string $min_or_max, float $max_random = PHP_FLOAT_MAX): array
+    {
+        if ($min_or_max != "min" && $min_or_max != "max") $min_or_max = "max";
+        $count = self::positiveRandomInteger(2, 5);
+        for ($i = 0; $i <= $count - 1; $i ++) {
+            $vars[$i] = self::randomFloat(max: $max_random, precision: 3);
+        }
+        $result = $min_or_max($vars);
+        return [
+            $vars,
+            $result
+        ];
+    }
+
+    protected static function getFloatFactorial(int $max = 20): array
+    {
+        [$n, $fact] = self::getIntegerFactorial($max);
+        return [
+            (float) $n,
+            (float) $fact
+        ];
+    }
 
     /**
      *  ╔═══════════════════════╗
@@ -811,23 +948,6 @@ trait WithDataProviders
         return [
             new BcMathNumber($n),
             new BcMathNumber($fact)
-        ];
-    }
-
-    protected static function getBcMathNumberAbs(float $max = PHP_FLOAT_MAX, bool $positive = true): array
-    {
-        [$n, $abs] = self::getStringAbs($max, $positive);
-        return [
-            new BcMathNumber($n),
-            new BcMathNumber($abs)
-        ];
-    }
-
-    protected static function getBcMathNumberFloat(float $max = PHP_FLOAT_MAX): array
-    {
-        [$number] = self::getStringFloat(max: $max);
-        return [
-            new BcMathNumber($number)
         ];
     }
 
@@ -1000,24 +1120,7 @@ trait WithDataProviders
             new Number($fact)
         ];
     }
-
-    protected static function getBcMathExtendedNumberAbs(float $max = PHP_FLOAT_MAX, bool $positive = true): array
-    {
-        [$n, $abs] = self::getStringAbs($max, $positive);
-        return [
-            new Number($n),
-            new Number($abs)
-        ];
-    }
-
-    protected static function getBcMathExtendedNumberFloat(float $max = PHP_FLOAT_MAX): array
-    {
-        [$number] = self::getBcMathNumberFloat($max);
-        return [
-            new Number($number)
-        ];
-    }
-
+    
     /**
      * Format a $number to a numeric string.
      */

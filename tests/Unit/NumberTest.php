@@ -2,23 +2,29 @@
 declare(strict_types=1);
 namespace MarcoConsiglio\BCMathExtended\Tests\Unit;
 
-use MarcoConsiglio\BCMathExtended\Number;
+use MarcoConsiglio\BCMathExtended\Builders\FromBcMathNumber;
+use MarcoConsiglio\BCMathExtended\Builders\FromInt;
+use MarcoConsiglio\BCMathExtended\Builders\FromString;
 use MarcoConsiglio\BCMathExtended\Exceptions\NotANumberError;
-// use MarcoConsiglio\BCMathExtended\Exceptions\IndeterminateFormError;
-// use MarcoConsiglio\BCMathExtended\Exceptions\InfiniteError;
-// use MarcoConsiglio\BCMathExtended\Exceptions\NotANumberError;
+use MarcoConsiglio\BCMathExtended\Number;
 use MarcoConsiglio\BCMathExtended\Tests\BaseTestCase;
+use MarcoConsiglio\BCMathExtended\Tests\Feature\NumberTest as FeatureNumberTest;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
-use MarcoConsiglio\BCMathExtended\Tests\Feature\NumberTest as FeatureNumberTest;
 use PHPUnit\Framework\Attributes\DependsExternal;
 use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\Attributes\UsesClass;
+// use MarcoConsiglio\BCMathExtended\Exceptions\IndeterminateFormError;
+// use MarcoConsiglio\BCMathExtended\Exceptions\InfiniteError;
+// use MarcoConsiglio\BCMathExtended\Exceptions\NotANumberError;
 
 #[TestDox("The BcMathExtended\\Number class")]
 #[CoversClass(Number::class)]   
-// #[UsesClass(InfiniteError::class)]
 #[UsesClass(NotANumberError::class)]
+#[UsesClass(FromInt::class)]
+#[UsesClass(FromString::class)]
+#[UsesClass(FromBcMathNumber::class)]
+// #[UsesClass(InfiniteError::class)]
 // #[UsesClass(IndeterminateFormError::class)]
 class NumberTest extends BaseTestCase
 {
@@ -195,13 +201,5 @@ class NumberTest extends BaseTestCase
 
         // Act & Assert
         $this->assertFalse($res = $number->isInt(), "Is $number a int? $res");       
-    }
-
-    #[DataProvider("inputTypes")]
-    #[TestDox("can normalize int, string or BcMath\Number types into Number type.")]
-    public function test_normalize_input_types(mixed $input): void
-    {
-        // Act & Assert
-        $this->assertInstanceOf(Number::class, Number::toNumber($input));
     }
 }

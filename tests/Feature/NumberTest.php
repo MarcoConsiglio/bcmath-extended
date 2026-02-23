@@ -47,7 +47,7 @@ class NumberTest extends BaseTestCase
         $B = $this->instantiateNumber($b);
 
         // Act
-        $SUM = $this->string($A->plus($B)->getParent()->value);
+        $SUM = $this->string($A->plus($B));
 
         // Assert
         $this->assertEquals($sum, $SUM, "$a + $b = $SUM");
@@ -63,7 +63,7 @@ class NumberTest extends BaseTestCase
         $B = $this->instantiateNumber($b);
 
         // Act
-        $DIFF = $this->string($A->sub($B)->getParent()->value);
+        $DIFF = $this->string($A->sub($B));
 
         // Assert
         $this->assertEquals($diff, $DIFF, "$a - $b = $DIFF");
@@ -79,7 +79,7 @@ class NumberTest extends BaseTestCase
         $B = $this->instantiateNumber($b);
 
         // Act
-        $PROD = $this->string($A->mul($B)->getParent()->value);
+        $PROD = $this->string($A->mul($B));
 
         // Assert
         $this->assertEquals($prod, $PROD, "$a * $b = $PROD");
@@ -122,11 +122,11 @@ class NumberTest extends BaseTestCase
     }
 
     #[Depends("test_getParent")]
-    #[DataProvider("quotientAndRemainders")]
     #[Depends("test_division")]
     #[Depends("test_floor")]
     #[Depends("test_multiplication")]
     #[Depends("test_subtraction")]
+    #[DataProvider("quotientAndRemainders")]
     #[TestDox("can be divided by another and obtain the integer quotient and remainder of the division.")]
     public function test_division_modulo(mixed $a, mixed $b, mixed $quot, mixed $rem): void
     {
@@ -246,13 +246,8 @@ class NumberTest extends BaseTestCase
     #[TestDox("can calculate the max value in a list of numbers.")]
     public function test_max(array $nums, mixed $max): void
     {
-        // Arrange
-        foreach ($nums as $index => $num) {
-            $NUMS[$index] = $this->instantiateNumber($num);
-        }
-
         // Act
-        $MAX = $this->string(Number::max(...$NUMS)->getParent()->value);
+        $MAX = $this->string(Number::max(...$nums)->getParent()->value);
 
         // Assert
         $this->assertEquals($max, $MAX, $this->getMaxErrorMessage($nums, $MAX));
@@ -264,10 +259,10 @@ class NumberTest extends BaseTestCase
     public function test_min(array $nums, mixed $min): void
     {
         // Arrange
-        // $NUMS = $this->instantiateNumbers($nums);
+        $NUMS = $this->instantiateNumbers($nums);
 
         // Act
-        $MIN = $this->string(Number::min(...$nums)->getParent()->value);
+        $MIN = $this->string(Number::min(...$NUMS)->getParent()->value);
 
         // Assert
         $this->assertEquals($min, $MIN, $this->getMinErrorMessage($nums, $MIN));
@@ -290,12 +285,11 @@ class NumberTest extends BaseTestCase
     }
 
     #[Depends("test_getParent")]
-    #[DataProvider("floats")]
     #[TestDox("can check if a number is a decimal.")]
-    public function test_isFloat(mixed $num): void
+    public function test_isFloat(): void
     {
         // Arrange
-        $NUM = $this->instantiateNumber($num);
+        $NUM = new Number($this->string($this->randomFloatStrict(max: $this::MAX)));
 
         // Act & Assert
         $this->assertTrue($res = $NUM->isFloat(), "Is $NUM a float? $res");
