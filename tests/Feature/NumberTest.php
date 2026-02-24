@@ -7,6 +7,7 @@ use MarcoConsiglio\BCMathExtended\Tests\BaseTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\Attributes\TestDox;
+use RoundingMode;
 
 #[TestDox("The Number class")]
 class NumberTest extends BaseTestCase
@@ -313,17 +314,23 @@ class NumberTest extends BaseTestCase
     public function test_abs(): void
     {
         // Arrange
+        /**
+         * Warning! Floating point imprecision ahead!
+         * Solution: round the floating point number to
+         * a lower precision.
+         */
         $number = $this->instantiateNumber(
-            $this->string(
-                $original_number = $this->randomFloat(max: $this::MAX)
-            )
+            $original_number = round(
+                $this->randomFloat(max: $this::MAX)),
+                3,
+                RoundingMode::HalfTowardsZero
         );
 
         // Act
-        $absolute = $this->string($number->abs()->getParent()->value);
+        $absolute = $number->abs();
 
         // Assert
-        $this->assertEquals(abs($original_number), $absolute, "abs($original_number) = $absolute");
+        $this->assertEquals(abs($original_number), $absolute->value, "abs($original_number) = $absolute");
     }
 
     #[Depends("test_getParent")]
