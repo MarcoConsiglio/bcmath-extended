@@ -61,29 +61,9 @@ Search.appendIndex(
             "summary": "Get\u0020the\u0020builder\u0020output.",
             "url": "classes/MarcoConsiglio-BCMathExtended-Builders-FromString.html#method_getResult"
         },                {
-            "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Exceptions\\IndeterminateFormError",
-            "name": "IndeterminateFormError",
-            "summary": "",
-            "url": "classes/MarcoConsiglio-BCMathExtended-Exceptions-IndeterminateFormError.html"
-        },                {
-            "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Exceptions\\IndeterminateFormError\u003A\u003A__construct\u0028\u0029",
-            "name": "__construct",
-            "summary": "",
-            "url": "classes/MarcoConsiglio-BCMathExtended-Exceptions-IndeterminateFormError.html#method___construct"
-        },                {
-            "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Exceptions\\InfiniteError",
-            "name": "InfiniteError",
-            "summary": "",
-            "url": "classes/MarcoConsiglio-BCMathExtended-Exceptions-InfiniteError.html"
-        },                {
-            "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Exceptions\\InfiniteError\u003A\u003A__construct\u0028\u0029",
-            "name": "__construct",
-            "summary": "",
-            "url": "classes/MarcoConsiglio-BCMathExtended-Exceptions-InfiniteError.html#method___construct"
-        },                {
             "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Exceptions\\NotANumberError",
             "name": "NotANumberError",
-            "summary": "",
+            "summary": "The\u0020error\u0020thrown\u0020when\u0020an\u0020arithmetic\u0020calculations\u0020do\u0020not\u0020result\nin\u0020a\u0020number.",
             "url": "classes/MarcoConsiglio-BCMathExtended-Exceptions-NotANumberError.html"
         },                {
             "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Exceptions\\NotANumberError\u003A\u003A__construct\u0028\u0029",
