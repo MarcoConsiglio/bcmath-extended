@@ -23,7 +23,14 @@ class FromBcMathNumber implements Builder
     /**
      * Validate input.
      */
-    protected function validate(): void {}
+    protected function validate(): void 
+    {
+        $this->number = new BcMathNumber(
+            Number::string(
+                $this->number->value
+            )
+        );
+    }
 
     /**
      * Get the builder output.
