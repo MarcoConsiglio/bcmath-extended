@@ -16,7 +16,6 @@ use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\Attributes\UsesClass;
 // use MarcoConsiglio\BCMathExtended\Exceptions\IndeterminateFormError;
 // use MarcoConsiglio\BCMathExtended\Exceptions\InfiniteError;
-// use MarcoConsiglio\BCMathExtended\Exceptions\NotANumberError;
 
 #[TestDox("The BcMathExtended\\Number class")]
 #[CoversClass(Number::class)]   
