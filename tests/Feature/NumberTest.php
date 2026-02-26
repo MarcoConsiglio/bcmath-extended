@@ -489,6 +489,27 @@ class NumberTest extends BaseTestCase
         $this->assertTrue($number_A->gte($number_B), "$number_A ≱ $number_B");
     }
 
+    #[TestDox("can be converted to radian.")]
+    public function test_toRadian(): void
+    {
+        // Arrange
+        $degree = new Number(180);
+        $expected = Number::π();
+
+        // Act & Assert
+        $this->assertEquals($expected->value, $degree->rad()->value);
+    }
+
+    public function test_toDegree(): void
+    {
+        // Arrange
+        $radian = Number::π();
+        $expected = new Number(180);
+
+        // Act & Assert
+        $this->assertEquals($expected->value, $radian->deg()->value);
+    }
+
     // #[DataProvider("logarithm")]
     // #[TestDox("can calculate the logarithm of itself with a specified base.")]
     // public function test_logarithm(mixed $arg, mixed $base, mixed $log): void

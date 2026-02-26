@@ -24,6 +24,13 @@ class Number implements Stringable
     protected BCMathNumber $number;
 
     /**
+     * The longest PI constant representable by format_number() method.
+     * 
+     * It constist of 54 decimal places.
+     */
+    private const string LONG_PI = "3.141592653589793238462643383279502884197169399375105820";
+
+    /**
      * The value of this instance.
      */
     public string $value {
@@ -37,6 +44,30 @@ class Number implements Stringable
      */
     public int $scale {
         get {return $this->number->scale;}
+    }
+
+    /**
+     * Return the PI constant with $scale decimal digits.
+     * 
+     * @param int $scale It cannot be negative. The maximum allowed value
+     * is 54.
+     */
+    public static function PI(int $scale = 54): Number
+    {
+        if ($scale < 0) $scale = abs($scale);
+        if ($scale > 54) $scale = 54;
+        return new Number(self::LONG_PI)->round($scale);
+    }
+
+    /**
+     * Alias of PI() method.
+     * 
+     * @param int $scale It cannot be negative. The maximum allowed value
+     * is 54.
+     */
+    public static function π(int $scale = 54): Number
+    {
+        return self::PI($scale);
     }
 
     /**
@@ -613,6 +644,40 @@ class Number implements Stringable
         if ($precision > PHP_FLOAT_DIG) $precision = PHP_FLOAT_DIG;
         $rounded_number = $this->round($precision);
         return (float) $rounded_number->value;
+    }
+
+    /**
+     * Assuming this instance represent a degree number,
+     * cast it to radian.
+     */
+    public function toRadian(): Number
+    {
+        return $this->mul(self::π())->div(180);
+    }
+
+    /**
+     * Alias of toRadian() method.
+     */
+    public function rad(): Number
+    {
+        return $this->toRadian();
+    }
+
+    /**
+     * Assuming this instance represent a radian number,
+     * cast it to degree.
+     */
+    public function toDegree(): Number
+    {
+        return $this->mul(180)->div(self::π());
+    }
+
+    /**
+     * Alias of toDegree() method.
+     */
+    public function deg(): Number
+    {
+        return $this->toDegree();
     }
 
     /**

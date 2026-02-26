@@ -147,13 +147,15 @@ class NumberTest extends BaseTestCase
         $N->factorial();
     }
 
-    #[DataProvider("positiveAbs")]
-    #[DependsExternal(FeatureNumberTest::class, "test_abs")]
     #[TestDox("can calculate the absolute number of itself, so a positive number remains the same.")]
-    public function test_positive_absolute(mixed $n, mixed $abs): void
+    public function test_positive_absolute(): void
     {
         // Arrange
-        $N = $this->instantiateNumber($n);
+        $N = new Number(
+            $abs = $this->string(
+                $this->positiveRandomFloat(max: $this::MAX)
+            )
+        );
 
         // Act
         $ABS = $this->string($N->abs()->getParent()->value);
@@ -162,13 +164,14 @@ class NumberTest extends BaseTestCase
         $this->assertEquals($abs, $ABS, "abs($N) = $ABS");
     }
 
-    #[DataProvider("negativeAbs")]
-    #[DependsExternal(FeatureNumberTest::class, "test_abs")]
     #[TestDox("can calculate the absolute number of itself, so a negative number become a positive one.")]
-    public function test_negative_absolute(mixed $n, mixed $abs): void
+    public function test_negative_absolute(): void
     {
         // Arrange
-        $N = $this->instantiateNumber($n);
+        $abs = $this->string(
+            $this->positiveRandomFloat(max: $this::MAX)
+        );
+        $N = new Number("-" . $abs);
 
         // Act
         $ABS = $this->string($N->abs()->getParent()->value);
