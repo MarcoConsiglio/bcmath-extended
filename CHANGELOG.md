@@ -3,6 +3,10 @@
 ### Added
 - `Number::$scale` property that count the decimal places in the number.
 - `Number::toFloat` method to cast the instance to `float` type.
+- `Number::toRadian()` method to convert the instance to a radian `Number`.
+- `Number::toDegree()` method to convert the instance to a degree `Number`.
+- `Number::rad()` method alias of `Number::toRadian()`.
+- `Number::deg()` method alias of `Number::toDegree()`.
 ### Changed
 - API and README documentation.
 
