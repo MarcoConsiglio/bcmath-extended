@@ -63,6 +63,8 @@ This list consists of the new features added in this library:
 - Greater than or equal comparison
 - Less than comparison
 - Less than or equal comparison
+- Convert to radian
+- Convert to degree
 
 ## Input types
 The same input type set of BCMath is used:
