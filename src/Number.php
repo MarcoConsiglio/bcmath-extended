@@ -594,11 +594,25 @@ class Number implements Stringable
     }
 
     /**
-     * Cast this instance to string.
+     * Cast this instance to `string` type.
      */
     public function __toString(): string
     {
         return $this->number->value;
+    }
+
+    /**
+     * Cast this instance to `float` type.
+     * 
+     * @param int|null $precision It can be both positive or negative, but 
+     * if positive, it cannot be superior than `PHP_FLOAT_DIG` constant.
+     */
+    public function toFloat(int|null $precision = null): float
+    {
+        if ($precision === null) $precision = $this->scale;
+        if ($precision > PHP_FLOAT_DIG) $precision = PHP_FLOAT_DIG;
+        $rounded_number = $this->round($precision);
+        return (float) $rounded_number->value;
     }
 
     /**

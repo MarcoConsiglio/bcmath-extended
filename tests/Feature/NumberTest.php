@@ -32,7 +32,7 @@ class NumberTest extends BaseTestCase
         $number = new Number($original_value);
 
         // Act & Assert
-        $this->assertSame($original_value, $number->value, "$original_value ≠ $value");
+        $this->assertSame($original_value, $number->value, "$original_value ≠ $number->value");
     }
 
     #[TestDox("has a \"scale\" property which is an int.")]
@@ -51,6 +51,30 @@ class NumberTest extends BaseTestCase
         // Act & Assert
         $this->assertSame($scale, $number->scale, 
             "Does the number $original_number has $scale decimal places?");
+    }
+
+    #[TestDox("can be casted to string.")]
+    public function test_cast_to_string(): void
+    {
+        // Arrange
+        $original_value = $this->string(
+            $this->randomFloat(max: $this::MAX)
+        );
+        $number = new Number($original_value);
+
+        // Act & Assert
+        $this->assertSame($original_value, (string) $number);
+    }
+
+    #[TestDox("can be casted to float")]
+    public function test_cast_to_float(): void
+    {
+        // Arrange
+        $original_value = $this->string($this->randomFloat(max: $this::MAX));
+        $number = new Number($original_value);
+
+        // Act & Assert
+        $this->assertEquals($original_value, $number->toFloat());
     }
 
     #[Depends("test_getParent")]
