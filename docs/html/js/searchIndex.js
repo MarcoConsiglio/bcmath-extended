@@ -313,8 +313,13 @@ Search.appendIndex(
         },                {
             "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Number\u003A\u003A__toString\u0028\u0029",
             "name": "__toString",
-            "summary": "Cast\u0020this\u0020instance\u0020to\u0020string.",
+            "summary": "Cast\u0020this\u0020instance\u0020to\u0020\u0060string\u0060\u0020type.",
             "url": "classes/MarcoConsiglio-BCMathExtended-Number.html#method___toString"
+        },                {
+            "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Number\u003A\u003AtoFloat\u0028\u0029",
+            "name": "toFloat",
+            "summary": "Cast\u0020this\u0020instance\u0020to\u0020\u0060float\u0060\u0020type.",
+            "url": "classes/MarcoConsiglio-BCMathExtended-Number.html#method_toFloat"
         },                {
             "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Number\u003A\u003Astring\u0028\u0029",
             "name": "string",
@@ -330,6 +335,11 @@ Search.appendIndex(
             "name": "value",
             "summary": "The\u0020value\u0020of\u0020this\u0020instance.",
             "url": "classes/MarcoConsiglio-BCMathExtended-Number.html#property_value"
+        },                {
+            "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Number\u003A\u003A\u0024scale",
+            "name": "scale",
+            "summary": "The\u0020scale\u0020of\u0020this\u0020instance.",
+            "url": "classes/MarcoConsiglio-BCMathExtended-Number.html#property_scale"
         },                {
             "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Random",
             "name": "Random",
