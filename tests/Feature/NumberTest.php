@@ -22,20 +22,35 @@ class NumberTest extends BaseTestCase
         $this->assertInstanceOf(BcMathNumber::class, $number->getParent());
     }
 
-    #[TestDox("has a value property which is a string.")]
+    #[TestDox("has a \"value\" property which is a string.")]
     public function test_value_property(): void
     {
         // Arrange
         $original_value = $this->string(
-            $this->randomFloatStrict(max: $this::MAX)
+            $this->randomFloat(max: $this::MAX)
         );
         $number = new Number($original_value);
 
-        // Act
-        $value = $number->value;
+        // Act & Assert
+        $this->assertSame($original_value, $number->value, "$original_value ≠ $value");
+    }
 
-        // Assert
-        $this->assertSame($original_value, $value, "$original_value ≠ $value");
+    #[TestDox("has a \"scale\" property which is an int.")]
+    public function test_scale_property(): void
+    {
+        // Arrange
+        $original_number = $this->string(
+            $this->randomFloatStrict(
+                max: $this::MAX, 
+                precision: $this->positiveRandomInteger(1, PHP_FLOAT_DIG)
+            )
+        );
+        $scale = $this->countStringDecimalPlaces($original_number);
+        $number = new Number($original_number);
+
+        // Act & Assert
+        $this->assertSame($scale, $number->scale, 
+            "Does the number $original_number has $scale decimal places?");
     }
 
     #[Depends("test_getParent")]

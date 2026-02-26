@@ -31,6 +31,15 @@ class Number implements Stringable
     }
 
     /**
+     * The scale of this instance.
+     * 
+     * It represents the number of decimal places of this number.
+     */
+    public int $scale {
+        get {return $this->number->scale;}
+    }
+
+    /**
      * Construct a Number.
      * 
      * @throws ValueError if $number is string and not a well-formed BCMath numeric string.
