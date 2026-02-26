@@ -9,7 +9,7 @@
     <paths>
         <output>docs/html</output>
     </paths>
-    <version number="2.0.1">
+    <version number="2.1.0">
         <api>
             <source dsn=".">
                 <path>src</path>

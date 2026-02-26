@@ -1,5 +1,5 @@
 # Changelog
-## Unreleased
+## v2.1.0 2026-02-26
 ### Added
 - `Number::$scale` property that count the decimal places in the number.
 - `Number::toFloat` method to cast the instance to `float` type.
