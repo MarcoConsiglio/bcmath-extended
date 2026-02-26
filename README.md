@@ -18,6 +18,8 @@ composer require marcoconsiglio/bcmath-extended
 # Features
 ## Base features
 The following list of features of the `Number` class are the same as those found in `BCMath\Number`:
+- Base instance `$value`
+- Base instance `$scale`
 - Addition
 - Subtracion
 - Multiplication
@@ -30,11 +32,13 @@ The following list of features of the `Number` class are the same as those found
 - Cast to string
 
 ## Missing base features
+These are the missing features:
 - Spaceship comparison
 - Comparison operator overloading
 - Serialization/unserialization
 
 ## Added features
+This list consists of the new features added in this library:
 - `float` type input
 - Modulo *
 - Power & modulo *
