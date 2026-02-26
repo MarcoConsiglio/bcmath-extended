@@ -4,7 +4,7 @@
 - `Number::$scale` property that count the decimal places in the number.
 - `Number::toFloat` method to cast the instance to `float` type.
 ### Changed
-- README documentation.
+- API and README documentation.
 
 ## v2.0.1 2026-02-24
 ### Fixed
