@@ -1,4 +1,8 @@
 # Changelog
+## Unreleased
+### Added
+- `Number::$scale` property that count the decimal places in the number.
+
 ## v2.0.1 2026-02-24
 ### Fixed
 - [#5](https://github.com/MarcoConsiglio/bcmath-extended/issues/5) The integer result of an expression is recognized as a decimal number
