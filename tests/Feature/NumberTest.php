@@ -22,20 +22,59 @@ class NumberTest extends BaseTestCase
         $this->assertInstanceOf(BcMathNumber::class, $number->getParent());
     }
 
-    #[TestDox("has a value property which is a string.")]
+    #[TestDox("has a \"value\" property which is a string.")]
     public function test_value_property(): void
     {
         // Arrange
         $original_value = $this->string(
-            $this->randomFloatStrict(max: $this::MAX)
+            $this->randomFloat(max: $this::MAX)
         );
         $number = new Number($original_value);
 
-        // Act
-        $value = $number->value;
+        // Act & Assert
+        $this->assertSame($original_value, $number->value, "$original_value ≠ $number->value");
+    }
 
-        // Assert
-        $this->assertSame($original_value, $value, "$original_value ≠ $value");
+    #[TestDox("has a \"scale\" property which is an int.")]
+    public function test_scale_property(): void
+    {
+        // Arrange
+        $original_number = $this->string(
+            $this->randomFloatStrict(
+                max: $this::MAX, 
+                precision: $this->positiveRandomInteger(1, PHP_FLOAT_DIG)
+            )
+        );
+        $scale = $this->countStringDecimalPlaces($original_number);
+        $number = new Number($original_number);
+
+        // Act & Assert
+        $this->assertSame($scale, $number->scale, 
+            "Does the number $original_number has $scale decimal places?");
+    }
+
+    #[TestDox("can be casted to string.")]
+    public function test_cast_to_string(): void
+    {
+        // Arrange
+        $original_value = $this->string(
+            $this->randomFloat(max: $this::MAX)
+        );
+        $number = new Number($original_value);
+
+        // Act & Assert
+        $this->assertSame($original_value, (string) $number);
+    }
+
+    #[TestDox("can be casted to float")]
+    public function test_cast_to_float(): void
+    {
+        // Arrange
+        $original_value = $this->string($this->randomFloat(max: $this::MAX));
+        $number = new Number($original_value);
+
+        // Act & Assert
+        $this->assertEquals($original_value, $number->toFloat());
     }
 
     #[Depends("test_getParent")]
@@ -448,6 +487,27 @@ class NumberTest extends BaseTestCase
 
         // Act & Assert
         $this->assertTrue($number_A->gte($number_B), "$number_A ≱ $number_B");
+    }
+
+    #[TestDox("can be converted to radian.")]
+    public function test_toRadian(): void
+    {
+        // Arrange
+        $degree = new Number(180);
+        $expected = Number::π();
+
+        // Act & Assert
+        $this->assertEquals($expected->value, $degree->rad()->value);
+    }
+
+    public function test_toDegree(): void
+    {
+        // Arrange
+        $radian = Number::π();
+        $expected = new Number(180);
+
+        // Act & Assert
+        $this->assertEquals($expected->value, $radian->deg()->value);
     }
 
     // #[DataProvider("logarithm")]

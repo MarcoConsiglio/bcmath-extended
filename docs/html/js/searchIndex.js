@@ -86,6 +86,16 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/MarcoConsiglio-BCMathExtended-Number.html"
         },                {
+            "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Number\u003A\u003API\u0028\u0029",
+            "name": "PI",
+            "summary": "Return\u0020the\u0020PI\u0020constant\u0020with\u0020\u0024scale\u0020decimal\u0020digits.",
+            "url": "classes/MarcoConsiglio-BCMathExtended-Number.html#method_PI"
+        },                {
+            "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Number\u003A\u003A\u03C0\u0028\u0029",
+            "name": "\u03C0",
+            "summary": "Alias\u0020of\u0020PI\u0028\u0029\u0020method.",
+            "url": "classes/MarcoConsiglio-BCMathExtended-Number.html#method_%CF%80"
+        },                {
             "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Number\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
             "summary": "Construct\u0020a\u0020Number.",
@@ -313,8 +323,33 @@ Search.appendIndex(
         },                {
             "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Number\u003A\u003A__toString\u0028\u0029",
             "name": "__toString",
-            "summary": "Cast\u0020this\u0020instance\u0020to\u0020string.",
+            "summary": "Cast\u0020this\u0020instance\u0020to\u0020\u0060string\u0060\u0020type.",
             "url": "classes/MarcoConsiglio-BCMathExtended-Number.html#method___toString"
+        },                {
+            "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Number\u003A\u003AtoFloat\u0028\u0029",
+            "name": "toFloat",
+            "summary": "Cast\u0020this\u0020instance\u0020to\u0020\u0060float\u0060\u0020type.",
+            "url": "classes/MarcoConsiglio-BCMathExtended-Number.html#method_toFloat"
+        },                {
+            "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Number\u003A\u003AtoRadian\u0028\u0029",
+            "name": "toRadian",
+            "summary": "Assuming\u0020this\u0020instance\u0020represent\u0020a\u0020degree\u0020number,\ncast\u0020it\u0020to\u0020radian.",
+            "url": "classes/MarcoConsiglio-BCMathExtended-Number.html#method_toRadian"
+        },                {
+            "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Number\u003A\u003Arad\u0028\u0029",
+            "name": "rad",
+            "summary": "Alias\u0020of\u0020toRadian\u0028\u0029\u0020method.",
+            "url": "classes/MarcoConsiglio-BCMathExtended-Number.html#method_rad"
+        },                {
+            "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Number\u003A\u003AtoDegree\u0028\u0029",
+            "name": "toDegree",
+            "summary": "Assuming\u0020this\u0020instance\u0020represent\u0020a\u0020radian\u0020number,\ncast\u0020it\u0020to\u0020degree.",
+            "url": "classes/MarcoConsiglio-BCMathExtended-Number.html#method_toDegree"
+        },                {
+            "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Number\u003A\u003Adeg\u0028\u0029",
+            "name": "deg",
+            "summary": "Alias\u0020of\u0020toDegree\u0028\u0029\u0020method.",
+            "url": "classes/MarcoConsiglio-BCMathExtended-Number.html#method_deg"
         },                {
             "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Number\u003A\u003Astring\u0028\u0029",
             "name": "string",
@@ -330,6 +365,11 @@ Search.appendIndex(
             "name": "value",
             "summary": "The\u0020value\u0020of\u0020this\u0020instance.",
             "url": "classes/MarcoConsiglio-BCMathExtended-Number.html#property_value"
+        },                {
+            "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Number\u003A\u003A\u0024scale",
+            "name": "scale",
+            "summary": "The\u0020scale\u0020of\u0020this\u0020instance.",
+            "url": "classes/MarcoConsiglio-BCMathExtended-Number.html#property_scale"
         },                {
             "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Random",
             "name": "Random",
