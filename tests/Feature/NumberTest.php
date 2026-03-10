@@ -500,7 +500,8 @@ class NumberTest extends BaseTestCase
         $this->assertEquals($expected->value, $degree->rad()->value);
     }
 
-    public function test_toDegree(): void
+    #[TestDox("can be converted to degrees.")]
+    public function test_toDegrees(): void
     {
         // Arrange
         $radian = Number::π();
