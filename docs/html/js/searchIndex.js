@@ -333,7 +333,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Number\u003A\u003AtoRadian\u0028\u0029",
             "name": "toRadian",
-            "summary": "Assuming\u0020this\u0020instance\u0020represent\u0020a\u0020degree\u0020number,\ncast\u0020it\u0020to\u0020radian.",
+            "summary": "Assuming\u0020this\u0020instance\u0020represents\u0020a\u0020degree\u0020number,\ncast\u0020it\u0020to\u0020radian.",
             "url": "classes/MarcoConsiglio-BCMathExtended-Number.html#method_toRadian"
         },                {
             "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Number\u003A\u003Arad\u0028\u0029",
@@ -345,6 +345,11 @@ Search.appendIndex(
             "name": "toDegree",
             "summary": "Assuming\u0020this\u0020instance\u0020represent\u0020a\u0020radian\u0020number,\ncast\u0020it\u0020to\u0020degree.",
             "url": "classes/MarcoConsiglio-BCMathExtended-Number.html#method_toDegree"
+        },                {
+            "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Number\u003A\u003AtoDegrees\u0028\u0029",
+            "name": "toDegrees",
+            "summary": "Assuming\u0020this\u0020instance\u0020represents\u0020a\u0020radian\u0020number,\ncast\u0020it\u0020to\u0020sexadecimal\u0020degrees.",
+            "url": "classes/MarcoConsiglio-BCMathExtended-Number.html#method_toDegrees"
         },                {
             "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Number\u003A\u003Adeg\u0028\u0029",
             "name": "deg",

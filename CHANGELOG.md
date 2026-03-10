@@ -1,4 +1,10 @@
 # Changelog
+## v2.2.0 2026-03-10
+### Added
+- `Number::toDegrees()` to replace `Number::toDegree()`.
+### Changed
+- `Number::toDegree()` has been deprecated.
+
 ## v2.1.0 2026-02-26
 ### Added
 - `Number::$scale` property that count the decimal places in the number.

@@ -8,6 +8,7 @@ use RoundingMode;
 use Stringable;
 use ValueError;
 use BcMath\Number as BCMathNumber;
+use Deprecated;
 use MarcoConsiglio\BCMathExtended\Builders\FromBcMathNumber;
 use MarcoConsiglio\BCMathExtended\Builders\FromFloat;
 use MarcoConsiglio\BCMathExtended\Builders\FromInt;
@@ -647,7 +648,7 @@ class Number implements Stringable
     }
 
     /**
-     * Assuming this instance represent a degree number,
+     * Assuming this instance represents a degree number,
      * cast it to radian.
      */
     public function toRadian(): Number
@@ -667,7 +668,17 @@ class Number implements Stringable
      * Assuming this instance represent a radian number,
      * cast it to degree.
      */
+    #[Deprecated("use toDegrees() instead.", "v2.2.0")]
     public function toDegree(): Number
+    {
+        return $this->toDegrees();
+    }
+
+    /**
+     * Assuming this instance represents a radian number,
+     * cast it to sexadecimal degrees.
+     */
+    public function toDegrees(): Number
     {
         return $this->mul(180)->div(self::π());
     }
@@ -677,7 +688,7 @@ class Number implements Stringable
      */
     public function deg(): Number
     {
-        return $this->toDegree();
+        return $this->toDegrees();
     }
 
     /**
