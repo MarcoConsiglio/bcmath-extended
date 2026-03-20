@@ -115,7 +115,6 @@ class NumberTest extends BaseTestCase
     //     (new Number($arg))->log($base);       
     // }
 
-    #[DependsExternal(FeatureNumberTest::class, "test_factorial")]
     #[TestDox("throws NotANumberError when trying to calculate factorial with a decimal number.")]
     public function test_factorial_with_float_input(): void
     {
@@ -131,7 +130,6 @@ class NumberTest extends BaseTestCase
         $N->factorial();
     }
 
-    #[DependsExternal(FeatureNumberTest::class, "test_factorial")]
     #[TestDox("throws NotANumberError when trying to calculate factorial with a negative number.")]
     public function test_factorial_with_negative_number(): void
     {
@@ -180,8 +178,6 @@ class NumberTest extends BaseTestCase
         $this->assertEquals($abs, $ABS, "abs($N) = $ABS");
     }
 
-    #[DependsExternal(FeatureNumberTest::class, "test_getParent")]
-    #[DependsExternal(FeatureNumberTest::class, "test_isFloat")]
     #[TestDox("can check if a number is not a decimal.")]
     public function test_is_not_float(): void
     {
@@ -192,8 +188,6 @@ class NumberTest extends BaseTestCase
         $this->assertFalse($res = $number->isFloat(), "Is $number a float? $res");
     }
 
-    #[DependsExternal(FeatureNumberTest::class, "test_getParent")]
-    #[DependsExternal(FeatureNumberTest::class, "test_isFloat")]
     #[TestDox("can check if a number is not an integer.")]
     public function test_is_not_int(): void
     {
