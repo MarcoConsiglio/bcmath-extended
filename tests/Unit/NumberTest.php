@@ -8,10 +8,7 @@ use MarcoConsiglio\BCMathExtended\Builders\FromString;
 use MarcoConsiglio\BCMathExtended\Exceptions\NotANumberError;
 use MarcoConsiglio\BCMathExtended\Number;
 use MarcoConsiglio\BCMathExtended\Tests\BaseTestCase;
-use MarcoConsiglio\BCMathExtended\Tests\Feature\NumberTest as FeatureNumberTest;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\Attributes\DependsExternal;
 use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\Attributes\UsesClass;
 // use MarcoConsiglio\BCMathExtended\Exceptions\IndeterminateFormError;
@@ -119,8 +116,8 @@ class NumberTest extends BaseTestCase
     public function test_factorial_with_float_input(): void
     {
         // Arrange
-        $n = $this->positiveRandomFloatStrict(max: self::MAX);
-        $N = $this->instantiateNumber($this->string($n));
+        $n = $this->positiveRandomFraction(max: self::MAX);
+        $N = $this->instantiateNumber(Number::string($n));
 
         // Assert
         $this->expectException(NotANumberError::class);
@@ -150,13 +147,13 @@ class NumberTest extends BaseTestCase
     {
         // Arrange
         $N = new Number(
-            $abs = $this->string(
+            $abs = Number::string(
                 $this->positiveRandomFloat(max: $this::MAX)
             )
         );
 
         // Act
-        $ABS = $this->string($N->abs()->getParent()->value);
+        $ABS = Number::string($N->abs()->getParent()->value);
 
         // Assert
         $this->assertEquals($abs, $ABS, "abs($N) = $ABS");
@@ -166,13 +163,13 @@ class NumberTest extends BaseTestCase
     public function test_negative_absolute(): void
     {
         // Arrange
-        $abs = $this->string(
+        $abs = Number::string(
             $this->positiveRandomFloat(max: $this::MAX)
         );
         $N = new Number("-" . $abs);
 
         // Act
-        $ABS = $this->string($N->abs()->getParent()->value);
+        $ABS = Number::string($N->abs()->getParent()->value);
 
         // Assert
         $this->assertEquals($abs, $ABS, "abs($N) = $ABS");
@@ -192,8 +189,8 @@ class NumberTest extends BaseTestCase
     public function test_is_not_int(): void
     {
         // Arrange
-        $float_number = $this->randomFloatStrict(max: $this::MAX);
-        $number = $this->instantiateNumber($this->string($float_number));
+        $float_number = $this->randomFraction(max: $this::MAX);
+        $number = $this->instantiateNumber(Number::string($float_number));
 
         // Act & Assert
         $this->assertFalse($res = $number->isInt(), "Is $number a int? $res");       

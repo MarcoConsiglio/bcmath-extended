@@ -3,20 +3,19 @@ namespace MarcoConsiglio\BCMathExtended\Tests\Feature;
 
 use MarcoConsiglio\BCMathExtended\Number;
 use BcMath\Number as BcMathNumber;
-use MarcoConsiglio\BCMathExtended\Tests\BaseTestCase;
+use MarcoConsiglio\BCMathExtended\Tests\TestCaseWithDataProviders;
 use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\Attributes\TestDox;
 use RoundingMode;
 
 #[TestDox("The Number class")]
-class NumberTest extends BaseTestCase
+class NumberTest extends TestCaseWithDataProviders
 {
     #[TestDox('extends the BcMath\\Number class through composition.')]
     public function test_getParent(): void
     {
         // Arrange
-        $number = new Number($this->randomInteger());
+        $number = new Number(self::randomInteger());
 
         // Act & Assert
         $this->assertInstanceOf(BcMathNumber::class, $number->getParent());
@@ -26,7 +25,7 @@ class NumberTest extends BaseTestCase
     public function test_value_property(): void
     {
         // Arrange
-        $original_value = $this->string(
+        $original_value = Number::string(
             $this->randomFloat(max: $this::MAX)
         );
         $number = new Number($original_value);
@@ -39,8 +38,8 @@ class NumberTest extends BaseTestCase
     public function test_scale_property(): void
     {
         // Arrange
-        $original_number = $this->string(
-            $this->randomFloatStrict(
+        $original_number = Number::string(
+            $this->randomFraction(
                 max: $this::MAX, 
                 precision: $this->positiveRandomInteger(1, PHP_FLOAT_DIG)
             )
@@ -57,7 +56,7 @@ class NumberTest extends BaseTestCase
     public function test_cast_to_string(): void
     {
         // Arrange
-        $original_value = $this->string(
+        $original_value = Number::string(
             $this->randomFloat(max: $this::MAX)
         );
         $number = new Number($original_value);
@@ -70,7 +69,7 @@ class NumberTest extends BaseTestCase
     public function test_cast_to_float(): void
     {
         // Arrange
-        $original_value = $this->string($this->randomFloat(max: $this::MAX));
+        $original_value = Number::string($this->randomFloat(max: $this::MAX));
         $number = new Number($original_value);
 
         // Act & Assert
@@ -86,7 +85,7 @@ class NumberTest extends BaseTestCase
         $B = $this->instantiateNumber($b);
 
         // Act
-        $SUM = $this->string($A->plus($B));
+        $SUM = Number::string($A->plus($B));
 
         // Assert
         $this->assertEquals($sum, $SUM, "$a + $b = $SUM");
@@ -101,7 +100,7 @@ class NumberTest extends BaseTestCase
         $B = $this->instantiateNumber($b);
 
         // Act
-        $DIFF = $this->string($A->sub($B));
+        $DIFF = Number::string($A->sub($B));
 
         // Assert
         $this->assertEquals($diff, $DIFF, "$a - $b = $DIFF");
@@ -116,7 +115,7 @@ class NumberTest extends BaseTestCase
         $B = $this->instantiateNumber($b);
 
         // Act
-        $PROD = $this->string($A->mul($B));
+        $PROD = Number::string($A->mul($B));
 
         // Assert
         $this->assertEquals($prod, $PROD, "$a * $b = $PROD");
@@ -131,7 +130,7 @@ class NumberTest extends BaseTestCase
         $B = $this->instantiateNumber($b);
 
         // Act
-        $QUOT = $this->string($A->div($B)->getParent()->value);
+        $QUOT = Number::string($A->div($B)->getParent()->value);
 
         // Assert
         $this->assertEquals($quot, $QUOT, "$a / $b = $QUOT");
@@ -146,7 +145,7 @@ class NumberTest extends BaseTestCase
         $B = $this->instantiateNumber($b);
 
         // Act
-        $REM = $this->string($A->mod($B)->getParent()->value);
+        $REM = Number::string($A->mod($B)->getParent()->value);
 
         // Assert
         $this->assertEquals($rem, $REM, "$a mod $b = $REM");
@@ -162,8 +161,8 @@ class NumberTest extends BaseTestCase
 
         // Act
         [$QUOT, $REM] = $A->divmod($B);
-        $QUOT = $this->string($QUOT->getParent()->value);
-        $REM = $this->string($REM->getParent()->value);
+        $QUOT = Number::string($QUOT->getParent()->value);
+        $REM = Number::string($REM->getParent()->value);
 
         // Assert
         $this->assertEquals($quot, $QUOT, "floor($a / $b) = $QUOT");
@@ -179,7 +178,7 @@ class NumberTest extends BaseTestCase
         $E = $this->instantiateNumber($e);
 
         // Act
-        $POW = $this->string($B->pow($E)->getParent()->value);
+        $POW = Number::string($B->pow($E)->getParent()->value);
 
         // Assert
         $this->assertEquals($pow, $POW, "$b ^ $e = $POW");
@@ -195,7 +194,7 @@ class NumberTest extends BaseTestCase
         $M = $this->instantiateNumber($m);
         
         // Act
-        $POWMOD = $this->string($B->powmod($E, $M)->getParent()->value);
+        $POWMOD = Number::string($B->powmod($E, $M)->getParent()->value);
 
         // Assert
         $this->assertEquals($pow_mod, $POWMOD, "($b ^ $e) mod $m = $POWMOD");
@@ -209,7 +208,7 @@ class NumberTest extends BaseTestCase
         $N = $this->instantiateNumber($n);
 
         // Act
-        $SQRT = $this->string($N->sqrt()->getParent()->value);
+        $SQRT = Number::string($N->sqrt()->getParent()->value);
 
         // Assert
         $this->assertEquals($sqrt, $SQRT, "sqrt($n) = $SQRT");
@@ -223,7 +222,7 @@ class NumberTest extends BaseTestCase
         $NUM = $this->instantiateNumber($num);
 
         // Act
-        $RND = $this->string($NUM->round($prec)->getParent()->value);
+        $RND = Number::string($NUM->round($prec)->getParent()->value);
 
         // Assert
         $this->assertEquals($rnd, $RND, "round($NUM, $prec) = $RND");
@@ -237,7 +236,7 @@ class NumberTest extends BaseTestCase
         $NUM = $this->instantiateNumber($num);
 
         // Act
-        $FLR = $this->string($NUM->floor()->getParent()->value);
+        $FLR = Number::string($NUM->floor()->getParent()->value);
 
         // Assert
         $this->assertEquals($flr, $FLR, "floor($num) = $FLR");
@@ -251,7 +250,7 @@ class NumberTest extends BaseTestCase
         $NUM = $this->instantiateNumber($num);
 
         // Act
-        $CEIL = $this->string($NUM->ceil()->getParent()->value);
+        $CEIL = Number::string($NUM->ceil()->getParent()->value);
 
         // Assert
         $this->assertEquals($ceil, $CEIL, "ceil($num) = $CEIL");
@@ -262,7 +261,7 @@ class NumberTest extends BaseTestCase
     public function test_max(array $nums, mixed $max): void
     {
         // Act
-        $MAX = $this->string(Number::max(...$nums)->getParent()->value);
+        $MAX = Number::string(Number::max(...$nums)->getParent()->value);
 
         // Assert
         $this->assertEquals($max, $MAX, $this->getMaxErrorMessage($nums, $MAX));
@@ -276,7 +275,7 @@ class NumberTest extends BaseTestCase
         $NUMS = $this->instantiateNumbers($nums);
 
         // Act
-        $MIN = $this->string(Number::min(...$NUMS)->getParent()->value);
+        $MIN = Number::string(Number::min(...$NUMS)->getParent()->value);
 
         // Assert
         $this->assertEquals($min, $MIN, $this->getMinErrorMessage($nums, $MIN));
@@ -300,7 +299,7 @@ class NumberTest extends BaseTestCase
     public function test_isFloat(): void
     {
         // Arrange
-        $NUM = new Number($this->string($this->randomFloatStrict(max: $this::MAX)));
+        $NUM = new Number(Number::string($this->randomFraction(max: $this::MAX)));
 
         // Act & Assert
         $this->assertTrue($res = $NUM->isFloat(), "Is $NUM a float? $res");
@@ -344,7 +343,7 @@ class NumberTest extends BaseTestCase
     {
         // Arrange
         $number = $this->instantiateNumber(
-            $this->string(
+            Number::string(
                 $this->positiveRandomFloat(max: $this::MAX)
             )
         );
@@ -360,7 +359,7 @@ class NumberTest extends BaseTestCase
     {
         // Arrange
         $number = $this->instantiateNumber(
-            $this->string(
+            Number::string(
                 $this->negativeRandomFloat(max: $this::MAX)
             )
         );
@@ -376,7 +375,7 @@ class NumberTest extends BaseTestCase
     {
         // Arrange
         $number_A = $number_B = $this->instantiateNumber(
-            $this->string($this->randomFloat(max: $this::MAX))
+            Number::string($this->randomFloat(max: $this::MAX))
         ); 
 
         // Act & Assert
@@ -388,9 +387,9 @@ class NumberTest extends BaseTestCase
     {
         // Arrange
         $number_A = $this->instantiateNumber(
-            $this->string($this->randomFloat(max: $this::MAX))
+            Number::string($this->randomFloat(max: $this::MAX))
         );
-        $number_B = $number_A->sub($this->string($this->randomFloat(max: $this::MAX)));
+        $number_B = $number_A->sub(Number::string($this->randomFloat(max: $this::MAX)));
 
         // Act & Assert
         $this->assertTrue($number_A->not($number_B), "$number_A ≠ $number_B");      
@@ -401,9 +400,9 @@ class NumberTest extends BaseTestCase
     {
         // Arrange
         $number_A = $this->instantiateNumber(
-            $this->string($this->randomFloat(max: $this::MAX))
+            Number::string($this->randomFloat(max: $this::MAX))
         );
-        $number_B = $number_A->sub($this->string($this->positiveRandomFloat(max: $this::MAX)));
+        $number_B = $number_A->sub(Number::string($this->positiveRandomFloat(max: $this::MAX)));
 
         // Act & Assert
         $this->assertTrue($number_B->lt($number_A), "$number_B ≮ $number_A");
@@ -414,9 +413,9 @@ class NumberTest extends BaseTestCase
     {
         // Arrange
         $number_A = $this->instantiateNumber(
-            $this->string($this->randomFloat(max: $this::MAX))
+            Number::string($this->randomFloat(max: $this::MAX))
         );
-        $number_B = $number_A->sub($this->string($this->positiveRandomFloat(max: $this::MAX)));
+        $number_B = $number_A->sub(Number::string($this->positiveRandomFloat(max: $this::MAX)));
 
         // Act & Assert
         $this->assertTrue($number_B->lte($number_A), "$number_B ≰ $number_A");
@@ -427,9 +426,9 @@ class NumberTest extends BaseTestCase
     {
         // Arrange
         $number_A = $this->instantiateNumber(
-            $this->string($this->randomFloat(max: $this::MAX))
+            Number::string($this->randomFloat(max: $this::MAX))
         );
-        $number_B = $number_A->sub($this->string($this->positiveRandomFloat(max: $this::MAX)));
+        $number_B = $number_A->sub(Number::string($this->positiveRandomFloat(max: $this::MAX)));
 
         // Act & Assert
         $this->assertTrue($number_A->gt($number_B), "$number_A ≯ $number_B");
@@ -440,9 +439,9 @@ class NumberTest extends BaseTestCase
     {
         // Arrange
         $number_A = $this->instantiateNumber(
-            $this->string($this->randomFloat(max: $this::MAX))
+            Number::string($this->randomFloat(max: $this::MAX))
         );
-        $number_B = $number_A->sub($this->string($this->positiveRandomFloat(max: $this::MAX)));
+        $number_B = $number_A->sub(Number::string($this->positiveRandomFloat(max: $this::MAX)));
 
         // Act & Assert
         $this->assertTrue($number_A->gte($number_B), "$number_A ≱ $number_B");
@@ -478,7 +477,7 @@ class NumberTest extends BaseTestCase
     //     $ARG = $this->instantiateNumber($arg);
 
     //     // Act
-    //     $LOG = $this->string($ARG->log($base, 13)->getParent()->value);
+    //     $LOG = Number::string($ARG->log($base, 13)->getParent()->value);
 
     //     // Assert
     //     $this->assertEquals($log, $LOG, "log($arg, $base) = $LOG");

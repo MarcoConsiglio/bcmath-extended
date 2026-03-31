@@ -1,23 +1,14 @@
 <?php
-namespace MarcoConsiglio\BCMathExtended\Tests\Traits;
+namespace MarcoConsiglio\BCMathExtended\Tests;
 
 use ArithmeticError;
 use BcMath\Number as BcMathNumber;
 use MarcoConsiglio\BCMathExtended\Number;
 use MarcoConsiglio\BCMathExtended\Tests\Divisors;
-use MarcoConsiglio\FakerPhpNumberHelpers\WithFakerHelpers;
 use RoundingMode;
 
-trait WithDataProviders
+class TestCaseWithDataProviders extends BaseTestCase
 {
-    use WithFakerHelpers;
-
-    /**
-     * WARNING! Large float type numbers makes unrecoverable rounding errors!
-     * Use this constant to not reach huge numbers.
-     */
-    protected const int MAX = 1_000_000;
-
     /**
      *  ╔══════════════╗
      *  ║DATA PROVIDERS║
@@ -226,20 +217,18 @@ trait WithDataProviders
     {
         return [
             $a = self::randomInteger(), 
-            $b = self::randomInteger(
-                max: $a >= 0 ? PHP_INT_MAX - $a : abs(-PHP_INT_MAX - $a)
-            ),
+            $b = $a >= 0 ? 
+                self::randomInteger(PHP_INT_MIN + $a, PHP_INT_MAX - $a) : 
+                self::randomInteger(PHP_INT_MIN - $a, PHP_INT_MAX + $a),
             $a + $b
         ];
-    }
+    } 
 
     protected static function getIntegerMinuends(): array
     {
         return [
             $a = self::randomInteger(),
-            $b = self::randomInteger(
-                max: $a >= 0 ? PHP_INT_MAX - $a : abs(-PHP_INT_MAX - $a)
-            ),
+            $b = self::randomInteger(PHP_INT_MIN + 1 + abs($a), PHP_INT_MAX - abs($a)),
             $a - $b
         ];
     }
@@ -248,9 +237,7 @@ trait WithDataProviders
     {
         return [
             $a = self::nonZeroRandomInteger(),
-            $b = self::randomInteger(
-                max: intval(PHP_INT_MAX / $a)
-            ),
+            $b = self::randomInteger(intval(PHP_INT_MIN / $a), intval(PHP_INT_MAX / $a)),
             $a * $b
         ];
     }
@@ -258,7 +245,7 @@ trait WithDataProviders
     protected static function getIntegerDividends(): array
     {
         return [
-            $a = self::nonZeroRandomInteger(max: 1_000_000),
+            $a = self::nonZeroRandomInteger(-self::MAX, self::MAX),
             $b = self::$faker->randomElement(Divisors::of($a)),
             $a / $b
         ];
@@ -267,7 +254,7 @@ trait WithDataProviders
     protected static function getIntegerModulus(): array
     {
         return [
-            $a = self::nonZeroRandomInteger(max: self::MAX),
+            $a = self::nonZeroRandomInteger(-self::MAX, self::MAX),
             $b = self::$faker->randomElement(Divisors::of($a)),
             $a - $b * intval(floor($a / $b))
         ];
@@ -276,8 +263,8 @@ trait WithDataProviders
     protected static function getIntegerQuotientRemainder(): array
     {
         return [
-            $a = self::randomInteger(),
-            $b = self::nonZeroRandomInteger(max: abs(intval($a / PHP_INT_MAX) + 1)),
+            $a = self::randomInteger(-self::MAX, self::MAX),
+            $b = self::nonZeroRandomInteger(intval($a / PHP_INT_MIN), intval($a / PHP_INT_MAX)),
             intval($a / $b),
             $a - $b * intval($a / $b)
         ];
@@ -286,10 +273,8 @@ trait WithDataProviders
     protected static function getIntegerPower(): array
     {
         return [
-            $b = self::nonZeroRandomInteger(),
-            $e = self::positiveNonZeroRandomInteger(
-                max: $b > 0 ? intval(log(PHP_INT_MAX, $b)) : intval(log(PHP_INT_MAX, abs($b)))
-            ),
+            $b = self::positiveNonZeroRandomInteger(min: 2, max: self::MAX),
+            $e = self::positiveNonZeroRandomInteger(min: 1, max: log(PHP_INT_MAX, $b)),
             $b ** $e
         ];
     }
@@ -297,10 +282,8 @@ trait WithDataProviders
     protected static function getIntegerPowerModulo(): array
     {
         return [
-            $b = self::nonZeroRandomInteger(),
-            $e = self::positiveNonZeroRandomInteger(
-                max: $b > 0 ? intval(log(PHP_INT_MAX, $b)) : intval(log(PHP_INT_MAX, abs($b)))
-            ),
+            $b = self::positiveNonZeroRandomInteger(min: 2, max: self::MAX),
+            $e = self::positiveNonZeroRandomInteger(min: 1, max: log(PHP_INT_MAX, $b)),
             $m = self::nonZeroRandomInteger(),
             (int) (new Number(new BcMathNumber($b)->pow($e))->mod($m))->getParent()->value
         ];
@@ -309,7 +292,7 @@ trait WithDataProviders
     protected static function getIntegerSquareRoot(): array
     {
         return [
-            $n = self::randomInteger(max: intval(sqrt(PHP_INT_MAX))) ** 2,
+            $n = self::positiveRandomInteger(max: intval(sqrt(PHP_INT_MAX))) ** 2,
             sqrt($n)
         ];
     }
@@ -460,22 +443,18 @@ trait WithDataProviders
     protected static function getStringPower(float $max = PHP_FLOAT_MAX): array
     {
         return [
-            $b_string = self::string($b = self::nonZeroRandomFloat(max: $max)),
-            $e_string = self::string(self::randomInteger(
-                max: $b > 0 ? intval(log(PHP_INT_MAX, $b)) : intval(log(PHP_INT_MAX, abs($b)))
-            )),
+            $b_string = self::string($b = self::positiveNonZeroRandomInteger(min: 2, max: self::MAX)),
+            $e_string = self::string(self::positiveNonZeroRandomInteger(min: 1, max: log(PHP_INT_MAX, $b))),
             self::string(new BcMathNumber($b_string)->pow($e_string)->value)
         ];
     }
 
     protected static function getStringPowerModulo(float $max = PHP_FLOAT_MAX): array
     {
-        $b_string = self::string($b = self::nonZeroRandomFloat(max: $max));
-        $e = self::nonZeroRandomInteger(
-                max: $b > 0 ? intval(log(PHP_FLOAT_MAX, $b)) : intval(log(PHP_FLOAT_MAX, abs($b)))
-            );
-        $e_string = $e > 0 ? self::string($e - 1) : self::string($e + 1);
-        $m_string = self::string($m = self::nonZeroRandomFloat(max: $max));
+        $b_string = self::string($b = self::positiveNonZeroRandomInteger(min: 2, max: self::MAX));
+        $e = self::positiveNonZeroRandomInteger(min: 1, max: log(PHP_INT_MAX, $b));
+        $e_string = self::string($e);
+        $m_string = self::string(self::nonZeroRandomFloat(max: $max));
         $power = new BcMathNumber($b_string)->pow($e_string);
         $modulus = new BcMathNumber($m_string);
         $result = $power->sub($modulus->mul($power->div($modulus)->floor()));
@@ -489,7 +468,7 @@ trait WithDataProviders
 
     protected static function getStringSquareRoot(float $max = PHP_FLOAT_MAX): array
     {
-        $n = self::string(self::randomFloat(max: sqrt($max)) ** 2);
+        $n = self::string(self::positiveRandomInteger(max: sqrt($max)) ** 2);
         $sqrt = new BcMathNumber($n)->sqrt()->value;
         return [
             $n,
@@ -597,8 +576,8 @@ trait WithDataProviders
 
     protected static function getFloatAddends(float $max = PHP_FLOAT_MAX): array
     {
-        $a = self::randomFloat(max: $max, precision: 3);
-        $b = self::randomFloat(max: $max, precision: 3);
+        $a = self::randomFloat(max: $max);
+        $b = self::randomFloat(max: $max);
         $A = new BcMathNumber(self::string($a));
         $B = new BcMathNumber(self::string($b));
         return [
@@ -676,10 +655,8 @@ trait WithDataProviders
 
     protected static function getFloatPower(float $max = PHP_FLOAT_MAX): array
     {
-        $a = self::nonZeroRandomFloat(max: $max);
-        $k = self::randomInteger(
-            max: $a > 0 ? intval(log(PHP_FLOAT_MAX, $a)) : intval(log(PHP_FLOAT_MAX, abs($a)))
-        );
+        $a = self::positiveNonZeroRandomInteger(min: 2, max: $max);
+        $k = self::positiveNonZeroRandomInteger(min: 1, max: log(PHP_INT_MAX, $a));
         $A = new BcMathNumber(self::string($a));
         $K = new BcMathNumber(self::string($k));
         return [
@@ -691,10 +668,8 @@ trait WithDataProviders
 
     protected static function getFloatPowerModulo(float $max = PHP_FLOAT_MAX): array
     {
-        $a = self::nonZeroRandomFloat(max: $max);
-        $k = self::randomInteger(
-            max: $a > 0 ? intval(log(PHP_FLOAT_MAX, $a)) : intval(log(PHP_FLOAT_MAX, abs($a)))
-        );
+        $a = self::positiveNonZeroRandomInteger(min: 2, max: self::MAX);
+        $k = self::positiveNonZeroRandomInteger(min: 1, max: log(PHP_INT_MAX, $a));
         $m = self::nonZeroRandomFloat(max: $max);
         $A = new BcMathNumber(self::string($a));
         $K = new BcMathNumber(self::string($k));
@@ -711,7 +686,7 @@ trait WithDataProviders
 
     protected static function getFloatSquareRoot(float $max = PHP_FLOAT_MAX): array
     {
-        $a = self::randomFloat(max: sqrt($max)) ** 2;
+        $a = self::positiveRandomFloat(max: sqrt($max)) ** 2;
         $A = new BcMathNumber(self::string($a));
         return [
             $a,
@@ -732,7 +707,7 @@ trait WithDataProviders
 
     protected static function getFloatFloor(float $max = PHP_FLOAT_MAX): array
     {
-        $a = self::randomFloatStrict(max: $max);
+        $a = self::randomFraction(max: $max);
         $A = new BcMathNumber(self::string($a));
         return [
             $a,
@@ -742,7 +717,7 @@ trait WithDataProviders
 
     protected static function getFloatCeil(float $max = PHP_FLOAT_MAX): array
     {
-        $a = self::randomFloatStrict(max: $max);
+        $a = self::randomFraction(max: $max);
         $A = new BcMathNumber(self::string($a));
         return [
             $a,

@@ -5,13 +5,20 @@ use MarcoConsiglio\BCMathExtended\Number;
 use BcMath\Number as BcMathNumber;
 use MarcoConsiglio\BCMathExtended\Tests\Traits\WithDataProviders;
 use MarcoConsiglio\FakerPhpNumberHelpers\WithFakerHelpers;
+use MarcoConsiglio\FakerPhpNumberHelpers\WithStaticFakerHelpers;
 use Override;
 use PHPUnit\Framework\TestCase;
 
 class BaseTestCase extends TestCase
 {
-    use WithDataProviders;
+    use WithFakerHelpers;
 
+    /**
+     * WARNING! Large float type numbers makes unrecoverable rounding errors!
+     * Use this constant to not reach huge numbers.
+     */
+    protected const int MAX = 1_000_000;
+    
     /**
      * This method is called before each test.
      */
@@ -19,7 +26,7 @@ class BaseTestCase extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->setUpFaker();
+        self::setUpFaker();
     }
 
     /**
