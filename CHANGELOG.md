@@ -1,4 +1,9 @@
 # Changelog
+## v2.2.1 2026-03-21
+### Changed
+- Development dependencies: 
+  - `marcoconsiglio/faker-php-number-helpers` from ^3 to ^4
+
 ## v2.2.0 2026-03-10
 ### Added
 - `Number::toDegrees()` to replace `Number::toDegree()`.
