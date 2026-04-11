@@ -1,4 +1,10 @@
 # Changelog
+## v2.3.0 2026-04-11
+### Added
+- `Number::opposite()` method to obtain the opposite sign number.
+### Deprecated
+- `Random::number()`, use `marcoconsiglio/faker-php-number-helpers` package instead.
+
 ## v2.2.1 2026-03-21
 ### Changed
 - Development dependencies: 

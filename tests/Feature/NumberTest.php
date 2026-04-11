@@ -469,6 +469,18 @@ class NumberTest extends TestCaseWithDataProviders
         $this->assertEquals($expected->value, $radian->deg()->value);
     }
 
+    #[TestDox("can return its opposite.")]
+    public function test_opposite(): void
+    {
+        // Arrange
+        $positive_number = new Number($this->positiveRandomInteger());
+        $negative_number = new Number($this->negativeRandomInteger());
+
+        // Act & Assert
+        $this->assertTrue($positive_number->opposite()->isNegative());
+        $this->assertTrue($negative_number->opposite()->isPositive());
+    }
+
     // #[DataProvider("logarithm")]
     // #[TestDox("can calculate the logarithm of itself with a specified base.")]
     // public function test_logarithm(mixed $arg, mixed $base, mixed $log): void
