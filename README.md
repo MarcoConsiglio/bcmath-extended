@@ -1,6 +1,6 @@
 ![GitHub License](https://img.shields.io/github/license/MarcoConsiglio/bcmath-extended)
 ![GitHub Release](https://img.shields.io/github/v/release/MarcoConsiglio/bcmath-extended)
-![Static Badge](https://img.shields.io/badge/version-v2.2.1-white)
+![Static Badge](https://img.shields.io/badge/version-v2.3.1-white)
 <br>
 ![Static Badge](https://img.shields.io/badge/99%25-rgb(40%2C%20167%2C%2069)?label=Line%20coverage&labelColor=rgb(255%2C255%2C255))
 ![Static Badge](https://img.shields.io/badge/91%25-rgb(40%2C%20167%2C%2069)?label=Branch%20coverage&labelColor=rgb(255%2C255%2C255))
@@ -65,6 +65,7 @@ This list consists of the new features added in this library:
 - Less than or equal comparison
 - Convert to radian
 - Convert to degree
+- Opposite sign
 
 ## Input types
 The same input type set of BCMath is used:
