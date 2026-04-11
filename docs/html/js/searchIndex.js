@@ -356,6 +356,11 @@ Search.appendIndex(
             "summary": "Alias\u0020of\u0020toDegree\u0028\u0029\u0020method.",
             "url": "classes/MarcoConsiglio-BCMathExtended-Number.html#method_deg"
         },                {
+            "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Number\u003A\u003Aopposite\u0028\u0029",
+            "name": "opposite",
+            "summary": "Return\u0020the\u0020opposite\u0020\u0060Number\u0060,\u0020changing\u0020the\u0020its\u0020sign.",
+            "url": "classes/MarcoConsiglio-BCMathExtended-Number.html#method_opposite"
+        },                {
             "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Number\u003A\u003Astring\u0028\u0029",
             "name": "string",
             "summary": "Format\u0020a\u0020\u0024number\u0020to\u0020a\u0020numeric\u0020string.",
