@@ -692,6 +692,15 @@ class Number implements Stringable
     }
 
     /**
+     * Return the opposite `Number`, changing the its sign.
+     */
+    public function opposite(): Number
+    {
+        return $this->mul(-1);
+    }
+
+
+    /**
      * Format a $number to a numeric string.
      */
     public static function string(int|float|string $number): string
