@@ -1,4 +1,8 @@
 # Changelog
+## v2.4.0 2026-04-14
+### Added
+- `Number::toInt()` method to cast the instance to an `int` type variable.
+
 ## v2.3.0 2026-04-11
 ### Added
 - `Number::opposite()` method to obtain the opposite sign number.
