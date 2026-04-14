@@ -634,6 +634,14 @@ class Number implements Stringable
     }
 
     /**
+     * Cast this instance to `int` type.
+     */
+    public function toInt(): int
+    {
+        return (int) $this->number->floor()->value;
+    }
+
+    /**
      * Cast this instance to `float` type.
      * 
      * @param int|null $precision It can be both positive or negative, but 

@@ -1,6 +1,6 @@
 ![GitHub License](https://img.shields.io/github/license/MarcoConsiglio/bcmath-extended)
 ![GitHub Release](https://img.shields.io/github/v/release/MarcoConsiglio/bcmath-extended)
-![Static Badge](https://img.shields.io/badge/version-v2.3.1-white)
+![Static Badge](https://img.shields.io/badge/version-v2.4.0-white)
 <br>
 ![Static Badge](https://img.shields.io/badge/99%25-rgb(40%2C%20167%2C%2069)?label=Line%20coverage&labelColor=rgb(255%2C255%2C255))
 ![Static Badge](https://img.shields.io/badge/92%25-rgb(40%2C%20167%2C%2069)?label=Branch%20coverage&labelColor=rgb(255%2C255%2C255))
@@ -38,7 +38,7 @@ The following list of features of the `Number` class are the same as those found
 - Ceil
 - Floor
 - Round
-- Cast to string
+- Cast to `string` type
 
 ### Missing base features
 These are the missing features:
@@ -50,6 +50,7 @@ These are the missing features:
 This list consists of the new features added in this library:
 - `float` type input [**](#note_2)
 - Cast to `float` type [**](#note_2)
+- Cast to `int` type
 - Modulo [*](#note_1)
 - Power & modulo [*](#note_1)
 - Division & modulo [*](#note_1)
@@ -68,7 +69,7 @@ This list consists of the new features added in this library:
 - Opposite sign
 
 ## Input types
-The same input type set of BCMath is used:
+This is the input types set available:
 - `int`
 - [`string`](#string-numeric-format)
 - `float` [**](#note_2)

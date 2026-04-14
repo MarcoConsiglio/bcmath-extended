@@ -65,6 +65,16 @@ class NumberTest extends TestCaseWithDataProviders
         $this->assertSame($original_value, (string) $number);
     }
 
+    #[TestDox("can be casted to int.")]
+    public function test_cast_to_int(): void
+    {
+        // Arrange
+        $number = new Number($integer = $this->randomInteger());
+
+        // Act & Assert
+        $this->assertSame($integer, $number->toInt());
+    }
+
     #[TestDox("can be casted to float")]
     public function test_cast_to_float(): void
     {
