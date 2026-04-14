@@ -326,6 +326,11 @@ Search.appendIndex(
             "summary": "Cast\u0020this\u0020instance\u0020to\u0020\u0060string\u0060\u0020type.",
             "url": "classes/MarcoConsiglio-BCMathExtended-Number.html#method___toString"
         },                {
+            "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Number\u003A\u003AtoInt\u0028\u0029",
+            "name": "toInt",
+            "summary": "Cast\u0020this\u0020instance\u0020to\u0020\u0060int\u0060\u0020type.",
+            "url": "classes/MarcoConsiglio-BCMathExtended-Number.html#method_toInt"
+        },                {
             "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Number\u003A\u003AtoFloat\u0028\u0029",
             "name": "toFloat",
             "summary": "Cast\u0020this\u0020instance\u0020to\u0020\u0060float\u0060\u0020type.",
