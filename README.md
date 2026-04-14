@@ -38,7 +38,7 @@ The following list of features of the `Number` class are the same as those found
 - Ceil
 - Floor
 - Round
-- Cast to string
+- Cast to `string` type
 
 ### Missing base features
 These are the missing features:
@@ -50,6 +50,7 @@ These are the missing features:
 This list consists of the new features added in this library:
 - `float` type input [**](#note_2)
 - Cast to `float` type [**](#note_2)
+- Cast to `int` type
 - Modulo [*](#note_1)
 - Power & modulo [*](#note_1)
 - Division & modulo [*](#note_1)
@@ -68,7 +69,7 @@ This list consists of the new features added in this library:
 - Opposite sign
 
 ## Input types
-The same input type set of BCMath is used:
+This is the input types set available:
 - `int`
 - [`string`](#string-numeric-format)
 - `float` [**](#note_2)
