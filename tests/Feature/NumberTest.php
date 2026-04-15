@@ -3,6 +3,7 @@ namespace MarcoConsiglio\BCMathExtended\Tests\Feature;
 
 use MarcoConsiglio\BCMathExtended\Number;
 use BcMath\Number as BcMathNumber;
+use MarcoConsiglio\BCMathExtended\Range;
 use MarcoConsiglio\BCMathExtended\Tests\TestCaseWithDataProviders;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\TestDox;
@@ -455,6 +456,23 @@ class NumberTest extends TestCaseWithDataProviders
 
         // Act & Assert
         $this->assertTrue($number_A->gte($number_B), "$number_A ≱ $number_B");
+    }
+
+    #[TestDox("can check if it is in range.")]
+    public function test_inRange(): void
+    {
+        // Arrange
+        $start = $this->randomNumber();
+        $end = $this->randomNumber(
+            min: $start->plus(new Number(1))->toFloat()
+        );
+        $number = $this->randomNumber(
+            min: $start->toFloat(),
+            max: $end->toFloat()
+        );
+
+        // Act & Assert
+        $this->assertTrue($number->inRange(new Range($start, $end)));
     }
 
     #[TestDox("can be converted to radian.")]

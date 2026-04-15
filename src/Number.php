@@ -598,6 +598,14 @@ class Number implements Stringable
     }
 
     /**
+     * Return true if this instance is in `$range`, false otherwise.
+     */
+    public function inRange(Range $range): bool
+    {
+        return $this->gte($range->start) && $this->lte($range->end);
+    }
+
+    /**
      * Transform $number into a BcMath\Number instance.
      */
     protected static function normalizeToParent(int|float|string|BCMathNumber|Number $number): BCMathNumber
