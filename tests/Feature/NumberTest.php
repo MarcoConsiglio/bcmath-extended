@@ -509,6 +509,23 @@ class NumberTest extends TestCaseWithDataProviders
         $this->assertTrue($number->inRangeMaxExcluded(new Range($start, $end)));
     }
 
+    #[TestDox("can check if it is in range excluded both its extremes.")]
+    public function test_inRangeExtremesExcluded(): void
+    {
+        // Arrange
+        $start = $this->randomNumber();
+        $end = $this->randomNumber(
+            min: $start->plus(new Number(1))->toFloat()
+        );
+        $number = $this->randomNumber(
+            min: $start->plus(new Number(1))->toFloat(),
+            max: $end->sub(new Number(1))->toFloat()
+        );    
+        
+        // Act & Assert
+        $this->assertTrue($number->inRangeExtremesExcluded(new Range($start, $end)));
+    }
+
     #[TestDox("can be converted to radian.")]
     public function test_toRadian(): void
     {
