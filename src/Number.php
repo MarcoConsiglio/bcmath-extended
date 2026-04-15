@@ -615,6 +615,15 @@ class Number implements Stringable
     }
 
     /**
+     * Return true if this instance is in `$range` excluded its end, false
+     * otherwise.
+     */
+    public function inRangeMaxExcluded(Range $range): bool
+    {
+        return $this->gte($range->start) && $this->lt($range->end);
+    }
+
+    /**
      * Transform $number into a BcMath\Number instance.
      */
     protected static function normalizeToParent(int|float|string|BCMathNumber|Number $number): BCMathNumber
