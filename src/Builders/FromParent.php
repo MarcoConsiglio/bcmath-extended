@@ -5,7 +5,7 @@ use BcMath\Number as BcMathNumber;
 use MarcoConsiglio\BCMathExtended\Interfaces\Builder;
 use MarcoConsiglio\BCMathExtended\Number;
 
-class FromBcMathNumber implements Builder
+class FromParent implements Builder
 {
     /**
      * The BcMath\Number input and output.
@@ -17,18 +17,8 @@ class FromBcMathNumber implements Builder
      */
     public function __construct(BcMathNumber $number)
     {
-        $this->number = $number;
-    }
-
-    /**
-     * Validate input.
-     */
-    protected function validate(): void 
-    {
         $this->number = new BcMathNumber(
-            Number::string(
-                $this->number->value
-            )
+            Number::string($number->value)
         );
     }
 
@@ -37,7 +27,6 @@ class FromBcMathNumber implements Builder
      */
     public function getResult(): BcMathNumber
     {
-        $this->validate();
         return $this->number;
     }
 }

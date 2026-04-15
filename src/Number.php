@@ -3,19 +3,19 @@ declare(strict_types=1);
 
 namespace MarcoConsiglio\BCMathExtended;
 
+// use MarcoConsiglio\BCMathExtended\Exceptions\IndeterminateFormError;
+// use MarcoConsiglio\BCMathExtended\Exceptions\InfiniteError;
+use BcMath\Number as BCMathNumber;
+use Deprecated;
 use DivisionByZeroError;
+use MarcoConsiglio\BCMathExtended\Builders\FromFloat;
+use MarcoConsiglio\BCMathExtended\Builders\FromInt;
+use MarcoConsiglio\BCMathExtended\Builders\FromParent;
+use MarcoConsiglio\BCMathExtended\Builders\FromString;
+use MarcoConsiglio\BCMathExtended\Exceptions\NotANumberError;
 use RoundingMode;
 use Stringable;
 use ValueError;
-use BcMath\Number as BCMathNumber;
-use Deprecated;
-use MarcoConsiglio\BCMathExtended\Builders\FromBcMathNumber;
-use MarcoConsiglio\BCMathExtended\Builders\FromFloat;
-use MarcoConsiglio\BCMathExtended\Builders\FromInt;
-use MarcoConsiglio\BCMathExtended\Builders\FromString;
-// use MarcoConsiglio\BCMathExtended\Exceptions\IndeterminateFormError;
-// use MarcoConsiglio\BCMathExtended\Exceptions\InfiniteError;
-use MarcoConsiglio\BCMathExtended\Exceptions\NotANumberError;
 
 class Number implements Stringable
 {
@@ -82,7 +82,7 @@ class Number implements Stringable
         if (is_string($number)) $builder = new FromString($number);
         else if (is_int($number)) $builder = new FromInt($number);
         else if (is_float($number)) $builder = new FromFloat($number);
-        else $builder = new FromBcMathNumber($number);
+        else $builder = new FromParent($number);
         $this->number = $builder->getResult();
     }
 
