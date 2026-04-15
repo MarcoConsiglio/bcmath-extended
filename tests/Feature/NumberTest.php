@@ -472,7 +472,10 @@ class NumberTest extends TestCaseWithDataProviders
         );
 
         // Act & Assert
-        $this->assertTrue($number->inRange(new Range($start, $end)));
+        $this->assertTrue(
+            $number->inRange(new Range($start, $end)),
+            "$number is not inside $start/$end range."    
+        );
     }
 
     #[TestDox("can check if it is in range excluded its start.")]
@@ -489,7 +492,10 @@ class NumberTest extends TestCaseWithDataProviders
         );
 
         // Act & Assert
-        $this->assertTrue($number->inRange(new Range($start, $end)));
+        $this->assertTrue(
+            $number->inRangeMinExcluded(new Range($start, $end)),
+            "$number is not inside $start/$end range."    
+        );
     }
 
     #[TestDox("can check if it is in range excluded its end.")]
@@ -506,7 +512,10 @@ class NumberTest extends TestCaseWithDataProviders
         );
 
         // Act & Assert
-        $this->assertTrue($number->inRangeMaxExcluded(new Range($start, $end)));
+        $this->assertTrue(
+            $number->inRangeMaxExcluded(new Range($start, $end)),
+            "$number is not inside $start/$end range."    
+        );
     }
 
     #[TestDox("can check if it is in range excluded both its extremes.")]
@@ -523,7 +532,10 @@ class NumberTest extends TestCaseWithDataProviders
         );    
         
         // Act & Assert
-        $this->assertTrue($number->inRangeExtremesExcluded(new Range($start, $end)));
+        $this->assertTrue(
+            $number->inRangeExtremesExcluded(new Range($start, $end)),
+            "$number is not inside $start/$end range."    
+        );
     }
 
     #[TestDox("can be converted to radian.")]

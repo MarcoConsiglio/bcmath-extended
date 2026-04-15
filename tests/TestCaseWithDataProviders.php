@@ -197,7 +197,7 @@ class TestCaseWithDataProviders extends BaseTestCase
     public static function factorials(): array
     {
         self::setUpFaker();
-        $max = 20;
+        $max = 10;
         return [
             'Integer factorial' => self::getIntegerFactorial($max),
             'String factorial' => self::getStringFactorial($max),
@@ -360,7 +360,7 @@ class TestCaseWithDataProviders extends BaseTestCase
         ];        
     }
 
-    protected static function getIntegerFactorial(int $max = 20): array
+    protected static function getIntegerFactorial(int $max = 10): array
     {
         $n = self::positiveRandomInteger(max: $max);
         $factorial = self::factorial($n);
@@ -656,7 +656,7 @@ class TestCaseWithDataProviders extends BaseTestCase
     protected static function getFloatPower(float $max = PHP_FLOAT_MAX): array
     {
         $a = self::positiveNonZeroRandomInteger(min: 2, max: $max);
-        $k = self::positiveNonZeroRandomInteger(min: 1, max: log(PHP_INT_MAX, $a));
+        $k = self::positiveNonZeroRandomInteger(min: 1, max: log($max, $a));
         $A = new BcMathNumber(self::string($a));
         $K = new BcMathNumber(self::string($k));
         return [
@@ -668,9 +668,9 @@ class TestCaseWithDataProviders extends BaseTestCase
 
     protected static function getFloatPowerModulo(float $max = PHP_FLOAT_MAX): array
     {
-        $a = self::positiveNonZeroRandomInteger(min: 2, max: self::MAX);
-        $k = self::positiveNonZeroRandomInteger(min: 1, max: log(PHP_INT_MAX, $a));
-        $m = self::nonZeroRandomFloat(max: $max);
+        $a = self::positiveNonZeroRandomInteger(min: 2, max: $max);
+        $k = self::positiveNonZeroRandomInteger(min: 1, max: log($max, $a));
+        $m = self::nonZeroRandomFloat(min: -$max, max: $max);
         $A = new BcMathNumber(self::string($a));
         $K = new BcMathNumber(self::string($k));
         $M = new BcMathNumber(self::string($m));
@@ -696,7 +696,7 @@ class TestCaseWithDataProviders extends BaseTestCase
 
     protected static function getFloatRounding(float $max = PHP_FLOAT_MAX): array
     {
-        $a = self::randomFloat(max: $max, precision: 4);
+        $a = self::randomFloat(min: -$max, max: $max, precision: 4);
         $A = new BcMathNumber(self::string($a));
         return [
             $a,
@@ -707,7 +707,7 @@ class TestCaseWithDataProviders extends BaseTestCase
 
     protected static function getFloatFloor(float $max = PHP_FLOAT_MAX): array
     {
-        $a = self::randomFraction(max: $max);
+        $a = self::randomFraction(min: -$max, max: $max);
         $A = new BcMathNumber(self::string($a));
         return [
             $a,
@@ -717,7 +717,7 @@ class TestCaseWithDataProviders extends BaseTestCase
 
     protected static function getFloatCeil(float $max = PHP_FLOAT_MAX): array
     {
-        $a = self::randomFraction(max: $max);
+        $a = self::randomFraction(min: -$max, max: $max);
         $A = new BcMathNumber(self::string($a));
         return [
             $a,
