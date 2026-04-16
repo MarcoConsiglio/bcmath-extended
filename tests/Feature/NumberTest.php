@@ -5,6 +5,8 @@ use MarcoConsiglio\BCMathExtended\Number;
 use BcMath\Number as BcMathNumber;
 use MarcoConsiglio\BCMathExtended\Range;
 use MarcoConsiglio\BCMathExtended\Tests\TestCaseWithDataProviders;
+use MarcoConsiglio\FakerPhpNumberHelpers\NextFloat;
+use Override;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\TestDox;
 use RoundingMode;
@@ -461,80 +463,131 @@ class NumberTest extends TestCaseWithDataProviders
     #[TestDox("can check if it is in range.")]
     public function test_inRange(): void
     {
+        /**
+         * In Range
+         */
         // Arrange
-        $start = $this->randomNumber();
-        $end = $this->randomNumber(
-            min: $start->plus(new Number(1))->toFloat()
-        );
+        $range = new Range(-100, 100);
         $number = $this->randomNumber(
-            min: $start->toFloat(),
-            max: $end->toFloat()
+            min: $range->start->toFloat(),
+            max: $range->end->toFloat()
         );
 
         // Act & Assert
         $this->assertTrue(
-            $number->inRange(new Range($start, $end)),
-            "$number is not inside $start/$end range."    
+            $number->inRange($range),
+            "$number is not inside $range->start/$range->end range."    
+        );
+
+        /**
+         * Out of range
+         */
+        // Arrange
+        $number = self::$faker->randomElement([
+            $this->randomNumber(max: NextFloat::before($range->start->toFloat())),
+            $this->randomNumber(min: NextFloat::after($range->end->toFloat()))
+        ]);
+
+        // Act & Assert
+        $this->assertFalse(
+            $number->inRange($range),
+            "$number is inside $range->start/$range->end range."    
         );
     }
 
     #[TestDox("can check if it is in range excluded its start.")]
     public function test_inRangeMinExcluded(): void
     {
+        /**
+         * In range
+         */
         // Arrange
-        $start = $this->randomNumber();
-        $end = $this->randomNumber(
-            min: $start->plus(new Number(1))->toFloat()
-        );
+        $range = new Range(-100, 100);
         $number = $this->randomNumber(
-            min: $start->plus(new Number(1))->toFloat(),
-            max: $end->toFloat()
+            min: NextFloat::after($range->start->toFloat()),
+            max: $range->end->toFloat()
         );
 
         // Act & Assert
         $this->assertTrue(
-            $number->inRangeMinExcluded(new Range($start, $end)),
-            "$number is not inside $start/$end range."    
+            $number->inRangeMinExcluded($range),
+            "$number is not inside $range->start/$range->end range."    
+        ); 
+
+        /**
+         * Out of range
+         */
+        // Arrange
+        $number = $this->randomNumber(max: $range->start->toFloat());
+
+        // Act & Assert
+        $this->assertFalse(
+            $number->inRangeMinExcluded(new Range($range->start, $range->end)),
+            "$number is inside $range->start/$range->end range."
         );
     }
 
     #[TestDox("can check if it is in range excluded its end.")]
     public function test_inRangeMaxExcluded(): void
     {
+        /**
+         * In range
+         */
         // Arrange
-        $start = $this->randomNumber();
-        $end = $this->randomNumber(
-            min: $start->plus(new Number(1))->toFloat()
-        );
+        $range = new Range(-100, 100);
         $number = $this->randomNumber(
-            min: $start->toFloat(),
-            max: $end->sub(new Number(1))->toFloat()
+            min: $range->start->toFloat(),
+            max: $range->end->sub(new Number(1))->toFloat()
         );
 
         // Act & Assert
         $this->assertTrue(
-            $number->inRangeMaxExcluded(new Range($start, $end)),
-            "$number is not inside $start/$end range."    
+            $number->inRangeMaxExcluded(new Range($range->start, $range->end)),
+            "$number is not inside $range->start/$range->end range."    
+        );
+
+        /**
+         * Out of range
+         */
+        // Arrange
+        $number = $this->randomNumber(max: NextFloat::before($range->start->toFloat()));
+
+        // Act & Assert
+        $this->assertFalse(
+            $number->inRangeMaxExcluded($range),
+            "$number is inside $range->start/$range->end range."
         );
     }
 
     #[TestDox("can check if it is in range excluded both its extremes.")]
     public function test_inRangeExtremesExcluded(): void
     {
+        /**
+         * In range
+         */
         // Arrange
-        $start = $this->randomNumber();
-        $end = $this->randomNumber(
-            min: $start->plus(new Number(1))->toFloat()
-        );
+        $range = new Range(-100, 100);   
         $number = $this->randomNumber(
-            min: $start->plus(new Number(1))->toFloat(),
-            max: $end->sub(new Number(1))->toFloat()
+            min: NextFloat::after($range->start->toFloat()),
+            max: NextFloat::before($range->end->toFloat())
         );    
         
         // Act & Assert
         $this->assertTrue(
-            $number->inRangeExtremesExcluded(new Range($start, $end)),
-            "$number is not inside $start/$end range."    
+            $number->inRangeExtremesExcluded(new Range($range->start, $range->end)),
+            "$number is not inside $range->start/$range->end range."    
+        );
+
+        /**
+         * Out of range
+         */
+        // Arrange
+        $number = $this->randomNumber(max: $range->start->toFloat());
+
+        // Act & Assert
+        $this->assertFalse(
+            $number->inRangeExtremesExcluded($range),
+            "$number is inside $range->start/$range->end range."
         );
     }
 
@@ -585,4 +638,5 @@ class NumberTest extends TestCaseWithDataProviders
     //     // Assert
     //     $this->assertEquals($log, $LOG, "log($arg, $base) = $LOG");
     // }
+
 }

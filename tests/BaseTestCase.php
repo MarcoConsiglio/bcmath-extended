@@ -3,6 +3,7 @@ namespace MarcoConsiglio\BCMathExtended\Tests;
 
 use MarcoConsiglio\BCMathExtended\Number;
 use BcMath\Number as BcMathNumber;
+use MarcoConsiglio\BCMathExtended\Range;
 use MarcoConsiglio\FakerPhpNumberHelpers\WithFakerHelpers;
 use Override;
 use PHPUnit\Framework\TestCase;
