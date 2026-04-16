@@ -3,19 +3,19 @@ declare(strict_types=1);
 
 namespace MarcoConsiglio\BCMathExtended;
 
+// use MarcoConsiglio\BCMathExtended\Exceptions\IndeterminateFormError;
+// use MarcoConsiglio\BCMathExtended\Exceptions\InfiniteError;
+use BcMath\Number as BCMathNumber;
+use Deprecated;
 use DivisionByZeroError;
+use MarcoConsiglio\BCMathExtended\Builders\FromFloat;
+use MarcoConsiglio\BCMathExtended\Builders\FromInt;
+use MarcoConsiglio\BCMathExtended\Builders\FromParent;
+use MarcoConsiglio\BCMathExtended\Builders\FromString;
+use MarcoConsiglio\BCMathExtended\Exceptions\NotANumberError;
 use RoundingMode;
 use Stringable;
 use ValueError;
-use BcMath\Number as BCMathNumber;
-use Deprecated;
-use MarcoConsiglio\BCMathExtended\Builders\FromBcMathNumber;
-use MarcoConsiglio\BCMathExtended\Builders\FromFloat;
-use MarcoConsiglio\BCMathExtended\Builders\FromInt;
-use MarcoConsiglio\BCMathExtended\Builders\FromString;
-// use MarcoConsiglio\BCMathExtended\Exceptions\IndeterminateFormError;
-// use MarcoConsiglio\BCMathExtended\Exceptions\InfiniteError;
-use MarcoConsiglio\BCMathExtended\Exceptions\NotANumberError;
 
 class Number implements Stringable
 {
@@ -82,7 +82,7 @@ class Number implements Stringable
         if (is_string($number)) $builder = new FromString($number);
         else if (is_int($number)) $builder = new FromInt($number);
         else if (is_float($number)) $builder = new FromFloat($number);
-        else $builder = new FromBcMathNumber($number);
+        else $builder = new FromParent($number);
         $this->number = $builder->getResult();
     }
 
@@ -95,7 +95,7 @@ class Number implements Stringable
     }
 
     /**
-     * Return true if $object is this (child) class.
+     * Return `true` if $object is this (child) class.
      */
     public static function isChild(mixed $object): bool
     {
@@ -462,7 +462,7 @@ class Number implements Stringable
     }
 
     /**
-     * Return true if $this->number is positive, false otherwise.
+     * Return `true` if $this->number is positive, `false` otherwise.
      */
     public function isNegative(): bool
     {
@@ -470,7 +470,7 @@ class Number implements Stringable
     }
 
     /**
-     * Return true if $this->number is negative, false otherwise.
+     * Return `true` if $this->number is negative, `false` otherwise.
      */
     public function isPositive(): bool
     {
@@ -478,7 +478,7 @@ class Number implements Stringable
     }
 
     /**
-     * Return true if $this number is a decimal number, false otherwise.
+     * Return `true` if $this number is a decimal number, `false` otherwise.
      */
     public function isFloat(): bool
     {
@@ -486,7 +486,7 @@ class Number implements Stringable
     }
 
     /**
-     * Return true if $this number is a integer number, false otherwise.
+     * Return `true` if $this number is a integer number, `false` otherwise.
      */
     public function isInt(): bool
     {
@@ -494,7 +494,7 @@ class Number implements Stringable
     }
 
     /**
-     * Return true if this instance equals $number, false otherwise.
+     * Return `true` if this instance equals $number, `false` otherwise.
      */
     public function isEqual(int|string|BCMathNumber|Number $number): bool
     {
@@ -511,7 +511,7 @@ class Number implements Stringable
     }
 
     /**
-     * Return true if this instance is different than $number, false otherwise.
+     * Return `true` if this instance is different than $number, `false` otherwise.
      */
     public function isDifferent(int|string|BCMathNumber|Number $number): bool
     {
@@ -528,7 +528,7 @@ class Number implements Stringable
     }
 
     /**
-     * Return true if this instance is greater than $number, false otherwise.
+     * Return `true` if this instance is greater than $number, `false` otherwise.
      */
     public function isGreaterThan(int|string|BCMathNumber|Number $number): bool
     {
@@ -545,7 +545,7 @@ class Number implements Stringable
     }
 
     /**
-     * Return true if this instance is greater than or equal to $number, false
+     * Return `true` if this instance is greater than or equal to $number, `false`
      * otherwise.
      */
     public function isGreaterThanOrEqual(int|string|BCMathNumber|Number $number): bool
@@ -563,7 +563,7 @@ class Number implements Stringable
     }
 
     /**
-     * Return true if this instance is less than $number, false otherwise.
+     * Return `true` if this instance is less than $number, `false` otherwise.
      */
     public function isLessThan(int|string|BCMathNumber|Number $number): bool
     {
@@ -580,7 +580,7 @@ class Number implements Stringable
     }
 
     /**
-     * Return true if this instance is lesse than or equal to $number, false 
+     * Return `true` if this instance is lesse than or equal to $number, `false` 
      * otherwise.
      */
     public function isLessThanOrEqual(int|string|BCMathNumber|Number $number): bool
@@ -598,7 +598,42 @@ class Number implements Stringable
     }
 
     /**
-     * Transform $number into a BcMath\Number instance.
+     * Return `true` if this instance is in `$range`, `false` otherwise.
+     */
+    public function inRange(Range $range): bool
+    {
+        return $this->gte($range->start) && $this->lte($range->end);
+    }
+
+    /**
+     * Return `true` if this instance is in `$range` excluded its start, `false`
+     * otherwise.
+     */
+    public function inRangeMinExcluded(Range $range): bool
+    {
+        return $this->gt($range->start) && $this->lte($range->end);
+    }
+
+    /**
+     * Return `true` if this instance is in `$range` excluded its end, `false`
+     * otherwise.
+     */
+    public function inRangeMaxExcluded(Range $range): bool
+    {
+        return $this->gte($range->start) && $this->lt($range->end);
+    }
+
+    /**
+     * Return `true` if this instance is in `$range` excluded both its start and
+     * end, `false` otherwise.
+     */
+    public function inRangeExtremesExcluded(Range $range): bool
+    {
+        return $this->gt($range->start) && $this->lt($range->end);
+    }
+
+    /**
+     * Transform `$number` into a `BcMath\Number` instance.
      */
     protected static function normalizeToParent(int|float|string|BCMathNumber|Number $number): BCMathNumber
     {
@@ -610,12 +645,12 @@ class Number implements Stringable
     }
 
     /**
-     * Transform $numbers into an array of BcMath\Number instances.
+     * Transform `$numbers` into an array of `BcMath\Number` instances.
      * 
      * @param int[]|string[]|BcMathNumber[]|Number[]
      * @return BcMathNumber[]
-     * @throws TypError if at least one element of $numbers is not of type
-     * int, string, BcMath\Number or BcMathExtended\Number.
+     * @throws TypError if at least one element of `$numbers` is not of type
+     * `int`, `string`, `BcMath\Number` or `BcMathExtended\Number`.
      */
     protected static function normalizeArrayToParent(array $numbers): array
     {
@@ -720,7 +755,7 @@ class Number implements Stringable
     }
 
     /**
-     * Return true if $number is a decimal numeric string, false otherwise.
+     * Return `true` if $number is a decimal numeric string, `false` otherwise.
      */
     private static function isFloatString(mixed $number): bool
     {
@@ -728,7 +763,7 @@ class Number implements Stringable
     }
 
     /**
-     * Return true if $number is an integer numeric string, false otherwise.
+     * Return `true` if $number is an integer numeric string, `false` otherwise.
      */
     private static function isIntString(mixed $number): bool
     {

@@ -3,9 +3,8 @@ namespace MarcoConsiglio\BCMathExtended\Tests;
 
 use MarcoConsiglio\BCMathExtended\Number;
 use BcMath\Number as BcMathNumber;
-use MarcoConsiglio\BCMathExtended\Tests\Traits\WithDataProviders;
+use MarcoConsiglio\BCMathExtended\Range;
 use MarcoConsiglio\FakerPhpNumberHelpers\WithFakerHelpers;
-use MarcoConsiglio\FakerPhpNumberHelpers\WithStaticFakerHelpers;
 use Override;
 use PHPUnit\Framework\TestCase;
 
@@ -53,6 +52,42 @@ class BaseTestCase extends TestCase
             $numbers[$index] = $this->instantiateNumber($number);
         }
         return $numbers;
+    }
+
+    /**
+     * Return a relative random `Number`.
+     */
+    protected function randomNumber(
+        float $min = -PHP_FLOAT_MAX,
+        float $max = PHP_FLOAT_MAX
+    ): Number {
+        return new Number(
+            $this->randomFloat($min, $max)
+        );
+    }
+
+    /**
+     * Return a positive random `Number`.
+     */
+    protected function positiveRandomNumber(
+        float $min = 0.0,
+        float $max = PHP_FLOAT_MAX
+    ): Number {
+        return new Number(
+            $this->positiveRandomFloat($min, $max)
+        );
+    }
+
+    /**
+     * Return a negative random `Number`.
+     */
+    protected function negativeRandomNumber(
+        float $min = -PHP_FLOAT_MAX,
+        float $max = 0.0
+    ): Number {
+        return new Number(
+            $this->negativeRandomFloat($min, $max)
+        );
     }
 
     /**

@@ -1,10 +1,10 @@
 ![GitHub License](https://img.shields.io/github/license/MarcoConsiglio/bcmath-extended)
 ![GitHub Release](https://img.shields.io/github/v/release/MarcoConsiglio/bcmath-extended)
-![Static Badge](https://img.shields.io/badge/version-v2.4.0-white)
+![Static Badge](https://img.shields.io/badge/version-v2.5.0-white)
 <br>
-![Static Badge](https://img.shields.io/badge/99%25-rgb(40%2C%20167%2C%2069)?label=Line%20coverage&labelColor=rgb(255%2C255%2C255))
-![Static Badge](https://img.shields.io/badge/92%25-rgb(40%2C%20167%2C%2069)?label=Branch%20coverage&labelColor=rgb(255%2C255%2C255))
-![Static Badge](https://img.shields.io/badge/85%25-rgb(255%2C193%2C7)?label=Path%20coverage&labelColor=rgb(255%2C255%2C255))
+![Static Badge](https://img.shields.io/badge/97%25-rgb(40%2C%20167%2C%2069)?label=Line%20coverage&labelColor=rgb(255%2C255%2C255))
+![Static Badge](https://img.shields.io/badge/90%25-rgb(40%2C%20167%2C%2069)?label=Branch%20coverage&labelColor=rgb(255%2C255%2C255))
+![Static Badge](https://img.shields.io/badge/81%25-rgb(255%2C193%2C7)?label=Path%20coverage&labelColor=rgb(255%2C255%2C255))
 
 
 
@@ -64,6 +64,10 @@ This list consists of the new features added in this library:
 - Greater than or equal comparison
 - Less than comparison
 - Less than or equal comparison
+- In range comparison
+- In range min excluded comparison
+- In range max excluded comparison
+- In range both extremes excluded comparison
 - Convert to radian
 - Convert to degree
 - Opposite sign

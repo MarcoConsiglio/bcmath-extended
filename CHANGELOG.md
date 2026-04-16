@@ -1,4 +1,17 @@
 # Changelog
+## v2.5.0 2026-04-16
+### Added
+- `Number::{`  
+&ensp;&ensp;&ensp;&ensp;`inRange()`  
+&ensp;&ensp;&ensp;&ensp;`inRangeMinExcluded()`  
+&ensp;&ensp;&ensp;&ensp;`inRangeMaxExcluded()`  
+&ensp;&ensp;&ensp;&ensp;`inRangeExtremesExcluded()`  
+`}` methods to check if a number is inside or outside a `Range`.
+- `Range` class to express a numerical range.
+### Changed
+- API and README documentation.
+
+
 ## v2.4.0 2026-04-14
 ### Added
 - `Number::toInt()` method to cast the instance to an `int` type variable.
