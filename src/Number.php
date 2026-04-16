@@ -776,7 +776,7 @@ class Number implements Stringable
     private static function trimTrailingZeros(string $number): string
     {
         $decimal_separator = strpos($number, '.');
-        if($decimal_separator === `false`) { // It is integer number.
+        if($decimal_separator === false) { // It is integer number.
             return $number;
         } else return rtrim(rtrim($number, '0'), '.'); // It is a decimal number.
     }
