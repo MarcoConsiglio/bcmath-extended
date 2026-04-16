@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-            <title>BC Math Extended Documentation</title>
+            <title>BC Math Extended API Documentation</title>
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <base href="../">
@@ -25,7 +25,7 @@
     </head>
 <body id="top">
     <header class="phpdocumentor-header phpdocumentor-section">
-    <h1 class="phpdocumentor-title"><a href="" class="phpdocumentor-title__link">BC Math Extended Documentation</a></h1>
+    <h1 class="phpdocumentor-title"><a href="" class="phpdocumentor-title__link">BC Math Extended API Documentation</a></h1>
     <input class="phpdocumentor-header__menu-button" type="checkbox" id="menu-button" name="menu-button" />
     <label class="phpdocumentor-header__menu-icon" for="menu-button">
         <i class="fas fa-bars"></i>
@@ -302,46 +302,77 @@
 <dd>Alias of isGreaterThanOrEqual() method.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/MarcoConsiglio-BCMathExtended-Number.html#method_inRange">inRange()</a>
+    <span>
+                                &nbsp;: bool    </span>
+</dt>
+<dd>Return `true` if this instance is in `$range`, `false` otherwise.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/MarcoConsiglio-BCMathExtended-Number.html#method_inRangeExtremesExcluded">inRangeExtremesExcluded()</a>
+    <span>
+                                &nbsp;: bool    </span>
+</dt>
+<dd>Return `true` if this instance is in `$range` excluded both its start and
+end, `false` otherwise.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/MarcoConsiglio-BCMathExtended-Number.html#method_inRangeMaxExcluded">inRangeMaxExcluded()</a>
+    <span>
+                                &nbsp;: bool    </span>
+</dt>
+<dd>Return `true` if this instance is in `$range` excluded its end, `false`
+otherwise.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/MarcoConsiglio-BCMathExtended-Number.html#method_inRangeMinExcluded">inRangeMinExcluded()</a>
+    <span>
+                                &nbsp;: bool    </span>
+</dt>
+<dd>Return `true` if this instance is in `$range` excluded its start, `false`
+otherwise.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/MarcoConsiglio-BCMathExtended-Number.html#method_isChild">isChild()</a>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
-<dd>Return true if $object is this (child) class.</dd>
+<dd>Return `true` if $object is this (child) class.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/MarcoConsiglio-BCMathExtended-Number.html#method_isDifferent">isDifferent()</a>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
-<dd>Return true if this instance is different than $number, false otherwise.</dd>
+<dd>Return `true` if this instance is different than $number, `false` otherwise.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/MarcoConsiglio-BCMathExtended-Number.html#method_isEqual">isEqual()</a>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
-<dd>Return true if this instance equals $number, false otherwise.</dd>
+<dd>Return `true` if this instance equals $number, `false` otherwise.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/MarcoConsiglio-BCMathExtended-Number.html#method_isFloat">isFloat()</a>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
-<dd>Return true if $this number is a decimal number, false otherwise.</dd>
+<dd>Return `true` if $this number is a decimal number, `false` otherwise.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/MarcoConsiglio-BCMathExtended-Number.html#method_isGreaterThan">isGreaterThan()</a>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
-<dd>Return true if this instance is greater than $number, false otherwise.</dd>
+<dd>Return `true` if this instance is greater than $number, `false` otherwise.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/MarcoConsiglio-BCMathExtended-Number.html#method_isGreaterThanOrEqual">isGreaterThanOrEqual()</a>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
-<dd>Return true if this instance is greater than or equal to $number, false
+<dd>Return `true` if this instance is greater than or equal to $number, `false`
 otherwise.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
@@ -349,21 +380,21 @@ otherwise.</dd>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
-<dd>Return true if $this number is a integer number, false otherwise.</dd>
+<dd>Return `true` if $this number is a integer number, `false` otherwise.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/MarcoConsiglio-BCMathExtended-Number.html#method_isLessThan">isLessThan()</a>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
-<dd>Return true if this instance is less than $number, false otherwise.</dd>
+<dd>Return `true` if this instance is less than $number, `false` otherwise.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/MarcoConsiglio-BCMathExtended-Number.html#method_isLessThanOrEqual">isLessThanOrEqual()</a>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
-<dd>Return true if this instance is lesse than or equal to $number, false
+<dd>Return `true` if this instance is lesse than or equal to $number, `false`
 otherwise.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
@@ -371,14 +402,14 @@ otherwise.</dd>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
-<dd>Return true if $this-&gt;number is positive, false otherwise.</dd>
+<dd>Return `true` if $this-&gt;number is positive, `false` otherwise.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/MarcoConsiglio-BCMathExtended-Number.html#method_isPositive">isPositive()</a>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
-<dd>Return true if $this-&gt;number is negative, false otherwise.</dd>
+<dd>Return `true` if $this-&gt;number is negative, `false` otherwise.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/MarcoConsiglio-BCMathExtended-Number.html#method_lt">lt()</a>
@@ -808,7 +839,7 @@ cast it to radian.</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Number.php"><a href="files/src-number.html"><abbr title="src/Number.php">Number.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">631</span>
+    <span class="phpdocumentor-element-found-in__line">666</span>
 
     </aside>
 
@@ -1011,7 +1042,7 @@ cast it to radian.</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Number.php"><a href="files/src-number.html"><abbr title="src/Number.php">Number.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">770</span>
+    <span class="phpdocumentor-element-found-in__line">805</span>
 
     </aside>
 
@@ -1060,7 +1091,7 @@ cast it to radian.</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Number.php"><a href="files/src-number.html"><abbr title="src/Number.php">Number.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">697</span>
+    <span class="phpdocumentor-element-found-in__line">732</span>
 
     </aside>
 
@@ -1617,6 +1648,205 @@ cast it to radian.</dd>
         class="phpdocumentor-element
             -method
             -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_inRange">
+        inRange()
+        <a href="classes/MarcoConsiglio-BCMathExtended-Number.html#method_inRange" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Number.php"><a href="files/src-number.html"><abbr title="src/Number.php">Number.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">603</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Return `true` if this instance is in `$range`, `false` otherwise.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">inRange</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><a href="classes/MarcoConsiglio-BCMathExtended-Range.html"><abbr title="\MarcoConsiglio\BCMathExtended\Range">Range</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$range</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$range</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><a href="classes/MarcoConsiglio-BCMathExtended-Range.html"><abbr title="\MarcoConsiglio\BCMathExtended\Range">Range</abbr></a></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">bool</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_inRangeExtremesExcluded">
+        inRangeExtremesExcluded()
+        <a href="classes/MarcoConsiglio-BCMathExtended-Number.html#method_inRangeExtremesExcluded" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Number.php"><a href="files/src-number.html"><abbr title="src/Number.php">Number.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">630</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Return `true` if this instance is in `$range` excluded both its start and
+end, `false` otherwise.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">inRangeExtremesExcluded</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><a href="classes/MarcoConsiglio-BCMathExtended-Range.html"><abbr title="\MarcoConsiglio\BCMathExtended\Range">Range</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$range</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$range</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><a href="classes/MarcoConsiglio-BCMathExtended-Range.html"><abbr title="\MarcoConsiglio\BCMathExtended\Range">Range</abbr></a></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">bool</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_inRangeMaxExcluded">
+        inRangeMaxExcluded()
+        <a href="classes/MarcoConsiglio-BCMathExtended-Number.html#method_inRangeMaxExcluded" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Number.php"><a href="files/src-number.html"><abbr title="src/Number.php">Number.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">621</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Return `true` if this instance is in `$range` excluded its end, `false`
+otherwise.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">inRangeMaxExcluded</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><a href="classes/MarcoConsiglio-BCMathExtended-Range.html"><abbr title="\MarcoConsiglio\BCMathExtended\Range">Range</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$range</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$range</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><a href="classes/MarcoConsiglio-BCMathExtended-Range.html"><abbr title="\MarcoConsiglio\BCMathExtended\Range">Range</abbr></a></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">bool</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_inRangeMinExcluded">
+        inRangeMinExcluded()
+        <a href="classes/MarcoConsiglio-BCMathExtended-Number.html#method_inRangeMinExcluded" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Number.php"><a href="files/src-number.html"><abbr title="src/Number.php">Number.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">612</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Return `true` if this instance is in `$range` excluded its start, `false`
+otherwise.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">inRangeMinExcluded</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><a href="classes/MarcoConsiglio-BCMathExtended-Range.html"><abbr title="\MarcoConsiglio\BCMathExtended\Range">Range</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$range</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$range</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><a href="classes/MarcoConsiglio-BCMathExtended-Range.html"><abbr title="\MarcoConsiglio\BCMathExtended\Range">Range</abbr></a></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">bool</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
                                     -static                    "
 >
     <h4 class="phpdocumentor-element__name" id="method_isChild">
@@ -1631,7 +1861,7 @@ cast it to radian.</dd>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Return true if $object is this (child) class.</p>
+        <p class="phpdocumentor-summary">Return `true` if $object is this (child) class.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -1680,7 +1910,7 @@ cast it to radian.</dd>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Return true if this instance is different than $number, false otherwise.</p>
+        <p class="phpdocumentor-summary">Return `true` if this instance is different than $number, `false` otherwise.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -1729,7 +1959,7 @@ cast it to radian.</dd>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Return true if this instance equals $number, false otherwise.</p>
+        <p class="phpdocumentor-summary">Return `true` if this instance equals $number, `false` otherwise.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -1778,7 +2008,7 @@ cast it to radian.</dd>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Return true if $this number is a decimal number, false otherwise.</p>
+        <p class="phpdocumentor-summary">Return `true` if $this number is a decimal number, `false` otherwise.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -1817,7 +2047,7 @@ cast it to radian.</dd>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Return true if this instance is greater than $number, false otherwise.</p>
+        <p class="phpdocumentor-summary">Return `true` if this instance is greater than $number, `false` otherwise.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -1866,7 +2096,7 @@ cast it to radian.</dd>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Return true if this instance is greater than or equal to $number, false
+        <p class="phpdocumentor-summary">Return `true` if this instance is greater than or equal to $number, `false`
 otherwise.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
@@ -1916,7 +2146,7 @@ otherwise.</p>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Return true if $this number is a integer number, false otherwise.</p>
+        <p class="phpdocumentor-summary">Return `true` if $this number is a integer number, `false` otherwise.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -1955,7 +2185,7 @@ otherwise.</p>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Return true if this instance is less than $number, false otherwise.</p>
+        <p class="phpdocumentor-summary">Return `true` if this instance is less than $number, `false` otherwise.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -2004,7 +2234,7 @@ otherwise.</p>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Return true if this instance is lesse than or equal to $number, false
+        <p class="phpdocumentor-summary">Return `true` if this instance is lesse than or equal to $number, `false`
 otherwise.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
@@ -2054,7 +2284,7 @@ otherwise.</p>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Return true if $this-&gt;number is positive, false otherwise.</p>
+        <p class="phpdocumentor-summary">Return `true` if $this-&gt;number is positive, `false` otherwise.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -2093,7 +2323,7 @@ otherwise.</p>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Return true if $this-&gt;number is negative, false otherwise.</p>
+        <p class="phpdocumentor-summary">Return `true` if $this-&gt;number is negative, `false` otherwise.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -2614,7 +2844,7 @@ otherwise.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Number.php"><a href="files/src-number.html"><abbr title="src/Number.php">Number.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">705</span>
+    <span class="phpdocumentor-element-found-in__line">740</span>
 
     </aside>
 
@@ -3080,7 +3310,7 @@ is the remainder of the division.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Number.php"><a href="files/src-number.html"><abbr title="src/Number.php">Number.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">670</span>
+    <span class="phpdocumentor-element-found-in__line">705</span>
 
     </aside>
 
@@ -3307,7 +3537,7 @@ RoundingMode::HalfAwayFromZero.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Number.php"><a href="files/src-number.html"><abbr title="src/Number.php">Number.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">714</span>
+    <span class="phpdocumentor-element-found-in__line">749</span>
 
     </aside>
 
@@ -3483,7 +3713,7 @@ RoundingMode::HalfAwayFromZero.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Number.php"><a href="files/src-number.html"><abbr title="src/Number.php">Number.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">679</span>
+    <span class="phpdocumentor-element-found-in__line">714</span>
 
     </aside>
 
@@ -3530,7 +3760,7 @@ cast it to degree.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Number.php"><a href="files/src-number.html"><abbr title="src/Number.php">Number.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">689</span>
+    <span class="phpdocumentor-element-found-in__line">724</span>
 
     </aside>
 
@@ -3570,7 +3800,7 @@ cast it to sexadecimal degrees.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Number.php"><a href="files/src-number.html"><abbr title="src/Number.php">Number.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">650</span>
+    <span class="phpdocumentor-element-found-in__line">685</span>
 
     </aside>
 
@@ -3622,7 +3852,7 @@ if positive, it cannot be superior than <code class="prettyprint">PHP_FLOAT_DIG<
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Number.php"><a href="files/src-number.html"><abbr title="src/Number.php">Number.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">639</span>
+    <span class="phpdocumentor-element-found-in__line">674</span>
 
     </aside>
 
@@ -3661,7 +3891,7 @@ if positive, it cannot be superior than <code class="prettyprint">PHP_FLOAT_DIG<
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Number.php"><a href="files/src-number.html"><abbr title="src/Number.php">Number.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">662</span>
+    <span class="phpdocumentor-element-found-in__line">697</span>
 
     </aside>
 
@@ -3879,6 +4109,10 @@ is 54.</p>
                                             <li class=""><a href="classes/MarcoConsiglio-BCMathExtended-Number.html#method_getParent">getParent()</a></li>
                                             <li class=""><a href="classes/MarcoConsiglio-BCMathExtended-Number.html#method_gt">gt()</a></li>
                                             <li class=""><a href="classes/MarcoConsiglio-BCMathExtended-Number.html#method_gte">gte()</a></li>
+                                            <li class=""><a href="classes/MarcoConsiglio-BCMathExtended-Number.html#method_inRange">inRange()</a></li>
+                                            <li class=""><a href="classes/MarcoConsiglio-BCMathExtended-Number.html#method_inRangeExtremesExcluded">inRangeExtremesExcluded()</a></li>
+                                            <li class=""><a href="classes/MarcoConsiglio-BCMathExtended-Number.html#method_inRangeMaxExcluded">inRangeMaxExcluded()</a></li>
+                                            <li class=""><a href="classes/MarcoConsiglio-BCMathExtended-Number.html#method_inRangeMinExcluded">inRangeMinExcluded()</a></li>
                                             <li class=""><a href="classes/MarcoConsiglio-BCMathExtended-Number.html#method_isChild">isChild()</a></li>
                                             <li class=""><a href="classes/MarcoConsiglio-BCMathExtended-Number.html#method_isDifferent">isDifferent()</a></li>
                                             <li class=""><a href="classes/MarcoConsiglio-BCMathExtended-Number.html#method_isEqual">isEqual()</a></li>

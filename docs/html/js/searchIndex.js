@@ -1,21 +1,6 @@
 Search.appendIndex(
     [
                 {
-            "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Builders\\FromBcMathNumber",
-            "name": "FromBcMathNumber",
-            "summary": "",
-            "url": "classes/MarcoConsiglio-BCMathExtended-Builders-FromBcMathNumber.html"
-        },                {
-            "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Builders\\FromBcMathNumber\u003A\u003A__construct\u0028\u0029",
-            "name": "__construct",
-            "summary": "Construct\u0020a\u0020Number\u0020Builder\u0020accepting\u0020a\u0020float\u0020type\u0020input.",
-            "url": "classes/MarcoConsiglio-BCMathExtended-Builders-FromBcMathNumber.html#method___construct"
-        },                {
-            "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Builders\\FromBcMathNumber\u003A\u003AgetResult\u0028\u0029",
-            "name": "getResult",
-            "summary": "Get\u0020the\u0020builder\u0020output.",
-            "url": "classes/MarcoConsiglio-BCMathExtended-Builders-FromBcMathNumber.html#method_getResult"
-        },                {
             "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Builders\\FromFloat",
             "name": "FromFloat",
             "summary": "",
@@ -45,6 +30,21 @@ Search.appendIndex(
             "name": "getResult",
             "summary": "Get\u0020the\u0020output\u0020of\u0020the\u0020builder.",
             "url": "classes/MarcoConsiglio-BCMathExtended-Builders-FromInt.html#method_getResult"
+        },                {
+            "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Builders\\FromParent",
+            "name": "FromParent",
+            "summary": "",
+            "url": "classes/MarcoConsiglio-BCMathExtended-Builders-FromParent.html"
+        },                {
+            "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Builders\\FromParent\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "Construct\u0020a\u0020Number\u0020Builder\u0020accepting\u0020a\u0020float\u0020type\u0020input.",
+            "url": "classes/MarcoConsiglio-BCMathExtended-Builders-FromParent.html#method___construct"
+        },                {
+            "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Builders\\FromParent\u003A\u003AgetResult\u0028\u0029",
+            "name": "getResult",
+            "summary": "Get\u0020the\u0020builder\u0020output.",
+            "url": "classes/MarcoConsiglio-BCMathExtended-Builders-FromParent.html#method_getResult"
         },                {
             "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Builders\\FromString",
             "name": "FromString",
@@ -108,7 +108,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Number\u003A\u003AisChild\u0028\u0029",
             "name": "isChild",
-            "summary": "Return\u0020true\u0020if\u0020\u0024object\u0020is\u0020this\u0020\u0028child\u0029\u0020class.",
+            "summary": "Return\u0020\u0060true\u0060\u0020if\u0020\u0024object\u0020is\u0020this\u0020\u0028child\u0029\u0020class.",
             "url": "classes/MarcoConsiglio-BCMathExtended-Number.html#method_isChild"
         },                {
             "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Number\u003A\u003Aadd\u0028\u0029",
@@ -243,27 +243,27 @@ Search.appendIndex(
         },                {
             "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Number\u003A\u003AisNegative\u0028\u0029",
             "name": "isNegative",
-            "summary": "Return\u0020true\u0020if\u0020\u0024this\u002D\u003Enumber\u0020is\u0020positive,\u0020false\u0020otherwise.",
+            "summary": "Return\u0020\u0060true\u0060\u0020if\u0020\u0024this\u002D\u003Enumber\u0020is\u0020positive,\u0020\u0060false\u0060\u0020otherwise.",
             "url": "classes/MarcoConsiglio-BCMathExtended-Number.html#method_isNegative"
         },                {
             "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Number\u003A\u003AisPositive\u0028\u0029",
             "name": "isPositive",
-            "summary": "Return\u0020true\u0020if\u0020\u0024this\u002D\u003Enumber\u0020is\u0020negative,\u0020false\u0020otherwise.",
+            "summary": "Return\u0020\u0060true\u0060\u0020if\u0020\u0024this\u002D\u003Enumber\u0020is\u0020negative,\u0020\u0060false\u0060\u0020otherwise.",
             "url": "classes/MarcoConsiglio-BCMathExtended-Number.html#method_isPositive"
         },                {
             "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Number\u003A\u003AisFloat\u0028\u0029",
             "name": "isFloat",
-            "summary": "Return\u0020true\u0020if\u0020\u0024this\u0020number\u0020is\u0020a\u0020decimal\u0020number,\u0020false\u0020otherwise.",
+            "summary": "Return\u0020\u0060true\u0060\u0020if\u0020\u0024this\u0020number\u0020is\u0020a\u0020decimal\u0020number,\u0020\u0060false\u0060\u0020otherwise.",
             "url": "classes/MarcoConsiglio-BCMathExtended-Number.html#method_isFloat"
         },                {
             "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Number\u003A\u003AisInt\u0028\u0029",
             "name": "isInt",
-            "summary": "Return\u0020true\u0020if\u0020\u0024this\u0020number\u0020is\u0020a\u0020integer\u0020number,\u0020false\u0020otherwise.",
+            "summary": "Return\u0020\u0060true\u0060\u0020if\u0020\u0024this\u0020number\u0020is\u0020a\u0020integer\u0020number,\u0020\u0060false\u0060\u0020otherwise.",
             "url": "classes/MarcoConsiglio-BCMathExtended-Number.html#method_isInt"
         },                {
             "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Number\u003A\u003AisEqual\u0028\u0029",
             "name": "isEqual",
-            "summary": "Return\u0020true\u0020if\u0020this\u0020instance\u0020equals\u0020\u0024number,\u0020false\u0020otherwise.",
+            "summary": "Return\u0020\u0060true\u0060\u0020if\u0020this\u0020instance\u0020equals\u0020\u0024number,\u0020\u0060false\u0060\u0020otherwise.",
             "url": "classes/MarcoConsiglio-BCMathExtended-Number.html#method_isEqual"
         },                {
             "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Number\u003A\u003Aeq\u0028\u0029",
@@ -273,7 +273,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Number\u003A\u003AisDifferent\u0028\u0029",
             "name": "isDifferent",
-            "summary": "Return\u0020true\u0020if\u0020this\u0020instance\u0020is\u0020different\u0020than\u0020\u0024number,\u0020false\u0020otherwise.",
+            "summary": "Return\u0020\u0060true\u0060\u0020if\u0020this\u0020instance\u0020is\u0020different\u0020than\u0020\u0024number,\u0020\u0060false\u0060\u0020otherwise.",
             "url": "classes/MarcoConsiglio-BCMathExtended-Number.html#method_isDifferent"
         },                {
             "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Number\u003A\u003Anot\u0028\u0029",
@@ -283,7 +283,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Number\u003A\u003AisGreaterThan\u0028\u0029",
             "name": "isGreaterThan",
-            "summary": "Return\u0020true\u0020if\u0020this\u0020instance\u0020is\u0020greater\u0020than\u0020\u0024number,\u0020false\u0020otherwise.",
+            "summary": "Return\u0020\u0060true\u0060\u0020if\u0020this\u0020instance\u0020is\u0020greater\u0020than\u0020\u0024number,\u0020\u0060false\u0060\u0020otherwise.",
             "url": "classes/MarcoConsiglio-BCMathExtended-Number.html#method_isGreaterThan"
         },                {
             "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Number\u003A\u003Agt\u0028\u0029",
@@ -293,7 +293,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Number\u003A\u003AisGreaterThanOrEqual\u0028\u0029",
             "name": "isGreaterThanOrEqual",
-            "summary": "Return\u0020true\u0020if\u0020this\u0020instance\u0020is\u0020greater\u0020than\u0020or\u0020equal\u0020to\u0020\u0024number,\u0020false\notherwise.",
+            "summary": "Return\u0020\u0060true\u0060\u0020if\u0020this\u0020instance\u0020is\u0020greater\u0020than\u0020or\u0020equal\u0020to\u0020\u0024number,\u0020\u0060false\u0060\notherwise.",
             "url": "classes/MarcoConsiglio-BCMathExtended-Number.html#method_isGreaterThanOrEqual"
         },                {
             "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Number\u003A\u003Agte\u0028\u0029",
@@ -303,7 +303,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Number\u003A\u003AisLessThan\u0028\u0029",
             "name": "isLessThan",
-            "summary": "Return\u0020true\u0020if\u0020this\u0020instance\u0020is\u0020less\u0020than\u0020\u0024number,\u0020false\u0020otherwise.",
+            "summary": "Return\u0020\u0060true\u0060\u0020if\u0020this\u0020instance\u0020is\u0020less\u0020than\u0020\u0024number,\u0020\u0060false\u0060\u0020otherwise.",
             "url": "classes/MarcoConsiglio-BCMathExtended-Number.html#method_isLessThan"
         },                {
             "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Number\u003A\u003Alt\u0028\u0029",
@@ -313,13 +313,33 @@ Search.appendIndex(
         },                {
             "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Number\u003A\u003AisLessThanOrEqual\u0028\u0029",
             "name": "isLessThanOrEqual",
-            "summary": "Return\u0020true\u0020if\u0020this\u0020instance\u0020is\u0020lesse\u0020than\u0020or\u0020equal\u0020to\u0020\u0024number,\u0020false\notherwise.",
+            "summary": "Return\u0020\u0060true\u0060\u0020if\u0020this\u0020instance\u0020is\u0020lesse\u0020than\u0020or\u0020equal\u0020to\u0020\u0024number,\u0020\u0060false\u0060\notherwise.",
             "url": "classes/MarcoConsiglio-BCMathExtended-Number.html#method_isLessThanOrEqual"
         },                {
             "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Number\u003A\u003Alte\u0028\u0029",
             "name": "lte",
             "summary": "Alias\u0020of\u0020isLessThanOrEqual\u0028\u0029\u0020method.",
             "url": "classes/MarcoConsiglio-BCMathExtended-Number.html#method_lte"
+        },                {
+            "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Number\u003A\u003AinRange\u0028\u0029",
+            "name": "inRange",
+            "summary": "Return\u0020\u0060true\u0060\u0020if\u0020this\u0020instance\u0020is\u0020in\u0020\u0060\u0024range\u0060,\u0020\u0060false\u0060\u0020otherwise.",
+            "url": "classes/MarcoConsiglio-BCMathExtended-Number.html#method_inRange"
+        },                {
+            "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Number\u003A\u003AinRangeMinExcluded\u0028\u0029",
+            "name": "inRangeMinExcluded",
+            "summary": "Return\u0020\u0060true\u0060\u0020if\u0020this\u0020instance\u0020is\u0020in\u0020\u0060\u0024range\u0060\u0020excluded\u0020its\u0020start,\u0020\u0060false\u0060\notherwise.",
+            "url": "classes/MarcoConsiglio-BCMathExtended-Number.html#method_inRangeMinExcluded"
+        },                {
+            "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Number\u003A\u003AinRangeMaxExcluded\u0028\u0029",
+            "name": "inRangeMaxExcluded",
+            "summary": "Return\u0020\u0060true\u0060\u0020if\u0020this\u0020instance\u0020is\u0020in\u0020\u0060\u0024range\u0060\u0020excluded\u0020its\u0020end,\u0020\u0060false\u0060\notherwise.",
+            "url": "classes/MarcoConsiglio-BCMathExtended-Number.html#method_inRangeMaxExcluded"
+        },                {
+            "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Number\u003A\u003AinRangeExtremesExcluded\u0028\u0029",
+            "name": "inRangeExtremesExcluded",
+            "summary": "Return\u0020\u0060true\u0060\u0020if\u0020this\u0020instance\u0020is\u0020in\u0020\u0060\u0024range\u0060\u0020excluded\u0020both\u0020its\u0020start\u0020and\nend,\u0020\u0060false\u0060\u0020otherwise.",
+            "url": "classes/MarcoConsiglio-BCMathExtended-Number.html#method_inRangeExtremesExcluded"
         },                {
             "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Number\u003A\u003A__toString\u0028\u0029",
             "name": "__toString",
@@ -395,6 +415,26 @@ Search.appendIndex(
             "name": "number",
             "summary": "Generate\u0020a\u0020random\u0020number.",
             "url": "classes/MarcoConsiglio-BCMathExtended-Random.html#method_number"
+        },                {
+            "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Range",
+            "name": "Range",
+            "summary": "The\u0020numeric\u0020range.",
+            "url": "classes/MarcoConsiglio-BCMathExtended-Range.html"
+        },                {
+            "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Range\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "Construct\u0020a\u0020numeric\u0020\u0060Range\u0060.",
+            "url": "classes/MarcoConsiglio-BCMathExtended-Range.html#method___construct"
+        },                {
+            "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Range\u003A\u003A\u0024start",
+            "name": "start",
+            "summary": "The\u0020lower\u0020extreme\u0020of\u0020this\u0020\u0060Range\u0060.",
+            "url": "classes/MarcoConsiglio-BCMathExtended-Range.html#property_start"
+        },                {
+            "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Range\u003A\u003A\u0024end",
+            "name": "end",
+            "summary": "The\u0020higher\u0020extreme\u0020of\u0020this\u0020\u0060Range\u0060.",
+            "url": "classes/MarcoConsiglio-BCMathExtended-Range.html#property_end"
         },                {
             "fqsen": "\\",
             "name": "\\",
