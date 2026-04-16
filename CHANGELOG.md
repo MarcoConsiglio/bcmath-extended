@@ -8,6 +8,8 @@
 &ensp;&ensp;&ensp;&ensp;`inRangeExtremesExcluded()`  
 `}` methods to check if a number is inside or outside a `Range`.
 - `Range` class to express a numerical range.
+### Changed
+- API and README documentation.
 
 
 ## v2.4.0 2026-04-14

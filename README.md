@@ -64,6 +64,10 @@ This list consists of the new features added in this library:
 - Greater than or equal comparison
 - Less than comparison
 - Less than or equal comparison
+- In range comparison
+- In range min excluded comparison
+- In range max excluded comparison
+- In range both extremes excluded comparison
 - Convert to radian
 - Convert to degree
 - Opposite sign
