@@ -17,6 +17,8 @@ class BaseTestCase extends TestCase
      * Use this constant to not reach huge numbers.
      */
     protected const int MAX = 1_000_000;
+
+    protected const int MIN = -self::MAX;
     
     /**
      * This method is called before each test.

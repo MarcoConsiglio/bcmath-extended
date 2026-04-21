@@ -1,4 +1,9 @@
 # Changelog
+## v2.5.1 2026-04-21
+### Changed
+- API documentation.
+- Improved test coverage.
+
 ## v2.5.0 2026-04-16
 ### Added
 - `Number::{`  

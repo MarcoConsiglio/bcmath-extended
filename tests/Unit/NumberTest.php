@@ -2,8 +2,10 @@
 declare(strict_types=1);
 namespace MarcoConsiglio\BCMathExtended\Tests\Unit;
 
-use MarcoConsiglio\BCMathExtended\Builders\FromBcMathNumber;
+use DivisionByZeroError;
+use MarcoConsiglio\BCMathExtended\Builders\FromFloat;
 use MarcoConsiglio\BCMathExtended\Builders\FromInt;
+use MarcoConsiglio\BCMathExtended\Builders\FromParent;
 use MarcoConsiglio\BCMathExtended\Builders\FromString;
 use MarcoConsiglio\BCMathExtended\Exceptions\NotANumberError;
 use MarcoConsiglio\BCMathExtended\Number;
@@ -19,11 +21,60 @@ use PHPUnit\Framework\Attributes\UsesClass;
 #[UsesClass(NotANumberError::class)]
 #[UsesClass(FromInt::class)]
 #[UsesClass(FromString::class)]
-#[UsesClass(FromBcMathNumber::class)]
+#[UsesClass(FromFloat::class)]
+#[UsesClass(FromParent::class)]
 // #[UsesClass(InfiniteError::class)]
 // #[UsesClass(IndeterminateFormError::class)]
 class NumberTest extends BaseTestCase
 {
+    public function test_divide_error(): void
+    {
+        // Assert
+        $this->expectException(DivisionByZeroError::class);
+
+        // Arrange
+        $number = $this->randomNumber();
+
+        // Act
+        $number->div(0);
+    }
+
+    public function test_modulo_error(): void
+    {
+        // Assert
+        $this->expectException(DivisionByZeroError::class);
+
+        // Arrange
+        $number = $this->randomNumber();
+
+        // Act
+        $number->mod(0);
+    }
+
+    public function test_divmod_error(): void
+    {
+        // Assert
+        $this->expectException(DivisionByZeroError::class);
+
+        // Arrange
+        $number = $this->randomNumber();
+
+        // Act
+        $number->divmod(0);       
+    }
+
+    public function test_powmod_error(): void
+    {
+        // Assert
+        $this->expectException(DivisionByZeroError::class);
+
+        // Arrange
+        $number = $this->randomNumber();
+
+        // Act
+        $number->powmod(1, 0);         
+    }
+
     #[TestDox("can statically check if an instance is a child of BCMath\\Number class.")]
     public function test_isChild(): void
     {
