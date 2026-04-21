@@ -15,11 +15,8 @@ class FromIntTest extends BaseTestCase
         $int = $this->randomInteger();
         $builder = new FromInt($int);
         $expected = new Number($int);
-
-        // Act
-        $actual = $builder->getResult();
-
-        // Assert
+        
+        // Act & Assert
         $this->assertSame($expected->value, $builder->getResult()->value);
     }
 }

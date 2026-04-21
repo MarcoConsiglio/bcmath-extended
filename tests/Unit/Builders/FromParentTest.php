@@ -2,24 +2,23 @@
 namespace MarcoConsiglio\BCMathExtended\Tests\Unit\Builders;
 
 use BcMath\Number as BcMathNumber;
-use MarcoConsiglio\BCMathExtended\Builders\FromFloat;
+use MarcoConsiglio\BCMathExtended\Builders\FromParent;
 use MarcoConsiglio\BCMathExtended\Number;
 use MarcoConsiglio\BCMathExtended\Tests\BaseTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\UsesClass;
 
-#[CoversClass(FromFloat::class)]
+#[CoversClass(FromParent::class)]
 #[UsesClass(Number::class)]
-class FromFloatTest extends BaseTestCase
+class FromParentTest extends BaseTestCase
 {
     public function test_builder(): void
     {
         // Arrange
-        $float = $this->randomFloat($this::MIN, $this::MAX);
-        $builder = new FromFloat($float);
-        $expected = new Number($float);
+        $number = new BcMathNumber($this->randomInteger());
+        $builder = new FromParent($number);
 
-        // Assert
-        $this->assertSame($expected->getParent()->value, $builder->getResult()->value);
+        // Act & Assert
+        $this->assertSame(new Number($number)->value, $builder->getResult()->value);
     }
 }
