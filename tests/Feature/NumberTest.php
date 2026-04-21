@@ -3,15 +3,26 @@ namespace MarcoConsiglio\BCMathExtended\Tests\Feature;
 
 use MarcoConsiglio\BCMathExtended\Number;
 use BcMath\Number as BcMathNumber;
+use MarcoConsiglio\BCMathExtended\Builders\FromFloat;
+use MarcoConsiglio\BCMathExtended\Builders\FromInt;
+use MarcoConsiglio\BCMathExtended\Builders\FromParent;
+use MarcoConsiglio\BCMathExtended\Builders\FromString;
 use MarcoConsiglio\BCMathExtended\Range;
 use MarcoConsiglio\BCMathExtended\Tests\TestCaseWithDataProviders;
 use MarcoConsiglio\FakerPhpNumberHelpers\NextFloat;
-use Override;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\TestDox;
+use PHPUnit\Framework\Attributes\UsesClass;
 use RoundingMode;
 
 #[TestDox("The Number class")]
+#[CoversClass(Number::class)]
+#[UsesClass(FromInt::class)]
+#[UsesClass(FromString::class)]
+#[UsesClass(FromParent::class)]
+#[UsesClass(FromFloat::class)]
+#[UsesClass(Range::class)]
 class NumberTest extends TestCaseWithDataProviders
 {
     #[TestDox('extends the BcMath\\Number class through composition.')]
