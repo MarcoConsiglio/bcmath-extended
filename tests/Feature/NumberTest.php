@@ -322,11 +322,23 @@ class NumberTest extends TestCaseWithDataProviders
     #[TestDox("can check if a number is a decimal.")]
     public function test_isFloat(): void
     {
+        /**
+         * Float
+         */
         // Arrange
         $NUM = new Number(Number::string($this->randomFraction(max: $this::MAX)));
 
         // Act & Assert
         $this->assertTrue($res = $NUM->isFloat(), "Is $NUM a float? $res");
+
+        /**
+         * Integer
+         */
+        // Arrange
+        $NUM = new Number($this->randomInteger());
+
+        // Act & Assert
+        $this->assertFalse($res = $NUM->isFloat(), "Is $NUM a float? $res");
     }
 
     #[TestDox("can check if a number is an integer.")]

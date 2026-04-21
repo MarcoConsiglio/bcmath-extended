@@ -724,6 +724,8 @@ class Number implements Stringable
     /**
      * Assuming this instance represent a radian number,
      * cast it to degree.
+     * 
+     * @codeCoverageIgnore
      */
     #[Deprecated("use toDegrees() instead.", "v2.2.0")]
     public function toDegree(): Number
