@@ -1,4 +1,8 @@
 # Changelog
+## Unreleased
+### Changed
+- API documentation.
+
 ## v2.5.0 2026-04-16
 ### Added
 - `Number::{`  

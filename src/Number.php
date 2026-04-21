@@ -173,6 +173,8 @@ class Number implements Stringable
 
     /**
      * Alias of divide() method.
+     * 
+     * @throws DivisionByZeroError if $number is 0.
      */
     public function div(Number|BcMathNumber|string|int $number, int|null $scale = null): Number
     {
@@ -182,7 +184,9 @@ class Number implements Stringable
     /**
      * Return the remainder of the division of this instance by $number.
      * 
-     * This method do not call the parent method mod().
+     * This method do not call the parent method `mod()`.
+     * 
+     * @throws DivisionByZeroError if `$modulus` is 0.
      */
     public function modulo(Number|BcMathNumber|string|int $modulus, int|null $scale = null): Number
     {
@@ -193,6 +197,8 @@ class Number implements Stringable
 
     /**
      * Alias of modulo() method.
+     * 
+     * @throws DivisionByZeroError if `$modulus` is 0.
      */
     public function mod(Number|BcMathNumber|string|int $modulus, int|null $scale = null): Number
     {
@@ -202,10 +208,12 @@ class Number implements Stringable
     /**
      * Return the quotient and remainder of this instance divided by $divisor.
      * 
-     * This method do not call the parent method mod().
+     * This method do not call the parent method `mod()`.
      * 
      * @return Number[] The first is the quotient of the division, the second 
      * is the remainder of the division.
+     * 
+     * @throws DivisionByZeroError if `$divisor` is 0.
      */
     public function quotientAndRemainder(Number|BcMathNumber|string|int $divisor, int|null $scale = null): array
     {
@@ -217,6 +225,8 @@ class Number implements Stringable
      * Alias of quotientAndRemainder() method.
      * 
      * @return Number[]
+     * 
+     * @throws DivisionByZeroError if `$divisor` is 0.
      */
     public function divmod(Number|BcMathNumber|string|int $divisor, int|null $scale = null): array
     {
@@ -247,6 +257,8 @@ class Number implements Stringable
      * 
      * In other words, this method perform ($this ** $exponent) % $modulus.
      * This method do not call the parent method mod().
+     * 
+     * @throws DivisionByZeroError if `$modulus` is 0.
      */
     public function powerModulo(Number|BcMathNumber|string|int $exponent, Number|BcMathNumber|string|int $modulus, int|null $scale = null): Number
     {
@@ -257,6 +269,8 @@ class Number implements Stringable
 
     /**
      * Alias of powerModulo() method.
+     * 
+     * @throws DivisionByZeroError if `$modulus` is 0.
      */
     public function powmod(Number|BcMathNumber|string|int $exponent, Number|BcMathNumber|string|int $modulus, int|null $scale = null): Number
     {
