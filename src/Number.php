@@ -87,7 +87,7 @@ class Number implements Stringable
     }
 
     /**
-     * Return the parent BCMath/Number instance.
+     * Return the parent `BCMath/Number` instance.
      */
     public function getParent(): BCMathNumber
     {
