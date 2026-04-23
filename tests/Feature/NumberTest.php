@@ -648,6 +648,45 @@ class NumberTest extends TestCaseWithDataProviders
         $this->assertTrue($negative_number->opposite()->isPositive());
     }
 
+    #[TestDox("can normalize string, int, float and BcMath\Number types input to a Number type.")]
+    public function test_normalize(): void
+    {
+        /**
+         * Number type input
+         */
+        $this->testNormalize($this->randomNumber());
+
+        /**
+         * int type input
+         */
+        $this->testNormalize($this->randomInteger());
+
+        /**
+         * float type input
+         */
+        $this->testNormalize($this->randomFloat());
+
+        /**
+         * string type input
+         */
+        $this->testNormalize($this->randomNumber()->value);
+
+        /**
+         * BcMath\Number type input
+         */
+        $this->testNormalize($this->randomNumber()->getParent());
+    }
+
+    /**
+     * Test the `Number::normalize()` method.
+     * This is a Parameterized Test.
+     */
+    protected function testNormalize(int|float|string|BcMathNumber|Number $number): void
+    {
+        // Act & Assert
+        $this->assertInstanceOf(Number::class, Number::normalize($number));
+    }
+
     // #[DataProvider("logarithm")]
     // #[TestDox("can calculate the logarithm of itself with a specified base.")]
     // public function test_logarithm(mixed $arg, mixed $base, mixed $log): void

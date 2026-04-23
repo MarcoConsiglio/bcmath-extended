@@ -647,6 +647,15 @@ class Number implements Stringable
     }
 
     /**
+     * Normalize the `$number` input to a `Number` class.
+     */
+    public static function normalize(int|float|string|BCMathNumber|Number $number): Number
+    {
+        if ($number instanceof Number) return $number;
+        else return new Number($number);
+    }
+
+    /**
      * Transform `$number` into a `BcMath\Number` instance.
      */
     protected static function normalizeToParent(int|float|string|BCMathNumber|Number $number): BCMathNumber

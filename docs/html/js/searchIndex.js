@@ -103,7 +103,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Number\u003A\u003AgetParent\u0028\u0029",
             "name": "getParent",
-            "summary": "Return\u0020the\u0020parent\u0020BCMath\/Number\u0020instance.",
+            "summary": "Return\u0020the\u0020parent\u0020\u0060BCMath\/Number\u0060\u0020instance.",
             "url": "classes/MarcoConsiglio-BCMathExtended-Number.html#method_getParent"
         },                {
             "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Number\u003A\u003AisChild\u0028\u0029",
@@ -340,6 +340,11 @@ Search.appendIndex(
             "name": "inRangeExtremesExcluded",
             "summary": "Return\u0020\u0060true\u0060\u0020if\u0020this\u0020instance\u0020is\u0020in\u0020\u0060\u0024range\u0060\u0020excluded\u0020both\u0020its\u0020start\u0020and\nend,\u0020\u0060false\u0060\u0020otherwise.",
             "url": "classes/MarcoConsiglio-BCMathExtended-Number.html#method_inRangeExtremesExcluded"
+        },                {
+            "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Number\u003A\u003Anormalize\u0028\u0029",
+            "name": "normalize",
+            "summary": "Normalize\u0020the\u0020\u0060\u0024number\u0060\u0020input\u0020to\u0020a\u0020\u0060Number\u0060\u0020class.",
+            "url": "classes/MarcoConsiglio-BCMathExtended-Number.html#method_normalize"
         },                {
             "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Number\u003A\u003A__toString\u0028\u0029",
             "name": "__toString",

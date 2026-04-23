@@ -1,4 +1,10 @@
 # Changelog
+## v2.6.0 2026-04-23
+### Added
+- `Number::normalize()` to transform a variety of input types to a `Number` object.
+### Changed
+- API documentation.
+
 ## v2.5.1 2026-04-21
 ### Changed
 - API documentation.
