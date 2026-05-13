@@ -1,4 +1,8 @@
 # Changelog
+## Unreleased
+### Added
+- `Range::`{`$start_excluded`,`$end_excluded`} to obtain the range extremes excluding one or both of them.
+
 ## v2.6.0 2026-04-23
 ### Added
 - `Number::normalize()` to transform a variety of input types to a `Number` object.
