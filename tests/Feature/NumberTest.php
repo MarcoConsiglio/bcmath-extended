@@ -361,11 +361,10 @@ class NumberTest extends TestCaseWithDataProviders
          * a lower precision.
          */
         $number = $this->instantiateNumber(
-            $original_number = round(
-                $this->randomFloat(max: $this::MAX)),
-                3,
-                RoundingMode::HalfTowardsZero
-        );
+            new Number($original_number = round(
+                $this->randomFloat(max: $this::MAX),
+                3, RoundingMode::HalfTowardsZero
+        )));
 
         // Act
         $absolute = $number->abs();

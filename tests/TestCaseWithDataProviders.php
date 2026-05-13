@@ -350,6 +350,7 @@ class TestCaseWithDataProviders extends BaseTestCase
     {
         if ($min_or_max != "min" && $min_or_max != "max") $min_or_max = "max";
         $count = self::positiveRandomInteger(2, 5);
+        $vars = [];
         for ($i = 0; $i <= $count - 1; $i++) {
             $vars[$i] = self::randomInteger();
         }
@@ -546,6 +547,7 @@ class TestCaseWithDataProviders extends BaseTestCase
     {
         if ($min_or_max != "min" && $min_or_max != "max") $min_or_max = "max";
         $count = self::positiveRandomInteger(2, 5);
+        $vars = [];
         for ($i = 0; $i <= $count - 1; $i ++) {
             $vars[$i] = self::randomFloat(max: $max_random);
         }
@@ -578,12 +580,12 @@ class TestCaseWithDataProviders extends BaseTestCase
     {
         $a = self::randomFloat(min: -$max, max: $max, precision: 3);
         $b = self::randomFloat(min: -$max, max: $max, precision: 3);
-        $A = new BcMathNumber(self::string($a));
-        $B = new BcMathNumber(self::string($b));
+        $A = new BcMathNumber(Number::string($a));
+        $B = new BcMathNumber(Number::string($b));
         return [
             $a,
             $b,
-            self::string($A->add($B)->value)
+            Number::string($A->add($B)->value)
         ];
     }
 
@@ -739,6 +741,7 @@ class TestCaseWithDataProviders extends BaseTestCase
     {
         if ($min_or_max != "min" && $min_or_max != "max") $min_or_max = "max";
         $count = self::positiveRandomInteger(2, 5);
+        $vars = [];
         for ($i = 0; $i <= $count - 1; $i ++) {
             $vars[$i] = self::randomFloat(max: $max_random, precision: 3);
         }
