@@ -3,9 +3,11 @@ namespace MarcoConsiglio\BCMathExtended\Tests\Feature;
 
 use MarcoConsiglio\BCMathExtended\Builders\FromFloat;
 use MarcoConsiglio\BCMathExtended\Builders\FromInt;
+use MarcoConsiglio\BCMathExtended\Builders\FromParent;
 use MarcoConsiglio\BCMathExtended\Number;
 use MarcoConsiglio\BCMathExtended\Range;
 use MarcoConsiglio\BCMathExtended\Tests\BaseTestCase;
+use MarcoConsiglio\FakerPhpNumberHelpers\NextFloat;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\UsesClass;
 
@@ -13,6 +15,7 @@ use PHPUnit\Framework\Attributes\UsesClass;
 #[UsesClass(FromFloat::class)]
 #[UsesClass(Number::class)]
 #[UsesClass(FromInt::class)]
+#[UsesClass(FromParent::class)]
 class RangeTest extends BaseTestCase
 {
     public function test_range(): void
@@ -76,5 +79,22 @@ class RangeTest extends BaseTestCase
         // Assert
         $this->assertSame(new Number($start)->value, $range->start->value);
         $this->assertSame(new Number($end)->value, $range->end->value);
+    }
+
+    public function test_range_extremes_excluded(): void
+    {
+        // Arrange
+        $start = -10;
+        $end = -$start;
+        $range = new Range($start, $end); 
+        $expected_start = NextFloat::before($start);
+        $expected_end = NextFloat::after($end);
+
+        // Act
+        $range = new Range($start, $end);
+
+        // Assert
+        $this->assertEquals($expected_start, $range->start_excluded->toFloat());
+        $this->assertEquals($expected_end, $range->end_excluded->toFloat());
     }
 }

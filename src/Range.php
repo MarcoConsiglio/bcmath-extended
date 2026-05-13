@@ -2,6 +2,7 @@
 namespace MarcoConsiglio\BCMathExtended;
 
 use BcMath\Number as BcMathNumber;
+use MarcoConsiglio\FakerPhpNumberHelpers\NextFloat;
 
 /**
  * The numeric range.
@@ -17,6 +18,30 @@ class Range
      * The higher extreme of this `Range`.
      */
     public protected(set) Number $end;
+
+    /**
+     * The lower extreme excluded, meaning the returning value is less than 
+     * `$start`.
+     */
+    public Number $start_excluded {
+        get {
+            return new Number(
+                NextFloat::before($this->start->toFloat())
+            );
+        }
+    }
+
+    /**
+     * The higher extreme excluded, meaning the returning value is greater than
+     * `$end`.
+     */
+    public Number $end_excluded {
+        get {
+            return new Number(
+                NextFloat::after($this->end->toFloat())
+            );
+        }
+    }
 
     /**
      * Construct a numeric `Range`.
