@@ -1,5 +1,5 @@
 # Changelog
-## Unreleased
+## v2.7.0 2026-05-13
 ### Added
 - `Range::`{`$start_excluded`,`$end_excluded`} to obtain the range extremes excluding one or both of them.
 
