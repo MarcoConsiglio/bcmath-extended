@@ -441,6 +441,16 @@ Search.appendIndex(
             "summary": "The\u0020higher\u0020extreme\u0020of\u0020this\u0020\u0060Range\u0060.",
             "url": "classes/MarcoConsiglio-BCMathExtended-Range.html#property_end"
         },                {
+            "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Range\u003A\u003A\u0024start_excluded",
+            "name": "start_excluded",
+            "summary": "The\u0020lower\u0020extreme\u0020excluded,\u0020meaning\u0020the\u0020returning\u0020value\u0020is\u0020less\u0020than\n\u0060\u0024start\u0060.",
+            "url": "classes/MarcoConsiglio-BCMathExtended-Range.html#property_start_excluded"
+        },                {
+            "fqsen": "\\MarcoConsiglio\\BCMathExtended\\Range\u003A\u003A\u0024end_excluded",
+            "name": "end_excluded",
+            "summary": "The\u0020higher\u0020extreme\u0020excluded,\u0020meaning\u0020the\u0020returning\u0020value\u0020is\u0020greater\u0020than\n\u0060\u0024end\u0060.",
+            "url": "classes/MarcoConsiglio-BCMathExtended-Range.html#property_end_excluded"
+        },                {
             "fqsen": "\\",
             "name": "\\",
             "summary": "",

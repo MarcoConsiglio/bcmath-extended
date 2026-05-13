@@ -34,10 +34,8 @@ class BaseTestCase extends TestCase
      * Instantiate a BcMathExtended\Number class from an int, string or
      * BcMath\Number instance, is is not already a BcMathExtended\Number
      * instance.
-     * 
-     * @param int|string|BcMathNumber|Number $number
      */
-    protected function instantiateNumber(mixed $number): Number
+    protected function instantiateNumber(int|float|string|BcMathNumber|Number $number): Number
     {
         return $number instanceof Number ? $number : new Number($number);
     }
